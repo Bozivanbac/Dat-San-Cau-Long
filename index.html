@@ -11,13 +11,17 @@
         h1 { color: var(--primary); text-align: center; font-size: 1.5em; margin-bottom: 10px; }
         .hotline-box { background: #e8f4fd; color: var(--primary); padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 20px; border: 1px solid var(--primary); }
         .hotline-box a { color: var(--primary); text-decoration: none; font-size: 1.1em; }
+        
         .box { background: #f8fbff; border: 1px solid #d1e3f8; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
         input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #cce0f5; border-radius: 10px; box-sizing: border-box; }
         button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        
+        /* Khung giờ chọn nhanh chia Ca */
         .time-section { margin: 15px 0; }
         .time-section label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--primary); }
         .time-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
         .chip { padding: 8px 12px; background: #e8f4fd; border: 1px solid var(--primary); border-radius: 20px; font-size: 0.85em; cursor: pointer; color: var(--primary); font-weight: 600; }
+        
         .qr-section { margin-top: 25px; text-align: center; padding: 15px; border-top: 1px dashed var(--primary); }
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
     </style>
@@ -43,11 +47,127 @@
     <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
     <input type="date" id="ngay" onchange="loadLich()">
     
+    <!-- Ca Sáng -->
     <div class="time-section">
-        <label>☀️ Ca Sáng:</label>
+        <label>☀️ Ca Sáng (Mỗi ca 2 tiếng):</label>
         <div class="time-chips">
             <span class="chip" onclick="chonGio('05h-07h')">05h-07h</span>
             <span class="chip" onclick="chonGio('07h-09h')">07h-09h</span>
             <span class="chip" onclick="chonGio('09h-11h')">09h-11h</span>
         </div>
     </div>
+
+    <!-- Ca Tối -->
+    <div class="time-section">
+        <label>🌙 Ca Tối (Mỗi ca 2 tiếng):</label>
+        <div class="time-chips">
+            <span class="chip" onclick="chonGio('17h-19h')">17h-19h</span>
+            <span class="chip" onclick="chonGio('19h-21h')">19h-21h</span>
+            <span class="chip" onclick="chonGio('21h-23h')">21h-23h</span>
+        </div>
+    </div>
+    
+    <label>Hoặc nhập giờ tự chọn:</label>
+    <input type="text" id="thoiGian" placeholder="Ví dụ: 17h30-19h31">
+    <button onclick="datSan()" style="margin-top:10px;">XÁC NHẬN ĐẶT SÂN</button>
+
+    <h3 style="margin-top:25px;">Lịch đã đặt:</h3>
+    <div id="danhSach"></div>
+
+    <div class="qr-section">
+        <div style="font-weight:bold; color:var(--primary); margin-bottom:10px;">Quét mã tham gia nhóm Zalo</div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" 
+             style="width:140px; height:140px; border: 3px solid var(--primary); border-radius:10px;" alt="QR Zalo">
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script>
+    const firebaseConfig = { apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4", databaseURL: "https://phuc-an-badminton-1ab18-default-rtdb.firebaseio.com", projectId: "phuc-an-badminton-1ab18" };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function chonGio(g) { document.getElementById('thoiGian').value = g; }
+    
+    function luuThongTin() {
+        localStorage.setItem('user', JSON.stringify({hoTen: document.getElementById('hoTen').value, sdt: document.getElementById('sdt').value}));
+        alert("Thông tin đã được lưu!");
+    }
+
+    // Chuyển giờ sang phút để tính toán trùng lặp
+    function toMinutes(timeStr) {
+        let cleanTime = timeStr.toLowerCase().replace('h', ':').replace('g', ':');
+        let [h, m] = cleanTime.split(':').map(Number);
+        return (h * 60) + (m || 0);
+    }
+
+    function datSan() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const thoiGian = document.getElementById('thoiGian').value;
+        const san = document.getElementById('san').value;
+        const ngay = document.getElementById('ngay').value;
+
+        if(!user || !user.hoTen) return alert("Vui lòng lưu thông tin khách trước!");
+        if(!thoiGian) return alert("Vui lòng chọn hoặc nhập khung giờ!");
+        if(!thoiGian.includes('-')) return alert("Vui lòng nhập định dạng: Giờ bắt đầu - Giờ kết thúc (Ví dụ: 17h30-19h31)");
+
+        const [startStr, endStr] = thoiGian.split('-');
+        const newStart = toMinutes(startStr);
+        const newEnd = toMinutes(endStr);
+
+        db.ref('lichDatCauLong').once('value', (snap) => {
+            let isOverlapping = false;
+            snap.forEach(c => {
+                let l = c.val();
+                if(l.san == san && l.ngay == ngay) {
+                    const [s, e] = l.thoiGian.split('-');
+                    const existStart = toMinutes(s);
+                    const existEnd = toMinutes(e);
+                    // Công thức kiểm tra khoảng thời gian chồng lấn: StartA < EndB và EndA > StartB
+                    if (newStart < existEnd && newEnd > existStart) {
+                        isOverlapping = true;
+                    }
+                }
+            });
+
+            if(isOverlapping) {
+                alert("❌ Khung giờ này bị trùng lịch, vui lòng chọn giờ khác!");
+            } else {
+                db.ref('lichDatCauLong').push({
+                    ten: user.hoTen, sdt: user.sdt,
+                    san: san, ngay: ngay, thoiGian: thoiGian
+                }).then(() => alert("✅ Đặt thành công!"));
+            }
+        });
+    }
+
+    function loadLich() {
+        const san = document.getElementById('san').value;
+        const ngay = document.getElementById('ngay').value;
+        db.ref('lichDatCauLong').on('value', snap => {
+            let html = '';
+            snap.forEach(c => {
+                let l = c.val();
+                if(l.san == san && l.ngay == ngay) {
+                    html += `<div class="list-item"><span><b>${l.thoiGian}</b> | ${l.ten}</span>
+                             <button style="background:var(--accent); width:auto; padding:5px 10px; border-radius:5px;" onclick="huy('${c.key}')">Hủy</button></div>`;
+                }
+            });
+            document.getElementById('danhSach').innerHTML = html || "<p style='text-align:center; color:#999;'>Sân trống</p>";
+        });
+    }
+
+    function huy(id) {
+        if(prompt("Mật khẩu Admin:") == "PhucAn2026$") db.ref('lichDatCauLong/'+id).remove();
+    }
+
+    window.onload = () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user) { document.getElementById('hoTen').value = user.hoTen; document.getElementById('sdt').value = user.sdt; }
+        document.getElementById('ngay').valueAsDate = new Date();
+        loadLich();
+    };
+</script>
+</body>
+</html>
