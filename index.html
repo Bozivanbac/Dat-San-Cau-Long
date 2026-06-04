@@ -2,41 +2,48 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <!-- Khóa Zoom trên điện thoại -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHÚC AN BADMINTON</title>
     <style>
         :root { --bg: #f4f7f6; --text: #2c3e50; --card: #ffffff; --primary: #27ae60; }
         .dark { --bg: #1a1a1a; --text: #ecf0f1; --card: #2d2d2d; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; transition: 0.3s; }
-        .container { max-width: 500px; margin: auto; background: var(--card); padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 15px; margin: 0; }
+        .container { max-width: 500px; margin: auto; background: var(--card); padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .hotline-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 1px solid #ffeeba; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .list-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; margin-top: 10px; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 5px; }
+        .list-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; margin-top: 5px; font-size: 14px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <button onclick="document.body.classList.toggle('dark')" style="padding:5px; margin-bottom:10px;">Chế độ Sáng/Tối</button>
+    <button onclick="document.body.classList.toggle('dark')" style="padding:5px; margin-bottom:10px;">Chuyển Sáng/Tối</button>
     <h1>PHÚC AN BADMINTON</h1>
     
-    <div class="hotline-box">☎ Hủy/Đổi sân gọi: 0395.936.865</div>
+    <div class="hotline-box">☎ Hủy sân gọi: 0395.936.865</div>
 
-    <input type="text" id="hoTen" placeholder="Họ và Tên">
-    <input type="tel" id="sdt" placeholder="Số điện thoại">
-    <button onclick="luuThongTin()">Lưu Thông Tin</button>
+    <!-- Luôn hiển thị -->
+    <div id="authArea">
+        <input type="text" id="hoTen" placeholder="Nhập Họ và Tên">
+        <input type="tel" id="sdt" placeholder="Nhập Số điện thoại">
+        <button onclick="luuThongTin()">Lưu Thông Tin Khách</button>
+    </div>
 
-    <div style="margin-top:20px;">
+    <hr style="margin: 20px 0;">
+
+    <div>
         <label>Chọn Sân</label>
         <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
         
         <label>Ngày đặt</label>
         <input type="date" id="ngay" onchange="loadLich()">
         
-        <label>Thời gian (Ví dụ: 17:15 - 18:45)</label>
-        <input type="text" id="thoiGian" placeholder="Nhập khung giờ bạn muốn">
+        <label>Khung giờ (Ví dụ: 17:15 - 18:45)</label>
+        <input type="text" id="thoiGian" placeholder="Nhập khung giờ">
         
-        <button onclick="datSan()">ĐẶT SÂN NGAY</button>
+        <button onclick="datSan()" style="background:#27ae60;">XÁC NHẬN ĐẶT SÂN</button>
 
         <h3>Lịch đã đặt:</h3>
         <div id="danhSach"></div>
@@ -54,14 +61,25 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // Tự động điền lại tên/sdt nếu đã lưu
+    window.onload = () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(user) {
+            document.getElementById('hoTen').value = user.hoTen;
+            document.getElementById('sdt').value = user.sdt;
+        }
+    };
+
     function luuThongTin() {
-        localStorage.setItem('user', JSON.stringify({hoTen: document.getElementById('hoTen').value, sdt: document.getElementById('sdt').value}));
-        alert("Đã lưu thông tin!");
+        const hoTen = document.getElementById('hoTen').value;
+        const sdt = document.getElementById('sdt').value;
+        localStorage.setItem('user', JSON.stringify({hoTen, sdt}));
+        alert("Đã lưu thông tin của bạn!");
     }
 
     function datSan() {
         const user = JSON.parse(localStorage.getItem('user'));
-        if(!user || !user.hoTen) return alert("Vui lòng nhập tên và SĐT trước!");
+        if(!user || !user.hoTen) return alert("Vui lòng nhập và Lưu thông tin khách trước!");
         db.ref('lichDatCauLong').push({
             ten: user.hoTen, sdt: user.sdt,
             san: document.getElementById('san').value,
@@ -80,11 +98,11 @@
                 if(l.san == san && l.ngay == ngay) {
                     html += `<div class="list-item">
                         <span><b>${l.thoiGian}</b> | ${l.ten}</span>
-                        <button style="background:red; width:auto; padding:5px;" onclick="huy('${c.key}')">Hủy</button>
+                        <button style="background:red; width:auto; padding:5px; margin:0;" onclick="huy('${c.key}')">Hủy</button>
                     </div>`;
                 }
             });
-            document.getElementById('danhSach').innerHTML = html || "Sân trống";
+            document.getElementById('danhSach').innerHTML = html || "Chưa có lịch đặt";
         });
     }
 
