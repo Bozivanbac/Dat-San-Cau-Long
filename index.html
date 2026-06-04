@@ -11,17 +11,13 @@
         h1 { color: var(--primary); text-align: center; font-size: 1.5em; margin-bottom: 10px; }
         .hotline-box { background: #e8f4fd; color: var(--primary); padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 20px; border: 1px solid var(--primary); }
         .hotline-box a { color: var(--primary); text-decoration: none; font-size: 1.1em; }
-        
         .box { background: #f8fbff; border: 1px solid #d1e3f8; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
         input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #cce0f5; border-radius: 10px; box-sizing: border-box; }
         button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        
-        /* Khung giờ chọn nhanh chia Ca */
         .time-section { margin: 15px 0; }
         .time-section label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--primary); }
         .time-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
         .chip { padding: 8px 12px; background: #e8f4fd; border: 1px solid var(--primary); border-radius: 20px; font-size: 0.85em; cursor: pointer; color: var(--primary); font-weight: 600; }
-        
         .qr-section { margin-top: 25px; text-align: center; padding: 15px; border-top: 1px dashed var(--primary); }
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
     </style>
@@ -39,7 +35,7 @@
     <div class="box">
         <h3 style="margin-top:0; color:var(--primary);">THÔNG TIN KHÁCH</h3>
         <input type="text" id="hoTen" placeholder="Họ và tên khách">
-        <input type="tel" id="sdt" placeholder="Số điện thoại">
+        <input type="tel" id="sdt" placeholder="Số điện thoại (10 chữ số)">
         <button onclick="luuThongTin()" style="background:#576574;">Lưu thông tin</button>
     </div>
 
@@ -47,9 +43,8 @@
     <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
     <input type="date" id="ngay" onchange="loadLich()">
     
-    <!-- Ca Sáng -->
     <div class="time-section">
-        <label>☀️ Ca Sáng (Mỗi ca 2 tiếng):</label>
+        <label>☀️ Ca Sáng:</label>
         <div class="time-chips">
             <span class="chip" onclick="chonGio('05h-07h')">05h-07h</span>
             <span class="chip" onclick="chonGio('07h-09h')">07h-09h</span>
@@ -57,9 +52,8 @@
         </div>
     </div>
 
-    <!-- Ca Tối -->
     <div class="time-section">
-        <label>🌙 Ca Tối (Mỗi ca 2 tiếng):</label>
+        <label>🌙 Ca Tối:</label>
         <div class="time-chips">
             <span class="chip" onclick="chonGio('17h-19h')">17h-19h</span>
             <span class="chip" onclick="chonGio('19h-21h')">19h-21h</span>
@@ -91,11 +85,12 @@
     function chonGio(g) { document.getElementById('thoiGian').value = g; }
     
     function luuThongTin() {
-        localStorage.setItem('user', JSON.stringify({hoTen: document.getElementById('hoTen').value, sdt: document.getElementById('sdt').value}));
+        const sdt = document.getElementById('sdt').value;
+        if (!/^\d{10}$/.test(sdt)) return alert("Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số.");
+        localStorage.setItem('user', JSON.stringify({hoTen: document.getElementById('hoTen').value, sdt: sdt}));
         alert("Thông tin đã được lưu!");
     }
 
-    // Chuyển giờ sang phút để tính toán trùng lặp
     function toMinutes(timeStr) {
         let cleanTime = timeStr.toLowerCase().replace('h', ':').replace('g', ':');
         let [h, m] = cleanTime.split(':').map(Number);
@@ -109,8 +104,7 @@
         const ngay = document.getElementById('ngay').value;
 
         if(!user || !user.hoTen) return alert("Vui lòng lưu thông tin khách trước!");
-        if(!thoiGian) return alert("Vui lòng chọn hoặc nhập khung giờ!");
-        if(!thoiGian.includes('-')) return alert("Vui lòng nhập định dạng: Giờ bắt đầu - Giờ kết thúc (Ví dụ: 17h30-19h31)");
+        if(!thoiGian || !thoiGian.includes('-')) return alert("Vui lòng nhập giờ dạng: 17h30-19h30");
 
         const [startStr, endStr] = thoiGian.split('-');
         const newStart = toMinutes(startStr);
@@ -122,17 +116,12 @@
                 let l = c.val();
                 if(l.san == san && l.ngay == ngay) {
                     const [s, e] = l.thoiGian.split('-');
-                    const existStart = toMinutes(s);
-                    const existEnd = toMinutes(e);
-                    // Công thức kiểm tra khoảng thời gian chồng lấn: StartA < EndB và EndA > StartB
-                    if (newStart < existEnd && newEnd > existStart) {
-                        isOverlapping = true;
-                    }
+                    if (newStart < toMinutes(e) && newEnd > toMinutes(s)) isOverlapping = true;
                 }
             });
 
             if(isOverlapping) {
-                alert("❌ Khung giờ này bị trùng lịch, vui lòng chọn giờ khác!");
+                alert("❌ Khung giờ này bị trùng lịch! Vui lòng chọn giờ khác.");
             } else {
                 db.ref('lichDatCauLong').push({
                     ten: user.hoTen, sdt: user.sdt,
@@ -145,12 +134,15 @@
     function loadLich() {
         const san = document.getElementById('san').value;
         const ngay = document.getElementById('ngay').value;
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+
         db.ref('lichDatCauLong').on('value', snap => {
             let html = '';
             snap.forEach(c => {
                 let l = c.val();
                 if(l.san == san && l.ngay == ngay) {
-                    html += `<div class="list-item"><span><b>${l.thoiGian}</b> | ${l.ten}</span>
+                    let info = isAdmin ? `| 📞 ${l.sdt}` : "";
+                    html += `<div class="list-item"><span><b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
                              <button style="background:var(--accent); width:auto; padding:5px 10px; border-radius:5px;" onclick="huy('${c.key}')">Hủy</button></div>`;
                 }
             });
@@ -159,7 +151,10 @@
     }
 
     function huy(id) {
-        if(prompt("Mật khẩu Admin:") == "PhucAn2026$") db.ref('lichDatCauLong/'+id).remove();
+        if(prompt("Mật khẩu Admin:") == "PhucAn2026$") {
+            localStorage.setItem('isAdmin', 'true');
+            db.ref('lichDatCauLong/'+id).remove();
+        } else { alert("Sai mật khẩu!"); }
     }
 
     window.onload = () => {
