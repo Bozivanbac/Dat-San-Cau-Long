@@ -174,6 +174,9 @@
             font-size: 13px;
             width: auto;
             border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
         }
         .nut-huy-admin:hover { background-color: #c0392b; }
 
@@ -301,13 +304,13 @@
     let userHienTai = JSON.parse(localStorage.getItem('userHienTaiCauLong')) || null;
     let danhSachDatSan = [];
 
-    // Tự động set ngày hiện tại bằng múi giờ Việt Nam chuẩn xác nhất
+    // Lấy ngày hiện tại chuẩn giờ Việt Nam VN
     const d = new Date();
     const tzOffset = d.getTimezoneOffset() * 60000;
     const localISOTime = (new Date(d.getTime() - tzOffset)).toISOString().split('T')[0];
     document.getElementById('chonNgay').value = localISOTime;
 
-    // Khởi tạo bộ chọn dropdown giờ giấc tiếng Việt
+    // Tạo danh sách giờ tiếng Việt (Sáng/Chiều/Tối)
     function khoiTaoBoChonGio() {
         const selectBatDau = document.getElementById('gioBatDau');
         const selectKetThuc = document.getElementById('gioKetThuc');
@@ -333,7 +336,7 @@
     }
     khoiTaoBoChonGio();
 
-    // Lắng nghe Firebase realtime
+    // Nhận dữ liệu Realtime từ Firebase
     db.ref('lichDatCauLong').on('value', (snapshot) => {
         const data = snapshot.val();
         danhSachDatSan = [];
@@ -355,7 +358,7 @@
         return parseInt(parts[0]) * 60 + parseInt(parts[1]);
     }
 
-    // HÀM HIỂN THỊ LỊCH THÔNG MINH - SỬA LỖI ẨN LỊCH KHÁCH ĐẶT
+    // HIỂN THỊ DANH SÁCH LỊCH SÂN ĐÃ ĐẶT VÀ TƯƠNG THÍCH MỌI ĐỊNH DẠNG
     window.capNhatGiaoDienLich = function() {
         const sanChon = document.getElementById('chonSan').value;
         const ngayChon = document.getElementById('chonNgay').value;
@@ -368,12 +371,10 @@
             return;
         }
 
-        // Lọc danh sách theo đúng Sân và Ngày được chọn
         const lichTrongNgay = danhSachDatSan.filter(l => l.san === sanChon && l.ngay === ngayChon);
 
-        // Chuẩn hóa dữ liệu giờ giấc để sắp xếp không bị lỗi hiển thị
+        // Chuẩn hóa dữ liệu tương thích ngược
         lichTrongNgay.forEach(l => {
-            // Nếu là dữ liệu cũ dùng trường 'khungGio' (ví dụ "05:00 - 06:00") thì tự tách ra để hiển thị mượt mà
             if(l.khungGio && (!l.gioBatDau || !l.gioKetThuc)) {
                 const doiTuongGio = l.khungGio.split('-');
                 l.gioBatDau = doiTuongGio[0].trim();
@@ -381,7 +382,6 @@
             }
         });
 
-        // Sắp xếp các ca từ sáng tới tối gọn gàng
         lichTrongNgay.sort((a, b) => thanhPhut(a.gioBatDau) - thanhPhut(b.gioBatDau));
 
         if (lichTrongNgay.length === 0) {
@@ -389,9 +389,8 @@
             return;
         }
 
-        // Đổ toàn bộ danh sách lịch đã quét được ra ngoài màn hình web công khai
         lichTrongNgay.forEach(lich => {
-            if(!lich.gioBatDau || !lich.gioKetThuc) return; // Bỏ qua bản ghi lỗi cấu trúc dữ liệu nếu có
+            if(!lich.gioBatDau || !lich.gioKetThuc) return;
 
             const theGio = document.createElement('div');
             theGio.className = "o-gio da-dat";
@@ -435,11 +434,9 @@
             return;
         }
 
-        // Kiểm tra chống đặt trùng lặp giao nhau thời gian thực
         const biTrungLich = danhSachDatSan.some(lich => {
             if (lich.san !== san || lich.ngay !== ngay) return false;
             
-            // Xử lý tương thích cả trường dữ liệu cũ lẫn mới để chặn trùng tuyệt đối
             let lGioBatDau = lich.gioBatDau;
             let lGioKetThuc = lich.gioKetThuc;
             if(lich.khungGio && (!lGioBatDau || !lGioKetThuc)) {
@@ -477,22 +474,31 @@
         }
     }
 
+    // 🔥 HÀM ĐÃ SỬA LỖI: Sửa tận gốc đường dẫn và cơ chế xóa phần tử liên kết Firebase Realtime
     window.xoaLichDatTheoId = function(idFirebase) {
+        if (!idFirebase || idFirebase === "undefined") {
+            alert("❌ Lỗi cấu trúc: Không tìm thấy ID lịch đặt hợp lệ trên hệ thống Firebase.");
+            return;
+        }
+
         const matKhauNhap = prompt("🔐 Tính năng này cần quyền Quản trị viên.\nVui lòng nhập mật khẩu để giải phóng lịch sân:");
-        if (matKhauNhap === null) return;
+        if (matKhauNhap === null) return; // Nhấn hủy khi hiện Prompt
 
         if (matKhauNhap === PhucAn2026$) {
-            if(confirm('Mật khẩu chính xác! Bạn có chắc chắn muốn hủy lịch này không?')) {
-                db.ref('lichDatCauLong/' + idFirebase).remove()
+            if(confirm('Mật khẩu chính xác! Bạn có chắc chắn muốn XÓA VĨNH VIỄN lịch đặt này để giải phóng sân không?')) {
+                
+                // Trỏ thẳng gốc Node ID để thực hiện xóa sạch dữ liệu
+                db.ref('lichDatCauLong').child(idFirebase).remove()
                 .then(() => {
-                    alert('🗑️ Đã hủy lịch đặt và giải phóng sân trống thành công!');
+                    alert('🗑️ Đã xóa lịch và giải phóng sân trống thành công!');
                 })
                 .catch((err) => {
-                    alert('❌ Lỗi xóa: ' + err.message);
+                    alert('❌ Lỗi Firebase: Không thể xóa phần tử. Chi tiết: ' + err.message);
                 });
+
             }
         } else {
-            alert('❌ Mật khẩu quản trị viên không chính xác!');
+            alert('❌ Mật khẩu quản trị viên không đúng!');
         }
     }
 
