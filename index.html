@@ -4,81 +4,98 @@
     <meta charset="UTF-8">
     <title>PHÚC AN BADMINTON</title>
     <style>
-        :root { --bg: #f4f7f6; --text: #2c3e50; --primary: #27ae60; --card: #ffffff; }
+        :root { --bg: #f4f7f6; --text: #2c3e50; --card: #ffffff; --primary: #27ae60; }
         .dark { --bg: #1a1a1a; --text: #ecf0f1; --card: #2d2d2d; }
         body { background: var(--bg); color: var(--text); font-family: sans-serif; padding: 20px; transition: 0.3s; }
-        .container { max-width: 500px; margin: auto; background: var(--card); padding: 20px; border-radius: 15px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .slot { padding: 10px; border: 1px solid var(--primary); border-radius: 8px; cursor: pointer; text-align: center; }
-        .slot.busy { background: #e74c3c; color: white; border: none; cursor: not-allowed; }
-        .slot.free { background: var(--primary); color: white; }
-        button#themeBtn { background: none; border: 1px solid var(--text); color: var(--text); padding: 5px 10px; cursor: pointer; border-radius: 5px; margin-bottom: 10px; }
+        .container { max-width: 500px; margin: auto; background: var(--card); padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .hotline-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 15px; font-weight: bold; border: 1px solid #ffeeba; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .list-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <button id="themeBtn" onclick="toggleTheme()">Chuyển Sáng/Tối</button>
+    <button onclick="document.body.classList.toggle('dark')" style="padding:5px; margin-bottom:10px;">Chế độ Sáng/Tối</button>
     <h1>PHÚC AN BADMINTON</h1>
     
-    <input type="text" id="ten" placeholder="Tên khách hàng" style="width:100%; padding:10px; margin-bottom:5px;">
-    <input type="tel" id="sdt" placeholder="Số điện thoại" style="width:100%; padding:10px;">
-    
-    <select id="chonSan" onchange="renderSlots()" style="width:100%; padding:10px; margin:10px 0;">
-        <option>Sân số 1</option><option>Sân số 2</option>
-    </select>
-    <input type="date" id="ngay" onchange="renderSlots()" style="width:100%; padding:10px;">
+    <div class="hotline-box">☎ Hủy/Đổi sân gọi: 0395.936.865</div>
 
-    <h3>Chọn giờ sân trống:</h3>
-    <div id="gridSlots" class="grid"></div>
+    <input type="text" id="hoTen" placeholder="Họ và Tên">
+    <input type="tel" id="sdt" placeholder="Số điện thoại">
+    <button onclick="luuThongTin()">Lưu Thông Tin</button>
+
+    <div style="margin-top:20px;">
+        <label>Chọn Sân</label>
+        <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
+        
+        <label>Ngày đặt</label>
+        <input type="date" id="ngay" onchange="loadLich()">
+        
+        <label>Thời gian (Ví dụ: 17:15 - 18:45)</label>
+        <input type="text" id="thoiGian" placeholder="Nhập khung giờ bạn muốn">
+        
+        <button onclick="datSan()">ĐẶT SÂN NGAY</button>
+
+        <h3>Lịch đã đặt:</h3>
+        <div id="danhSach"></div>
+    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-    const firebaseConfig = { databaseURL: "https://phuc-an-badminton-1ab18-default-rtdb.firebaseio.com" };
+    const firebaseConfig = {
+        apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4",
+        databaseURL: "https://phuc-an-badminton-1ab18-default-rtdb.firebaseio.com",
+        projectId: "phuc-an-badminton-1ab18"
+    };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    
-    const khungGio = ["05:00-06:00", "06:00-07:00", "07:00-08:00", "08:00-09:00", "17:00-18:00", "18:00-19:00", "19:00-20:00", "20:00-21:00"];
-    let daDat = [];
 
-    function toggleTheme() { document.body.classList.toggle('dark'); }
+    function luuThongTin() {
+        localStorage.setItem('user', JSON.stringify({hoTen: document.getElementById('hoTen').value, sdt: document.getElementById('sdt').value}));
+        alert("Đã lưu thông tin!");
+    }
 
-    db.ref('lichDatCauLong').on('value', snap => {
-        daDat = [];
-        snap.forEach(c => daDat.push({key: c.key, ...c.val()}));
-        renderSlots();
-    });
+    function datSan() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if(!user || !user.hoTen) return alert("Vui lòng nhập tên và SĐT trước!");
+        db.ref('lichDatCauLong').push({
+            ten: user.hoTen, sdt: user.sdt,
+            san: document.getElementById('san').value,
+            ngay: document.getElementById('ngay').value,
+            thoiGian: document.getElementById('thoiGian').value
+        }).then(() => alert("Đặt sân thành công!"));
+    }
 
-    function renderSlots() {
-        const san = document.getElementById('chonSan').value;
+    function loadLich() {
+        const san = document.getElementById('san').value;
         const ngay = document.getElementById('ngay').value;
-        const grid = document.getElementById('gridSlots');
-        grid.innerHTML = '';
-        
-        khungGio.forEach(g => {
-            const isBusy = daDat.find(l => l.san == san && l.ngay == ngay && l.khung == g);
-            const div = document.createElement('div');
-            div.className = `slot ${isBusy ? 'busy' : 'free'}`;
-            div.innerHTML = isBusy ? "Đã đặt" : g;
-            if(!isBusy) div.onclick = () => datSan(g);
-            grid.appendChild(div);
+        db.ref('lichDatCauLong').on('value', snap => {
+            let html = '';
+            snap.forEach(c => {
+                let l = c.val();
+                if(l.san == san && l.ngay == ngay) {
+                    html += `<div class="list-item">
+                        <span><b>${l.thoiGian}</b> | ${l.ten}</span>
+                        <button style="background:red; width:auto; padding:5px;" onclick="huy('${c.key}')">Hủy</button>
+                    </div>`;
+                }
+            });
+            document.getElementById('danhSach').innerHTML = html || "Sân trống";
         });
     }
 
-    function datSan(khung) {
-        const ten = document.getElementById('ten').value;
-        const sdt = document.getElementById('sdt').value;
-        if(!ten || !sdt) return alert("Nhập tên và SĐT!");
-        db.ref('lichDatCauLong').push({
-            ten, sdt, khung,
-            san: document.getElementById('chonSan').value,
-            ngay: document.getElementById('ngay').value
-        });
+    function huy(id) {
+        if(prompt("Nhập mật khẩu Admin:") == "PhucAn2026$") {
+            db.ref('lichDatCauLong/'+id).remove();
+        }
     }
 
     document.getElementById('ngay').valueAsDate = new Date();
+    loadLich();
 </script>
 </body>
 </html>
