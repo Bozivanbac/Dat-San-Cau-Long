@@ -38,18 +38,23 @@
             margin-bottom: 5px;
         }
 
-        .sdt-san {
+        .khung-hotline {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
-            font-size: 16px;
-            color: var(--mau-toi);
-            margin-bottom: 20px;
             font-weight: 500;
+            margin-bottom: 20px;
+            font-size: 15px;
         }
 
-        .sdt-san a {
+        .khung-hotline a {
             color: var(--mau-do);
             text-decoration: none;
             font-weight: bold;
+            font-size: 17px;
         }
 
         .o-nhap {
@@ -244,7 +249,10 @@
     </div>
 
     <h1>🏸 PHÚC AN BADMINTON</h1>
-    <div class="sdt-san">📞 Hotline đặt sân: <a href="tel:0395936865">0395 936 865</a></div>
+    
+    <div class="khung-hotline">
+        ⚠️ Gặp sự cố hoặc cần hủy/đổi sân? Vui lòng gọi Hotline: <a href="tel:0395936865">0395 936 865</a>
+    </div>
     
     <div class="o-nhap">
         <label>1. Chọn Sân muốn xem:</label>
@@ -275,6 +283,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
+    // CẤU HÌNH FIREBASE CHUẨN ĐỒNG BỘ THEO DỮ LIỆU CỦA BẠN
     const firebaseConfig = {
         apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4",
         authDomain: "phuc-an-badminton-1ab18.firebaseapp.com",
@@ -297,12 +306,12 @@
     const homNay = new Date().toISOString().split('T')[0];
     document.getElementById('chonNgay').value = homNay;
 
+    // DANH SÁCH GIỜ CẬP NHẬT: Chia đều đặn 5h-6h, 5h30-6h30, 6h-7h, 6h30-7h30...
     const cacKhungGioHoatDong = [
-        "05:00 - 06:00", "05:30 - 07:00", "06:00 - 07:00", "07:00 - 08:00", 
+        "05:00 - 06:00", "05:30 - 06:30", "06:00 - 07:00", "06:30 - 07:30", "07:00 - 08:00", 
         "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "15:00 - 16:00", 
-        "16:00 - 17:00", "16:30 - 18:00", "17:00 - 18:00", "17:30 - 19:00", 
-        "18:00 - 19:00", "19:00 - 20:00", "19:30 - 21:00", "20:00 - 21:00", 
-        "21:00 - 22:00"
+        "16:00 - 17:00", "16:30 - 17:30", "17:00 - 18:00", "17:30 - 18:30", "18:00 - 19:00", 
+        "19:00 - 20:00", "19:30 - 20:30", "20:00 - 21:00", "21:00 - 22:00"
     ];
 
     db.ref('lichDatCauLong').on('value', (snapshot) => {
