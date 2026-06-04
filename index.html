@@ -54,9 +54,14 @@
     <div class="qr-section">
         <div style="font-weight:bold; color:var(--primary);">Tham gia nhóm Zalo</div>
         <!-- Bạn hãy thay link ảnh QR thật của bạn vào đây -->
-        <img src="https://i.imgur.com/YOUR_QR_IMAGE_ID.jpg" class="qr-img" alt="QR Zalo">
-        <p style="font-size:0.8em; color:#666;">Quét mã để cập nhật lịch sân</p>
-    </div>
+        <div class="qr-section" style="margin-top: 25px; text-align: center; padding: 15px; border-top: 1px dashed var(--primary);">
+    <div style="font-weight:bold; color:var(--primary); margin-bottom:10px;">Quét mã tham gia nhóm Zalo</div>
+    <!-- QR được tạo tự động để không bao giờ bị lỗi link ảnh -->
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=LINK_ZALO_CUA_BAN_O_DAY" 
+         style="width:150px; height:150px; border: 3px solid var(--primary); border-radius:10px;" 
+         alt="QR Zalo">
+    <p style="font-size:0.8em; color:#666; margin-top:10px;">Quét mã để cập nhật tin tức mới nhất nha</p>
+</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
