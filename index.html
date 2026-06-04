@@ -5,27 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHÚC AN BADMINTON</title>
     <style>
-        :root { --primary: #0056b3; --accent: #ff4757; --bg: #eef2f7; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 15px; }
-        .card { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 6px solid var(--primary); }
-        h1 { color: var(--primary); text-align: center; font-size: 1.5em; margin-bottom: 10px; }
-        .hotline-box { background: #e8f4fd; color: var(--primary); padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 20px; border: 1px solid var(--primary); }
-        .hotline-box a { color: var(--primary); text-decoration: none; font-size: 1.1em; }
-        .box { background: #f8fbff; border: 1px solid #d1e3f8; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
-        input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #cce0f5; border-radius: 10px; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .time-section { margin: 15px 0; }
-        .time-section label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--primary); }
-        .time-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
-        .chip { padding: 8px 12px; background: #e8f4fd; border: 1px solid var(--primary); border-radius: 20px; font-size: 0.85em; cursor: pointer; color: var(--primary); font-weight: 600; }
-        .qr-section { margin-top: 25px; text-align: center; padding: 15px; border-top: 1px dashed var(--primary); }
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        :root { 
+            --bg: #0f172a; 
+            --card-bg: #1e293b;
+            --primary: #38bdf8; 
+            --primary-hover: #0ea5e9;
+            --accent: #f43f5e; 
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        body { 
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
+            background: var(--bg); 
+            margin: 0; 
+            padding: 15px; 
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+        .card { 
+            max-width: 480px; 
+            margin: auto; 
+            background: var(--card-bg); 
+            padding: 30px 20px; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+            border: 1px solid var(--border);
+        }
+        h1 { 
+            color: var(--text-main); 
+            text-align: center; 
+            font-size: 1.6em; 
+            margin-top: 0;
+            margin-bottom: 20px; 
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .hotline-box { 
+            background: rgba(56, 189, 248, 0.08); 
+            color: var(--primary); 
+            padding: 14px; 
+            border-radius: 16px; 
+            text-align: center; 
+            font-weight: 600; 
+            margin-bottom: 25px; 
+            border: 1px solid rgba(56, 189, 248, 0.2); 
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        .hotline-box a { 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-size: 1.15em; 
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 4px;
+            transition: transform 0.2s;
+        }
+        .hotline-box a:active { transform: scale(0.98); }
+        
+        .box { 
+            background: rgba(255,255,255,0.02); 
+            border: 1px solid var(--border); 
+            padding: 20px; 
+            border-radius: 18px; 
+            margin-bottom: 25px; 
+        }
+        .box h3 {
+            font-size: 1em;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+        input, select { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 6px 0 16px 0; 
+            background: #111827;
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            color: var(--text-main);
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+        button { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--primary); 
+            color: #0f172a; 
+            border: none; 
+            border-radius: 14px; 
+            font-weight: 700; 
+            font-size: 1em;
+            cursor: pointer; 
+            transition: all 0.2s;
+        }
+        button:active { transform: scale(0.98); }
+        
+        .time-section { margin: 20px 0; }
+        .time-section label { color: var(--text-main); font-size: 0.95em; margin-bottom: 10px; }
+        .time-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+        .chip { 
+            padding: 10px 16px; 
+            background: #111827; 
+            border: 1px solid var(--border); 
+            border-radius: 50px; 
+            font-size: 0.9em; 
+            cursor: pointer; 
+            color: var(--text-main); 
+            font-weight: 600; 
+            transition: all 0.2s;
+        }
+        .chip:hover, .chip:active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+        }
+        
+        .section-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+        }
+        .list-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 14px; 
+            background: #111827;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        .list-item b { color: var(--primary); }
+        
+        .qr-section { 
+            margin-top: 35px; 
+            text-align: center; 
+            padding: 20px 15px 0 15px; 
+            border-top: 1px dashed var(--border); 
+        }
+        .qr-section div { font-size: 0.95em; font-weight: 600; margin-bottom: 15px; color: var(--text-muted); }
+        .qr-section img { 
+            width: 140px; 
+            height: 140px; 
+            border: 4px solid var(--border); 
+            border-radius: 16px; 
+            padding: 5px;
+            background: white;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h1>🏸 PHÚC AN BADMINTON</h1>
+    <h1><span>🏸</span> PHÚC AN BADMINTON</h1>
     
     <div class="hotline-box">
         Hủy/Đổi sân gọi ngay:<br>
@@ -33,45 +188,50 @@
     </div>
 
     <div class="box">
-        <h3 style="margin-top:0; color:var(--primary);">THÔNG TIN KHÁCH</h3>
-        <input type="text" id="hoTen" placeholder="Họ và tên khách">
-        <input type="tel" id="sdt" placeholder="Số điện thoại (10 chữ số)">
-        <button onclick="luuThongTin()" style="background:#576574;">Lưu thông tin</button>
+        <h3 style="margin-top:0; color:var(--primary);">THÔNG TIN KHÁCH HÀNG</h3>
+        <label>Họ và tên</label>
+        <input type="text" id="hoTen" placeholder="Nhập họ và tên khách">
+        <label>Số điện thoại</label>
+        <input type="tel" id="sdt" placeholder="Nhập chính xác 10 chữ số">
+        <button onclick="luuThongTin()" style="background: #334155; color: var(--text-main); margin-top: 5px;">Lưu thông tin</button>
     </div>
 
-    <label>Chọn Sân & Ngày</label>
+    <label>Chọn Sân</label>
     <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
+    
+    <label>Chọn Ngày</label>
     <input type="date" id="ngay" onchange="loadLich()">
     
+    <!-- Ca Sáng -->
     <div class="time-section">
-        <label>☀️ Ca Sáng:</label>
+        <label>☀️ Ca Sáng (Mỗi ca 2 tiếng):</label>
         <div class="time-chips">
-            <span class="chip" onclick="chonGio('05h-07h')">05h-07h</span>
-            <span class="chip" onclick="chonGio('07h-09h')">07h-09h</span>
-            <span class="chip" onclick="chonGio('09h-11h')">09h-11h</span>
+            <span class="chip" onclick="chonGio('05h-07h')">05h - 07h</span>
+            <span class="chip" onclick="chonGio('07h-09h')">07h - 09h</span>
+            <span class="chip" onclick="chonGio('09h-11h')">09h - 11h</span>
         </div>
     </div>
 
+    <!-- Ca Tối -->
     <div class="time-section">
-        <label>🌙 Ca Tối:</label>
+        <label>🌙 Ca Tối (Mỗi ca 2 tiếng):</label>
         <div class="time-chips">
-            <span class="chip" onclick="chonGio('17h-19h')">17h-19h</span>
-            <span class="chip" onclick="chonGio('19h-21h')">19h-21h</span>
-            <span class="chip" onclick="chonGio('21h-23h')">21h-23h</span>
+            <span class="chip" onclick="chonGio('17h-19h')">17h - 19h</span>
+            <span class="chip" onclick="chonGio('19h-21h')">19h - 21h</span>
+            <span class="chip" onclick="chonGio('21h-23h')">21h - 23h</span>
         </div>
     </div>
     
-    <label>Hoặc nhập giờ tự chọn:</label>
+    <label>Hoặc nhập giờ tự chọn</label>
     <input type="text" id="thoiGian" placeholder="Ví dụ: 17h30-19h31">
-    <button onclick="datSan()" style="margin-top:10px;">XÁC NHẬN ĐẶT SÂN</button>
+    <button onclick="datSan()" style="margin-top:5px; background: linear-gradient(135deg, var(--primary), #0ea5e9);">XÁC NHẬN ĐẶT SÂN</button>
 
-    <h3 style="margin-top:25px;">Lịch đã đặt:</h3>
+    <div class="section-title">Lịch đã đặt</div>
     <div id="danhSach"></div>
 
     <div class="qr-section">
-        <div style="font-weight:bold; color:var(--primary); margin-bottom:10px;">Quét mã tham gia nhóm Zalo</div>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" 
-             style="width:140px; height:140px; border: 3px solid var(--primary); border-radius:10px;" alt="QR Zalo">
+        <div>Quét mã tham gia nhóm Zalo</div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" alt="QR Zalo">
     </div>
 </div>
 
@@ -85,10 +245,21 @@
     function chonGio(g) { document.getElementById('thoiGian').value = g; }
     
     function luuThongTin() {
-        const sdt = document.getElementById('sdt').value;
-        if (!/^\d{10}$/.test(sdt)) return alert("Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số.");
-        localStorage.setItem('user', JSON.stringify({hoTen: document.getElementById('hoTen').value, sdt: sdt}));
-        alert("Thông tin đã được lưu!");
+        const hoTen = document.getElementById('hoTen').value.trim();
+        const sdt = document.getElementById('sdt').value.trim();
+
+        if (!hoTen) {
+            return alert("❌ Bạn chưa nhập Họ và tên khách!");
+        }
+        if (!sdt) {
+            return alert("❌ Bạn chưa nhập Số điện thoại!");
+        }
+        if (!/^\d{10}$/.test(sdt)) {
+            return alert("❌ Số điện thoại không hợp lệ! Vui lòng nhập chính xác 10 chữ số.");
+        }
+
+        localStorage.setItem('user', JSON.stringify({hoTen: hoTen, sdt: sdt}));
+        alert("Thông tin của bạn đã được lưu thành công!");
     }
 
     function toMinutes(timeStr) {
@@ -103,7 +274,7 @@
         const san = document.getElementById('san').value;
         const ngay = document.getElementById('ngay').value;
 
-        if(!user || !user.hoTen) return alert("Vui lòng lưu thông tin khách trước!");
+        if(!user || !user.hoTen || !user.sdt) return alert("❌ Vui lòng điền và bấm 'Lưu thông tin' ở trên trước khi đặt sân!");
         if(!thoiGian || !thoiGian.includes('-')) return alert("Vui lòng nhập giờ dạng: 17h30-19h30");
 
         const [startStr, endStr] = thoiGian.split('-');
@@ -143,10 +314,10 @@
                 if(l.san == san && l.ngay == ngay) {
                     let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                     html += `<div class="list-item"><span><b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
-                             <button style="background:var(--accent); width:auto; padding:5px 10px; border-radius:5px;" onclick="huy('${c.key}')">Hủy</button></div>`;
+                             <button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border-radius:8px;" onclick="huy('${c.key}')">Hủy</button></div>`;
                 }
             });
-            document.getElementById('danhSach').innerHTML = html || "<p style='text-align:center; color:#999;'>Sân trống</p>";
+            document.getElementById('danhSach').innerHTML = html || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Sân trống</p>";
         });
     }
 
