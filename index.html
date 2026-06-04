@@ -2,29 +2,47 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>HỆ THỐNG ĐẶT SÂN PHÚC AN BADMINTON</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHÚC AN BADMINTON</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f5f6fa; }
-        .khung { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        .o-gio { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; }
-        .btn-huy { background: red; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-        .hotline { background: #fff3cd; padding: 10px; text-align: center; margin-bottom: 10px; border-radius: 5px; }
+        body { font-family: sans-serif; background: #f5f6fa; padding: 20px; }
+        .khung { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .hotline { background: #fff3cd; padding: 10px; text-align: center; border-radius: 6px; margin-bottom: 20px; font-weight: bold; color: #856404; }
+        .o-gio { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
+        .da-dat { background: #fdf2f2; color: #e74c3c; border-left: 5px solid #e74c3c; padding: 10px; margin: 5px 0; }
+        .nut-huy { background: #e74c3c; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        input, select, button { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <div class="khung">
-    <div class="hotline">Hỗ trợ hủy sân: <b>0395.936.865</b></div>
-    <h2>LỊCH SÂN</h2>
-    <select id="chonSan" onchange="hienThiLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
-    <input type="date" id="chonNgay" onchange="hienThiLich()">
-    <div id="danhSach"></div>
+    <div class="hotline">Hỗ trợ: <a href="tel:0395936865">0395.936.865</a></div>
+    <div id="authDiv">
+        <h3>Đăng nhập</h3>
+        <input type="tel" id="dnSdt" placeholder="Số điện thoại">
+        <input type="password" id="dnMk" placeholder="Mật khẩu">
+        <button onclick="dangNhap()">Đăng nhập</button>
+    </div>
+    
+    <div id="mainDiv" style="display:none;">
+        <h2 id="welcome"></h2>
+        <select id="chonSan" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
+        <input type="date" id="chonNgay" onchange="loadLich()">
+        
+        <h3>Đặt giờ:</h3>
+        <input type="time" id="gioBD">
+        <input type="time" id="gioKT">
+        <button onclick="datSan()">Xác nhận đặt</button>
+        
+        <h3>Lịch đã đặt:</h3>
+        <div id="danhSach"></div>
+    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-    // Cấu hình chuẩn của bạn
     const firebaseConfig = {
         apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4",
         authDomain: "phuc-an-badminton-1ab18.firebaseapp.com",
@@ -36,34 +54,49 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    
+    let user = JSON.parse(localStorage.getItem('user'));
+    if(user) { document.getElementById('authDiv').style.display='none'; document.getElementById('mainDiv').style.display='block'; }
 
-    let dsLich = [];
-    document.getElementById('chonNgay').valueAsDate = new Date();
+    function dangNhap() {
+        const sdt = document.getElementById('dnSdt').value;
+        localStorage.setItem('user', JSON.stringify({sdt: sdt}));
+        location.reload();
+    }
 
-    db.ref('lichDatCauLong').on('value', snap => {
-        dsLich = [];
-        snap.forEach(c => dsLich.push({ id: c.key, ...c.val() }));
-        hienThiLich();
-    });
-
-    function hienThiLich() {
+    function loadLich() {
         const san = document.getElementById('chonSan').value;
         const ngay = document.getElementById('chonNgay').value;
-        const div = document.getElementById('danhSach');
-        div.innerHTML = '';
-        dsLich.filter(l => l.san === san && l.ngay === ngay).forEach(l => {
-            div.innerHTML += `<div class="o-gio">${l.gioBatDau}-${l.gioKetThuc} - ${l.ten} 
-            <button class="btn-huy" onclick="huySan('${l.id}')">Hủy</button></div>`;
+        db.ref('lichDatCauLong').on('value', snap => {
+            let html = '';
+            snap.forEach(c => {
+                let l = c.val();
+                if(l.san == san && l.ngay == ngay) {
+                    html += `<div class="da-dat">⏰ ${l.gioBD}-${l.gioKT} - ${l.ten} 
+                            <button class="nut-huy" onclick="huy('${c.key}')">Hủy</button></div>`;
+                }
+            });
+            document.getElementById('danhSach').innerHTML = html || "Sân trống";
         });
     }
 
-    function huySan(id) {
-        if(prompt("Nhập mật khẩu Admin:") === "PhucAn2026$") {
-            db.ref('lichDatCauLong/' + id).set(null).then(() => alert("Đã hủy!"));
-        } else {
-            alert("Sai mật khẩu!");
+    function datSan() {
+        const gioBD = document.getElementById('gioBD').value;
+        const gioKT = document.getElementById('gioKT').value;
+        // Kiểm tra logic thời gian ở đây
+        db.ref('lichDatCauLong').push({
+            ten: user.sdt, san: document.getElementById('chonSan').value,
+            ngay: document.getElementById('chonNgay').value, gioBD, gioKT
+        }).then(() => alert("Đặt thành công"));
+    }
+
+    function huy(id) {
+        if(prompt("Mật khẩu Admin:") == "PhucAn2026$") {
+            db.ref('lichDatCauLong/'+id).set(null);
         }
     }
+    document.getElementById('chonNgay').valueAsDate = new Date();
+    loadLich();
 </script>
 </body>
 </html>
