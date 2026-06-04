@@ -170,13 +170,14 @@
         .nut-huy-admin {
             background-color: var(--mau-do);
             color: white;
-            padding: 6px 12px;
+            padding: 8px 14px;
             font-size: 13px;
             width: auto;
-            border-radius: 4px;
+            border-radius: 6px;
             border: none;
             cursor: pointer;
             font-weight: bold;
+            transition: background 0.2s;
         }
         .nut-huy-admin:hover { background-color: #c0392b; }
 
@@ -389,7 +390,7 @@
             return;
         }
 
-        lichTrongNgay.forEach(lich => {
+        lichTrongNgay.forEach((lich, index) => {
             if(!lich.gioBatDau || !lich.gioKetThuc) return;
 
             const theGio = document.createElement('div');
@@ -400,11 +401,22 @@
             let bBd = gBd < 12 ? "Sáng" : (gBd < 18 ? "Chiều" : "Tối");
             let bKt = gKt < 12 ? "Sáng" : (gKt < 18 ? "Chiều" : "Tối");
 
+            // Tạo chuỗi an toàn mã hóa thông tin để chuyển vào hàm hủy dự phòng
+            const thamSoAnToan = encodeURIComponent(JSON.stringify({
+                idFirebase: lich.idFirebase || "",
+                ten: lich.ten,
+                sdt: lich.sdt,
+                gioBatDau: lich.gioBatDau,
+                gioKetThuc: lich.gioKetThuc,
+                san: lich.san,
+                ngay: lich.ngay
+            }));
+
             theGio.innerHTML = `
                 <div>
                     ⏰ <b>${lich.gioBatDau} (${bBd}) - ${lich.gioKetThuc} (${bKt})</b> — 🛑 Đã đặt: <b>${lich.ten}</b> (${lich.sdt})
                 </div>
-                <button class="nut-huy-admin" onclick="window.xoaLichDatTheoId('${lich.idFirebase}')">Hủy lịch</button>
+                <button class="nut-huy-admin" onclick="window.xuLyXoaLichTuyTuyetDoi('${thamSoAnToan}')">Hủy lịch</button>
             `;
             vungLich.appendChild(theGio);
         });
@@ -474,32 +486,69 @@
         }
     }
 
-    // 🔥 HÀM ĐÃ SỬA LỖI: Sửa tận gốc đường dẫn và cơ chế xóa phần tử liên kết Firebase Realtime
-    window.xoaLichDatTheoId = function(idFirebase) {
-        if (!idFirebase || idFirebase === "undefined") {
-            alert("❌ Lỗi cấu trúc: Không tìm thấy ID lịch đặt hợp lệ trên hệ thống Firebase.");
+    // 🔥 HÀM ĐÃ NÂNG CẤP TOÀN DIỆN: Cơ chế hủy kép (Xóa theo ID + Quét thủ công bản ghi)
+    window.xuLyXoaLichTuyTuyetDoi = function(chuoiDuLieuMaHoa) {
+        const lich = JSON.parse(decodeURIComponent(chuoiDuLieuMaHoa));
+        
+        const matKhauNhap = prompt("🔐 Tính năng này cần quyền Quản trị viên.\nVui lòng nhập mật khẩu để giải phóng lịch sân:");
+        if (matKhauNhap === null) return; 
+
+        if (matKhauNhap !=== PhucAn2026$) {
+            alert('❌ Mật khẩu quản trị viên không chính xác!');
             return;
         }
 
-        const matKhauNhap = prompt("🔐 Tính năng này cần quyền Quản trị viên.\nVui lòng nhập mật khẩu để giải phóng lịch sân:");
-        if (matKhauNhap === null) return; // Nhấn hủy khi hiện Prompt
-
-        if (matKhauNhap === PhucAn2026$) {
-            if(confirm('Mật khẩu chính xác! Bạn có chắc chắn muốn XÓA VĨNH VIỄN lịch đặt này để giải phóng sân không?')) {
-                
-                // Trỏ thẳng gốc Node ID để thực hiện xóa sạch dữ liệu
-                db.ref('lichDatCauLong').child(idFirebase).remove()
-                .then(() => {
-                    alert('🗑️ Đã xóa lịch và giải phóng sân trống thành công!');
-                })
-                .catch((err) => {
-                    alert('❌ Lỗi Firebase: Không thể xóa phần tử. Chi tiết: ' + err.message);
-                });
-
-            }
-        } else {
-            alert('❌ Mật khẩu quản trị viên không đúng!');
+        if(!confirm(`Xác nhận XÓA lịch đặt của [${lich.ten}] vào khung giờ [${lich.gioBatDau} - ${lich.gioKetThuc}]?`)) {
+            return;
         }
+
+        // --- CƠ CHẾ 1: XÓA THẲNG THEO ID FIREBASE ---
+        if (lich.idFirebase && lich.idFirebase !== "undefined") {
+            db.ref('lichDatCauLong').child(lich.idFirebase).remove()
+            .then(() => {
+                alert('🗑️ Thành công: Đã xóa lịch và giải phóng sân trống!');
+            })
+            .catch((err) => {
+                // Nếu cơ chế 1 lỗi, lập tức kích hoạt cơ chế 2 dự phòng dưới đây
+                kichHoatCoCheXoaDuPhong(lich);
+            });
+        } else {
+            // Nếu không lấy được ID, chạy thẳng cơ chế 2 quét tìm bản ghi trùng khớp
+            kichHoatCoCheXoaDuPhong(lich);
+        }
+    }
+
+    // --- CƠ CHẾ 2 DỰ PHÒNG: Quét và xóa thủ công dựa trên thuộc tính bản ghi ---
+    function kichHoatCoCheXoaDuPhong(lichCanXoa) {
+        db.ref('lichDatCauLong').once('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                alert("❌ Không tìm thấy dữ liệu lịch trên Firebase.");
+                return;
+            }
+
+            let flagDaXoa = false;
+            Object.keys(data).forEach(key => {
+                const item = data[key];
+                
+                // So khớp tuyệt đối các trường thông tin để tìm đúng bản ghi lỗi ID
+                if (item.ten === lichCanXoa.ten && 
+                    item.sdt === lichCanXoa.sdt && 
+                    item.ngay === lichCanXoa.ngay && 
+                    item.san === lichCanXoa.san && 
+                    (item.gioBatDau === lichCanXoa.gioBatDau || item.khungGio)) {
+                    
+                    db.ref('lichDatCauLong').child(key).remove();
+                    flagDaXoa = true;
+                }
+            });
+
+            if (flagDaXoa) {
+                alert('🗑️ Thành công (Dự phòng): Hệ thống đã định vị và giải phóng sân trống thành công!');
+            } else {
+                alert('❌ Lỗi: Không thể tìm thấy bản ghi tương ứng trên cơ sở dữ liệu để xóa.');
+            }
+        });
     }
 
     window.chuyenForm = function(loai) {
