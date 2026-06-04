@@ -35,6 +35,21 @@
             text-align: center;
             color: var(--mau-phu);
             margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .sdt-san {
+            text-align: center;
+            font-size: 16px;
+            color: var(--mau-toi);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .sdt-san a {
+            color: var(--mau-do);
+            text-decoration: none;
+            font-weight: bold;
         }
 
         .o-nhap {
@@ -228,7 +243,8 @@
         <button class="nut-dang-xuat" onclick="window.dangXuat()">Đăng xuất</button>
     </div>
 
-    <h1>🏸 Tra Cứu & Đặt Sân Cầu Lông</h1>
+    <h1>🏸 PHÚC AN BADMINTON</h1>
+    <div class="sdt-san">📞 Hotline đặt sân: <a href="tel:0395936865">0395 936 865</a></div>
     
     <div class="o-nhap">
         <label>1. Chọn Sân muốn xem:</label>
@@ -281,7 +297,6 @@
     const homNay = new Date().toISOString().split('T')[0];
     document.getElementById('chonNgay').value = homNay;
 
-    // DANH SÁCH KHUNG GIỜ ĐÃ ĐƯỢC THÊM CÁC CA ĐUÔI :30 (1h30, 4h30, v.v...)
     const cacKhungGioHoatDong = [
         "05:00 - 06:00", "05:30 - 07:00", "06:00 - 07:00", "07:00 - 08:00", 
         "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "15:00 - 16:00", 
