@@ -244,7 +244,7 @@
     </div>
     
     <div class="o-nhap">
-        <label>1. Chọn Sân:</label>
+        <label>1. Chọn Sân muốn xem:</label>
         <select id="chonSan" onchange="window.capNhatGiaoDienLich()">
             <option value="Sân số 1">Sân số 1</option>
             <option value="Sân số 2">Sân số 2</option>
@@ -252,7 +252,7 @@
     </div>
 
     <div class="o-nhap">
-        <label>2. Chọn Ngày:</label>
+        <label>2. Chọn Ngày muốn xem:</label>
         <input type="date" id="chonNgay" onchange="window.capNhatGiaoDienLich()" required>
     </div>
 
@@ -274,7 +274,7 @@
 </div>
 
 <div class="khung-chua">
-    <h3>📊 Khung Giờ Đã Được Đặt (Không Thể Đặt Trùng)</h3>
+    <h3>📊 Tình Trạng Lịch Sân (Khung giờ đã đặt)</h3>
     <div id="vungHienThiLich" class="danh-sach-gio"></div>
 </div>
 
@@ -301,10 +301,13 @@
     let userHienTai = JSON.parse(localStorage.getItem('userHienTaiCauLong')) || null;
     let danhSachDatSan = [];
 
-    const homNay = new Date().toISOString().split('T')[0];
-    document.getElementById('chonNgay').value = homNay;
+    // Tự động set ngày hiện tại bằng múi giờ Việt Nam chuẩn xác nhất
+    const d = new Date();
+    const tzOffset = d.getTimezoneOffset() * 60000;
+    const localISOTime = (new Date(d.getTime() - tzOffset)).toISOString().split('T')[0];
+    document.getElementById('chonNgay').value = localISOTime;
 
-    // Tự động tạo danh sách giờ từ 05:00 sáng đến 22:00 tối (bước nhảy 15 phút một) công khai chữ Sáng/Tối công khai công khai công khai
+    // Khởi tạo bộ chọn dropdown giờ giấc tiếng Việt
     function khoiTaoBoChonGio() {
         const selectBatDau = document.getElementById('gioBatDau');
         const selectKetThuc = document.getElementById('gioKetThuc');
@@ -314,25 +317,23 @@
 
         for (let h = 5; h <= 22; h++) {
             for (let m = 0; m < 60; m += 15) {
-                if (h === 22 && m > 0) break; // Chỉ lấy đến tối đa 22:00
+                if (h === 22 && m > 0) break;
                 
                 let chuoiPhut = m === 0 ? '00' : m;
                 let chuoiGio = h < 10 ? '0' + h : h;
                 let thoiGianHienThi = `${chuoiGio}:${chuoiPhut}`;
                 
-                // Gắn mác nhãn tiếng Việt Sáng / Chiều Tối rõ ràng
                 let buoi = h < 12 ? "Sáng" : (h < 18 ? "Chiều" : "Tối");
-
                 let optionText = `${thoiGianHienThi} (${buoi})`;
-                let optionValue = thoiGianHienThi;
 
-                selectBatDau.innerHTML += `<option value="${optionValue}">${optionText}</option>`;
-                selectKetThuc.innerHTML += `<option value="${optionValue}">${optionText}</option>`;
+                selectBatDau.innerHTML += `<option value="${thoiGianHienThi}">${optionText}</option>`;
+                selectKetThuc.innerHTML += `<option value="${thoiGianHienThi}">${optionText}</option>`;
             }
         }
     }
     khoiTaoBoChonGio();
 
+    // Lắng nghe Firebase realtime
     db.ref('lichDatCauLong').on('value', (snapshot) => {
         const data = snapshot.val();
         danhSachDatSan = [];
@@ -349,11 +350,12 @@
 
     function thanhPhut(chuoiGio) {
         if(!chuoiGio) return 0;
-        const [gio, phut] = chuoiGio.split(':').map(Number);
-        return gio * 60 + phut;
+        const parts = chuoiGio.split(':');
+        if(parts.length < 2) return 0;
+        return parseInt(parts[0]) * 60 + parseInt(parts[1]);
     }
 
-    // HIỂN THỊ LỊCH HOÀN CHỈNH
+    // HÀM HIỂN THỊ LỊCH THÔNG MINH - SỬA LỖI ẨN LỊCH KHÁCH ĐẶT
     window.capNhatGiaoDienLich = function() {
         const sanChon = document.getElementById('chonSan').value;
         const ngayChon = document.getElementById('chonNgay').value;
@@ -366,19 +368,34 @@
             return;
         }
 
+        // Lọc danh sách theo đúng Sân và Ngày được chọn
         const lichTrongNgay = danhSachDatSan.filter(l => l.san === sanChon && l.ngay === ngayChon);
+
+        // Chuẩn hóa dữ liệu giờ giấc để sắp xếp không bị lỗi hiển thị
+        lichTrongNgay.forEach(l => {
+            // Nếu là dữ liệu cũ dùng trường 'khungGio' (ví dụ "05:00 - 06:00") thì tự tách ra để hiển thị mượt mà
+            if(l.khungGio && (!l.gioBatDau || !l.gioKetThuc)) {
+                const doiTuongGio = l.khungGio.split('-');
+                l.gioBatDau = doiTuongGio[0].trim();
+                l.gioKetThuc = doiTuongGio[1].trim();
+            }
+        });
+
+        // Sắp xếp các ca từ sáng tới tối gọn gàng
         lichTrongNgay.sort((a, b) => thanhPhut(a.gioBatDau) - thanhPhut(b.gioBatDau));
 
         if (lichTrongNgay.length === 0) {
-            vungLich.innerHTML = '<p class="tin-nhan-trong">🟢 Sân đang trống cả ngày! Bạn có thể chọn bất kỳ khung giờ nào tùy ý.</p>';
+            vungLich.innerHTML = '<p class="tin-nhan-trong">🟢 Sân đang trống lịch! Bạn có thể chọn đặt bất kỳ giờ nào tùy ý.</p>';
             return;
         }
 
+        // Đổ toàn bộ danh sách lịch đã quét được ra ngoài màn hình web công khai
         lichTrongNgay.forEach(lich => {
+            if(!lich.gioBatDau || !lich.gioKetThuc) return; // Bỏ qua bản ghi lỗi cấu trúc dữ liệu nếu có
+
             const theGio = document.createElement('div');
             theGio.className = "o-gio da-dat";
             
-            // Xử lý thông tin hiển thị nhãn buổi trực quan cho danh sách đã đặt
             let gBd = parseInt(lich.gioBatDau.split(':')[0]);
             let gKt = parseInt(lich.gioKetThuc.split(':')[0]);
             let bBd = gBd < 12 ? "Sáng" : (gBd < 18 ? "Chiều" : "Tối");
@@ -418,12 +435,21 @@
             return;
         }
 
-        // THUẬT TOÁN TỰ ĐỘNG CHẶN TRÙNG LỊCH GIAO NHAU CHÍNH XÁC
+        // Kiểm tra chống đặt trùng lặp giao nhau thời gian thực
         const biTrungLich = danhSachDatSan.some(lich => {
             if (lich.san !== san || lich.ngay !== ngay) return false;
             
-            const lPhutBatDau = thanhPhut(lich.gioBatDau);
-            const lPhutKetThuc = thanhPhut(lich.gioKetThuc);
+            // Xử lý tương thích cả trường dữ liệu cũ lẫn mới để chặn trùng tuyệt đối
+            let lGioBatDau = lich.gioBatDau;
+            let lGioKetThuc = lich.gioKetThuc;
+            if(lich.khungGio && (!lGioBatDau || !lGioKetThuc)) {
+                const doiTuongGio = lich.khungGio.split('-');
+                lGioBatDau = doiTuongGio[0].trim();
+                lGioKetThuc = doiTuongGio[1].trim();
+            }
+
+            const lPhutBatDau = thanhPhut(lGioBatDau);
+            const lPhutKetThuc = thanhPhut(lGioKetThuc);
 
             return (phutBatDau < lPhutKetThuc && phutKetThuc > lPhutBatDau);
         });
@@ -451,13 +477,12 @@
         }
     }
 
-    // ĐÃ SỬA LỖI HỦY: Hàm xóa gọi trực tiếp lên ID nút Firebase chuẩn xác thời gian thực
     window.xoaLichDatTheoId = function(idFirebase) {
         const matKhauNhap = prompt("🔐 Tính năng này cần quyền Quản trị viên.\nVui lòng nhập mật khẩu để giải phóng lịch sân:");
         if (matKhauNhap === null) return;
 
         if (matKhauNhap === PhucAn2026$) {
-            if(confirm('Mật khẩu chính xác! Bạn có chắc chắn muốn hủy lịch này trực tiếp trên hệ thống không?')) {
+            if(confirm('Mật khẩu chính xác! Bạn có chắc chắn muốn hủy lịch này không?')) {
                 db.ref('lichDatCauLong/' + idFirebase).remove()
                 .then(() => {
                     alert('🗑️ Đã hủy lịch đặt và giải phóng sân trống thành công!');
