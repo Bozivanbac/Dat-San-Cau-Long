@@ -61,6 +61,15 @@
             margin-bottom: 15px;
         }
 
+        .nhom-o-nhap {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nhom-o-nhap .o-nhap {
+            flex: 1;
+        }
+
         label {
             display: block;
             font-weight: 600;
@@ -143,60 +152,40 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 15px;
-            margin-bottom: 8px;
+            padding: 14px 15px;
+            margin-bottom: 10px;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 16px;
             border: 1px solid #ddd;
-            transition: all 0.2s;
-        }
-
-        .o-gio.trong {
-            background-color: #ffffff;
-            color: #333;
-            border-left: 6px solid var(--mau-chinh);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .o-gio.da-dat {
             background-color: #fdf2f2;
             color: var(--mau-do);
             border-left: 6px solid var(--mau-do);
+            border-color: #f5c6cb;
         }
 
-        .nut-dat-nhanh {
-            background-color: var(--mau-chinh);
+        .nut-huy-admin {
+            background-color: var(--mau-do);
             color: white;
             padding: 6px 12px;
             font-size: 13px;
             width: auto;
             border-radius: 4px;
         }
-        .nut-dat-nhanh:hover { background-color: var(--mau-phu); }
-
-        .nut-huy-admin {
-            background-color: var(--mau-do);
-            color: white;
-            padding: 4px 8px;
-            font-size: 12px;
-            width: auto;
-            border-radius: 4px;
-            margin-left: 10px;
-        }
         .nut-huy-admin:hover { background-color: #c0392b; }
 
-        .chu-thich {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        .cham-tron {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 5px;
+        .tin-nhan-trong {
+            text-align: center;
+            color: #27ae60;
+            font-weight: 500;
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px dashed var(--mau-chinh);
+            margin: 0;
         }
     </style>
 </head>
@@ -255,7 +244,7 @@
     </div>
     
     <div class="o-nhap">
-        <label>1. Chọn Sân muốn xem:</label>
+        <label>1. Chọn Sân:</label>
         <select id="chonSan" onchange="window.capNhatGiaoDienLich()">
             <option value="Sân số 1">Sân số 1</option>
             <option value="Sân số 2">Sân số 2</option>
@@ -263,19 +252,29 @@
     </div>
 
     <div class="o-nhap">
-        <label>2. Chọn Ngày muốn xem:</label>
+        <label>2. Chọn Ngày:</label>
         <input type="date" id="chonNgay" onchange="window.capNhatGiaoDienLich()" required>
+    </div>
+
+    <!-- KHUNG ĐẶT GIỜ LINH HOẠT THEO Ý MUỐN -->
+    <div id="khungDatGioLinhHoat" class="an-di" style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
+        <h3 style="text-align: left; color: var(--mau-toi); font-size: 16px; margin-bottom: 10px;">➕ Đặt giờ theo ý muốn của bạn:</h3>
+        <div class="nhom-o-nhap">
+            <div class="o-nhap">
+                <label style="font-size: 14px;">Giờ bắt đầu (Ví dụ: 05:00):</label>
+                <input type="time" id="gioBatDau" required>
+            </div>
+            <div class="o-nhap">
+                <label style="font-size: 14px;">Giờ kết thúc (Ví dụ: 06:15):</label>
+                <input type="time" id="gioKetThuc" required>
+            </div>
+        </div>
+        <button type="button" onclick="window.xuLyDatSanLinhHoat()">Xác Nhận Đặt Khung Giờ Này</button>
     </div>
 </div>
 
 <div class="khung-chua">
-    <h3>📊 Tình Trạng Lịch Sân</h3>
-    
-    <div class="chu-thich">
-        <span><span class="cham-tron" style="background-color: #fff; border:1px solid #ccc;"></span>Lịch trống (Trắng)</span>
-        <span><span class="cham-tron" style="background-color: var(--mau-do);"></span>Đã được đặt (Đỏ)</span>
-    </div>
-
+    <h3>📊 Khung Giờ Đã Được Đặt (Không Thể Đặt Trùng)</h3>
     <div id="vungHienThiLich" class="danh-sach-gio"></div>
 </div>
 
@@ -283,7 +282,6 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // CẤU HÌNH FIREBASE CHUẨN ĐỒNG BỘ THEO DỮ LIỆU CỦA BẠN
     const firebaseConfig = {
         apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4",
         authDomain: "phuc-an-badminton-1ab18.firebaseapp.com",
@@ -306,14 +304,6 @@
     const homNay = new Date().toISOString().split('T')[0];
     document.getElementById('chonNgay').value = homNay;
 
-    // DANH SÁCH GIỜ CẬP NHẬT: Chia đều đặn 5h-6h, 5h30-6h30, 6h-7h, 6h30-7h30...
-    const cacKhungGioHoatDong = [
-        "05:00 - 06:00", "05:30 - 06:30", "06:00 - 07:00", "06:30 - 07:30", "07:00 - 08:00", 
-        "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "15:00 - 16:00", 
-        "16:00 - 17:00", "16:30 - 17:30", "17:00 - 18:00", "17:30 - 18:30", "18:00 - 19:00", 
-        "19:00 - 20:00", "19:30 - 20:30", "20:00 - 21:00", "21:00 - 22:00"
-    ];
-
     db.ref('lichDatCauLong').on('value', (snapshot) => {
         const data = snapshot.val();
         danhSachDatSan = [];
@@ -328,6 +318,13 @@
         window.capNhatGiaoDienLich();
     });
 
+    // Hàm quy đổi chuỗi "HH:MM" thành số phút để so sánh và sắp xếp thứ tự thời gian
+    function thanhPhut(chuoiGio) {
+        const [gio, phut] = chuoiGio.split(':').map(Number);
+        return gio * 60 + phut;
+    }
+
+    // HIỂN THỊ CHÍNH XÁC CÁC KHUNG GIỜ ĐÃ ĐẶT LÊN WEB
     window.capNhatGiaoDienLich = function() {
         const sanChon = document.getElementById('chonSan').value;
         const ngayChon = document.getElementById('chonNgay').value;
@@ -336,34 +333,37 @@
         vungLich.innerHTML = '';
 
         if (!ngayChon) {
-            vungLich.innerHTML = '<p class="tin-nhan-trong">Vui lòng chọn ngày để xem lịch sân.</p>';
+            vungLich.innerHTML = '<p style="text-align:center;color:#7f8c8d;">Vui lòng chọn ngày để kiểm tra lịch.</p>';
             return;
         }
 
-        cacKhungGioHoatDong.forEach(khungGio => {
-            const thongTinDat = danhSachDatSan.find(l => l.san === sanChon && l.ngay === ngayChon && l.khungGio === khungGio);
+        // Lọc toàn bộ lịch của Sân và Ngày đang chọn
+        const lichTrongNgay = danhSachDatSan.filter(l => l.san === sanChon && l.ngay === ngayChon);
+
+        // Tự động sắp xếp các ca đã đặt từ sớm nhất đến muộn nhất trong ngày
+        lichTrongNgay.sort((a, b) => thanhPhut(a.gioBatDau) - thanhPhut(b.gioBatDau));
+
+        // Nếu chưa có ai đặt khung giờ nào
+        if (lichTrongNgay.length === 0) {
+            vungLich.innerHTML = '<p class="tin-nhan-trong">🟢 Sân đang trống cả ngày! Bạn có thể chọn bất kỳ khung giờ nào tùy ý.</p>';
+            return;
+        }
+
+        // In danh sách các khung giờ ĐÃ ĐẶT ra màn hình cho mọi người xem công khai
+        lichTrongNgay.forEach(lich => {
             const theGio = document.createElement('div');
-            
-            if (thongTinDat) {
-                theGio.className = "o-gio da-dat";
-                theGio.innerHTML = `
-                    <div>
-                        ⏰ <b>${khungGio}</b> — 🛑 Đã đặt: <b>${thongTinDat.ten}</b> (${thongTinDat.sdt})
-                    </div>
-                    <button class="nut-huy-admin" onclick="window.xoaLichDatTheoId('${thongTinDat.idFirebase}')">Hủy (Admin)</button>
-                `;
-            } else {
-                theGio.className = "o-gio trong";
-                theGio.innerHTML = `
-                    <div>⏰ <b>${khungGio}</b> — 🟢 Sân trống</div>
-                    ${userHienTai ? `<button class="nut-dat-nhanh" onclick="window.datSanNhanh('${khungGio}')">Đặt Sân</button>` : '<small style="color:#7f8c8d;">Đăng nhập để đặt</small>'}
-                `;
-            }
+            theGio.className = "o-gio da-dat";
+            theGio.innerHTML = `
+                <div>
+                    ⏰ <b>${lich.gioBatDau} - ${lich.gioKetThuc}</b> — 🛑 Khung giờ đã được đặt bởi: <b>${lich.ten}</b> (${lich.sdt})
+                </div>
+                <button class="nut-huy-admin" onclick="window.xoaLichDatTheoId('${lich.idFirebase}')">Hủy (Admin)</button>
+            `;
             vungLich.appendChild(theGio);
         });
     }
 
-    window.datSanNhanh = function(khungGio) {
+    window.xuLyDatSanLinhHoat = function() {
         if (!userHienTai) {
             alert('⚠️ Bạn cần đăng nhập tài khoản trước khi đặt sân!');
             return;
@@ -371,31 +371,63 @@
 
         const san = document.getElementById('chonSan').value;
         const ngay = document.getElementById('chonNgay').value;
+        const gioBatDau = document.getElementById('gioBatDau').value;
+        const gioKetThuc = document.getElementById('gioKetThuc').value;
 
-        if(confirm(`Bạn muốn xác nhận đặt [${san}] ngày [${ngay}] vào khung giờ [${khungGio}] không?`)) {
+        if (!gioBatDau || !gioKetThuc) {
+            alert('⚠️ Vui lòng chọn đầy đủ cả Giờ bắt đầu và Giờ kết thúc!');
+            return;
+        }
+
+        const phutBatDau = thanhPhut(gioBatDau);
+        const phutKetThuc = thanhPhut(gioKetThuc);
+
+        if (phutBatDau >= phutKetThuc) {
+            alert('⚠️ Lỗi: Giờ kết thúc bắt buộc phải lớn hơn Giờ bắt đầu!');
+            return;
+        }
+
+        // THUẬT TOÁN TỰ ĐỘNG CHẶN TRÙNG LỊCH GIAO NHAU (VÍ DỤ: 5h-6h15 chặn 5h30-6h30)
+        const biTrungLich = danhSachDatSan.some(lich => {
+            if (lich.san !== san || lich.ngay !== ngay) return false;
+            
+            const lPhutBatDau = thanhPhut(lich.gioBatDau);
+            const lPhutKetThuc = thanhPhut(lich.gioKetThuc);
+
+            return (phutBatDau < lPhutKetThuc && phutKetThuc > lPhutBatDau);
+        });
+
+        if (biTrungLich) {
+            alert('❌ Khung giờ bạn vừa chọn đã bị TRÙNG hoặc CHỒNG LÊN một lịch đặt khác hiển thị bên dưới! Vui lòng chọn giờ khác.');
+            return;
+        }
+
+        if (confirm(`Xác nhận đặt [${san}] ngày [${ngay}] từ [${gioBatDau} đến ${gioKetThuc}]?`)) {
             db.ref('lichDatCauLong').push({
                 ten: userHienTai.ten,
                 sdt: userHienTai.sdt,
                 san,
                 ngay,
-                khungGio
+                gioBatDau,
+                gioKetThuc
             }).then(() => {
-                alert('🎉 Đặt sân thành công trên hệ thống trực tuyến!');
+                alert('🎉 Đặt sân theo giờ tùy chọn thành công!');
+                document.getElementById('gioBatDau').value = '';
+                document.getElementById('gioKetThuc').value = '';
             }).catch((error) => {
-                alert('❌ Lỗi không thể lưu dữ liệu: ' + error.message);
+                alert('❌ Lỗi lưu dữ liệu: ' + error.message);
             });
         }
     }
 
     window.xoaLichDatTheoId = function(idFirebase) {
         const matKhauNhap = prompt("🔐 Tính năng này cần quyền Quản trị viên.\nVui lòng nhập mật khẩu để giải phóng lịch sân:");
-        
         if (matKhauNhap === null) return;
 
         if (matKhauNhap === PhucAn2026$) {
-            if(confirm('Mật khẩu đúng! Bạn có chắc chắn muốn hủy và giải phóng lịch đặt này trên đám mây không?')) {
+            if(confirm('Mật khẩu đúng! Bạn có chắc chắn muốn hủy lịch này không?')) {
                 db.ref('lichDatCauLong/' + idFirebase).remove().then(() => {
-                    alert('🗑️ Đã hủy lịch và giải phóng sân trống thành công!');
+                    alert('🗑️ Đã hủy lịch thành công!');
                 });
             }
         } else {
@@ -425,11 +457,13 @@
         if(userHienTai) {
             document.getElementById('khungTaiKhoan').classList.add('an-di');
             document.getElementById('thongBaoUser').classList.remove('an-di');
+            document.getElementById('khungDatGioLinhHoat').classList.remove('an-di');
             document.getElementById('tenKhachHienTai').innerText = userHienTai.ten;
             document.getElementById('sdtKhachHienTai').innerText = userHienTai.sdt;
         } else {
             document.getElementById('khungTaiKhoan').classList.remove('an-di');
             document.getElementById('thongBaoUser').classList.add('an-di');
+            document.getElementById('khungDatGioLinhHoat').classList.add('an-di');
             document.getElementById('formDangNhap').reset();
         }
     }
