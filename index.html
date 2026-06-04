@@ -259,7 +259,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // CẤU HÌNH FIREBASE LẤY CHÍNH XÁC TỪ MÀN HÌNH CỦA BẠN
+    // CẤU HÌNH LIÊN KẾT ĐẾN FIREBASE DATABASE CỦA BẠN
     const firebaseConfig = {
         apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4",
         authDomain: "phuc-an-badminton-1ab18.firebaseapp.com",
@@ -270,20 +270,20 @@
         appId: "1:569618037341:web:d236ef0d8efda08b9f1d07"
     };
     
-    // Khởi tạo ứng dụng Firebase
+    // Khởi tạo ứng dụng
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
     const MAT_KHAU_ADMIN = "PhucAn2026$";
 
-    // Quản lý thông tin tài khoản cá nhân tại trình duyệt máy khách (Lưu cục bộ tại máy)
+    // Quản lý tài khoản cá nhân tại trình duyệt local
     let danhSachTaiKhoan = JSON.parse(localStorage.getItem('dstkCauLong')) || [];
     let userHienTai = JSON.parse(localStorage.getItem('userHienTaiCauLong')) || null;
     
-    // Mảng dữ liệu động lịch đặt sân sẽ tự động đồng bộ từ Firebase về
+    // Mảng lưu lịch đặt sân đồng bộ thời gian thực từ đám mây Firebase
     let danhSachDatSan = [];
 
-    // Cài đặt mặc định hiển thị ngày hiện tại
+    // Cài đặt ngày mặc định là hôm nay
     const homNay = new Date().toISOString().split('T')[0];
     document.getElementById('chonNgay').value = homNay;
 
@@ -293,7 +293,7 @@
         "17:00 - 18:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00", "21:00 - 22:00"
     ];
 
-    // LẮNG NGHE ĐỒNG BỘ DỮ LIỆU REALTIME TỪ FIREBASE CLOUD
+    // LẮNG NGHE ĐỒNG BỘ DỮ LIỆU TỪ FIREBASE
     db.ref('lichDatCauLong').on('value', (snapshot) => {
         const data = snapshot.val();
         danhSachDatSan = [];
@@ -305,11 +305,10 @@
                 });
             });
         }
-        // Tự động vẽ lại giao diện tức thì cho bất kỳ ai đang mở trang web
         capNhatGiaoDienLich();
     });
 
-    // Hàm cập nhật màu sắc lịch trống/đầy (Trắng / Đỏ)
+    // Hàm cập nhật trạng thái bảng lịch Trắng / Đỏ
     function capNhatGiaoDienLich() {
         const sanChon = document.getElementById('chonSan').value;
         const ngayChon = document.getElementById('chonNgay').value;
@@ -345,7 +344,7 @@
         });
     }
 
-    // Đặt Sân đồng bộ trực tiếp lên Database Cloud mạng toàn cầu
+    // Đặt Sân và lưu thẳng lên Firebase Cloud
     window.datSanNhanh = function(khungGio) {
         if (!userHienTai) {
             alert('⚠️ Bạn cần đăng nhập tài khoản trước khi đặt sân!');
@@ -365,12 +364,12 @@
             }).then(() => {
                 alert('🎉 Đặt sân thành công!');
             }).catch((error) => {
-                alert('❌ Lỗi kết nối internet: ' + error.message);
+                alert('❌ Lỗi kết nối: ' + error.message);
             });
         }
     }
 
-    // Xóa lịch dựa trên mã ID độc nhất của Firebase
+    // Hủy đặt sân bằng ID của Firebase dành cho Admin
     window.xoaLichDatTheoId = function(idFirebase) {
         const matKhauNhap = prompt("🔐 Tính năng này cần quyền Quản trị viên.\nVui lòng nhập mật khẩu để giải phóng lịch sân:");
         
@@ -379,7 +378,7 @@
         if (matKhauNhap === PhucAn2026$) {
             if(confirm('Mật khẩu đúng! Bạn có chắc chắn muốn hủy lịch đặt này không?')) {
                 db.ref('lichDatCauLong/' + idFirebase).remove().then(() => {
-                    alert('🗑️ Đã xóa lịch và giải phóng sân trống thành công!');
+                    alert('🗑️ Đã giải phóng sân trống thành công!');
                 });
             }
         } else {
@@ -387,7 +386,7 @@
         }
     }
 
-    // Đổi form Đăng nhập / Đăng ký
+    // Chuyển đổi giao diện Đăng nhập / Đăng ký
     function chuyenForm(loai) {
         if(loai === 'dangky') {
             document.getElementById('formDangNhapPhan').classList.add('an-di');
@@ -398,7 +397,7 @@
         }
     }
 
-    // Đăng ký tài khoản
+    // Xử lý ĐĂNG KÝ
     document.getElementById('formDangKy').addEventListener('submit', function(e) {
         e.preventDefault();
         const ten = document.getElementById('dkTen').value.trim();
@@ -408,19 +407,19 @@
         danhSachTaiKhoan = JSON.parse(localStorage.getItem('dstkCauLong')) || [];
 
         if(danhSachTaiKhoan.some(tk => tk.sdt === sdt)) {
-            alert('⚠️ Số điện thoại này đã được đăng ký tài khoản rồi!');
+            alert('⚠️ Số điện thoại này đã được ký tài khoản rồi!');
             return;
         }
 
         danhSachTaiKhoan.push({ ten, sdt, matKhau });
         localStorage.setItem('dstkCauLong', JSON.stringify(danhSachTaiKhoan));
         
-        alert('🎉 Đăng ký tài khoản thành công! Hãy dùng SĐT và mật khẩu vừa tạo để đăng nhập.');
+        alert('🎉 Đăng ký tài khoản thành công! Hãy đăng nhập để đặt sân.');
         document.getElementById('formDangKy').reset();
         chuyenForm('dangnhap');
     });
 
-    // Đăng nhập tài khoản
+    // Xử lý ĐĂNG NHẬP
     document.getElementById('formDangNhap').addEventListener('submit', function(e) {
         e.preventDefault();
         const sdt = document.getElementById('dnSdt').value.trim();
@@ -433,14 +432,13 @@
             userHienTai = taiKhoan;
             localStorage.setItem('userHienTaiCauLong', JSON.stringify(userHienTai));
             kiemTraTrangThaiDangNhap();
-            capNhatGiaoDienLich();
             alert('🔓 Đăng nhập thành công!');
         } else {
             alert('❌ Sai số điện thoại hoặc mật khẩu!');
         }
     });
 
-    // Đăng xuất tài khoản
+    // Đăng xuất
     function dangXuat() {
         userHienTai = null;
         localStorage.removeItem('userHienTaiCauLong');
@@ -448,7 +446,7 @@
         capNhatGiaoDienLich();
     }
 
-    // Kiểm tra trạng thái đăng nhập để ẩn/hiện giao diện phù hợp
+    // Kiểm tra trạng thái hiển thị
     function kiemTraTrangThaiDangNhap() {
         if(userHienTai) {
             document.getElementById('khungTaiKhoan').classList.add('an-di');
@@ -462,7 +460,7 @@
         }
     }
 
-    // Khởi động hệ thống
+    // Khởi chạy hệ thống ban đầu
     kiemTraTrangThaiDangNhap();
 </script>
 
