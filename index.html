@@ -5,54 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHÚC AN BADMINTON</title>
     <style>
-        :root { --primary: #27ae60; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .card { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        h1 { color: var(--primary); text-align: center; margin-bottom: 5px; font-size: 1.5em; }
-        .hotline { background: #fff3cd; color: #856404; padding: 10px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 0.9em; }
-        .box { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
-        input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        /* Khung giờ chọn nhanh */
-        .time-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
-        .chip { padding: 8px 12px; background: #e8f5e9; border: 1px solid var(--primary); border-radius: 20px; font-size: 0.85em; cursor: pointer; color: var(--primary); }
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #f0f0f0; }
+        /* Bảng màu theo phong cách logo IMG_0202.JPG */
+        :root { 
+            --primary: #0056b3; 
+            --bg: #eef2f7; 
+            --card: #ffffff;
+            --accent: #ff4757;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 15px; }
+        .card { max-width: 500px; margin: auto; background: var(--card); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid var(--primary); }
+        h1 { color: var(--primary); text-align: center; font-size: 1.5em; margin-bottom: 20px; }
+        
+        /* Layout */
+        .box { background: #f8fbff; border: 1px solid #d1e3f8; padding: 15px; border-radius: 15px; margin-bottom: 15px; }
+        input, select { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #cce0f5; border-radius: 10px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        
+        /* Phần QR Code dựa trên IMG_0170.JPG */
+        .qr-section { margin-top: 25px; text-align: center; padding: 15px; border-top: 1px dashed var(--primary); }
+        .qr-img { width: 120px; height: 120px; margin-top: 10px; border-radius: 10px; border: 2px solid var(--primary); }
+        
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h1>🏸 PHÚC AN BADMINTON 🏸</h1>
-    <div class="hotline">☎ Hủy/Đổi sân gọi: 0395.936.865</div>
-
-    <!-- Đăng ký thông tin -->
+    <h1>🏸 PHÚC AN BADMINTON</h1>
+    
     <div class="box">
-        <h3 style="margin-top:0;">ĐĂNG KÝ THÔNG TIN</h3>
+        <h3 style="margin-top:0; color:var(--primary);">THÔNG TIN KHÁCH</h3>
         <input type="text" id="hoTen" placeholder="Họ và tên khách">
         <input type="tel" id="sdt" placeholder="Số điện thoại">
-        <button onclick="luuThongTin()" style="background:#34495e;">Lưu thông tin</button>
+        <button onclick="luuThongTin()" style="background:#576574;">Lưu thông tin</button>
     </div>
 
-    <!-- Chọn lịch -->
     <label>Chọn Sân & Ngày</label>
     <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
     <input type="date" id="ngay" onchange="loadLich()">
-
-    <label>Chọn khung giờ nhanh:</label>
-    <div class="time-chips">
-        <span class="chip" onclick="chonGio('05:00-06:00')">05-06h</span>
-        <span class="chip" onclick="chonGio('06:00-07:00')">06-07h</span>
-        <span class="chip" onclick="chonGio('17:00-18:00')">17-18h</span>
-        <span class="chip" onclick="chonGio('18:00-19:00')">18-19h</span>
-        <span class="chip" onclick="chonGio('19:00-20:00')">19-20h</span>
-        <span class="chip" onclick="chonGio('20:00-21:00')">20-21h</span>
-    </div>
-    <input type="text" id="thoiGian" placeholder="Hoặc nhập khung giờ tùy ý...">
     
-    <button onclick="datSan()">XÁC NHẬN ĐẶT SÂN</button>
+    <input type="text" id="thoiGian" placeholder="Nhập giờ (Ví dụ: 18h-19h30)">
+    <button onclick="datSan()" style="margin-top:10px;">XÁC NHẬN ĐẶT SÂN</button>
 
-    <h3 style="margin-top:30px;">Lịch đã đặt:</h3>
+    <h3 style="margin-top:25px;">Lịch đã đặt:</h3>
     <div id="danhSach"></div>
+
+    <!-- Chèn QR Code -->
+    <div class="qr-section">
+        <div style="font-weight:bold; color:var(--primary);">Tham gia nhóm Zalo</div>
+        <!-- Bạn hãy thay link ảnh QR thật của bạn vào đây -->
+        <img src="https://i.imgur.com/YOUR_QR_IMAGE_ID.jpg" class="qr-img" alt="QR Zalo">
+        <p style="font-size:0.8em; color:#666;">Quét mã để cập nhật lịch sân</p>
+    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -62,25 +66,23 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    function chonGio(g) { document.getElementById('thoiGian').value = g; }
-    
     function luuThongTin() {
         localStorage.setItem('user', JSON.stringify({hoTen: document.getElementById('hoTen').value, sdt: document.getElementById('sdt').value}));
-        alert("Thông tin khách đã được lưu!");
+        alert("Đã lưu thông tin!");
     }
 
     function datSan() {
         const user = JSON.parse(localStorage.getItem('user'));
         const thoiGian = document.getElementById('thoiGian').value;
         if(!user || !user.hoTen) return alert("Vui lòng lưu thông tin trước!");
-        if(!thoiGian) return alert("Vui lòng chọn hoặc nhập khung giờ!");
+        if(!thoiGian) return alert("Nhập giờ đặt đi bạn ơi!");
         
         db.ref('lichDatCauLong').push({
             ten: user.hoTen, sdt: user.sdt,
             san: document.getElementById('san').value,
             ngay: document.getElementById('ngay').value,
             thoiGian: thoiGian
-        }).then(() => alert("Đặt sân thành công!"));
+        }).then(() => alert("Đặt thành công!"));
     }
 
     function loadLich() {
@@ -92,10 +94,10 @@
                 let l = c.val();
                 if(l.san == san && l.ngay == ngay) {
                     html += `<div class="list-item"><span><b>${l.thoiGian}</b> | ${l.ten}</span>
-                             <button style="background:#e74c3c; width:auto; padding:6px 12px; border-radius:8px;" onclick="huy('${c.key}')">Hủy</button></div>`;
+                             <button style="background:var(--accent); width:auto; padding:5px 10px; border-radius:5px;" onclick="huy('${c.key}')">Hủy</button></div>`;
                 }
             });
-            document.getElementById('danhSach').innerHTML = html || "<p style='text-align:center; color:#999;'>Sân đang trống</p>";
+            document.getElementById('danhSach').innerHTML = html || "<p style='text-align:center; color:#999;'>Sân trống</p>";
         });
     }
 
