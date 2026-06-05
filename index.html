@@ -56,9 +56,33 @@
         .rule-title { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
         .rule-desc { font-size: 0.95em; color: var(--text-main); }
         .footer-address { font-size: 0.85em; color: var(--text-muted); text-align: center; margin-top: 20px; }
+
+        /* --- ĐOẠN CSS BỔ SUNG CHO KHUNG THÔNG BÁO TỰ CHẾ KHÔNG NÚT OK --- */
+        #thongBaoPopup {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
+            z-index: 99999; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+        }
+        .popup-content {
+            background: #1e293b; border: 2px solid var(--accent); border-radius: 20px;
+            padding: 25px; text-align: center; max-width: 360px; width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: popVao 0.2s ease-out;
+        }
+        .popup-content.thanh-cong { border-color: var(--success); }
+        .popup-text { font-size: 1.05em; font-weight: 600; line-height: 1.5; margin-bottom: 8px; }
+        .popup-subtext { font-size: 0.85em; color: var(--text-muted); }
+        @keyframes popVao { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
+
+<div id="thongBaoPopup" onclick="dongThongBao()">
+    <div class="popup-content" id="popupContent" onclick="event.stopPropagation()">
+        <div class="popup-text" id="popupMessage">Thông báo</div>
+        <div class="popup-subtext">Chạm vào màn hình để đóng nhanh</div>
+    </div>
+</div>
 
 <div class="card">
     <h1><span>🏸</span> PHÚC AN BADMINTON</h1>
@@ -121,7 +145,7 @@
         <div class="box">
             <h3 class="box-title-t7cn">🔥 THỨ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ 5h - 22h</span><span class="price-tag">70k / Giờ</span></div>
-        </div>
+            </div>
         <div class="promo-box">
             <h3>🎁 CHƯƠNG TRÌNH KHUYẾN MÃI</h3>
             <p>🎓 <b>Học sinh, Sinh viên:</b> Chỉ <span style="color:var(--success); font-weight:700;">39k/Giờ</span> (Khung giờ 5h-17h, T2-T6)</p>
@@ -157,6 +181,35 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     let currentLocalDateStr = "";
+    let autoCloseTimer;
+
+    // --- HÀM XỬ LÝ BẬT/TẮT THÔNG BÁO TỰ CHẾ CHẠM LÀ ĐÓNG ---
+    function hienThongBao(msg, isSuccess = false) {
+        const modal = document.getElementById('thongBaoPopup');
+        const content = document.getElementById('popupContent');
+        document.getElementById('popupMessage').innerHTML = msg;
+        
+        if(isSuccess) {
+            content.classList.add('thanh-cong');
+        } else {
+            content.classList.remove('thanh-cong');
+        }
+        
+        modal.style.display = 'flex';
+        clearTimeout(autoCloseTimer);
+        autoCloseTimer = setTimeout(dongThongBao, 4000); // Tự biến mất sau 4 giây nếu không chạm
+    }
+
+    function dongThongBao() {
+        document.getElementById('thongBaoPopup').style.display = 'none';
+    }
+
+    // Sự kiện click/chạm toàn màn hình để tắt thông báo nhanh
+    document.addEventListener('click', function() {
+        if(document.getElementById('thongBaoPopup').style.display === 'flex') {
+            dongThongBao();
+        }
+    }, true);
 
     // --- CẤU HÌNH TELEGRAM BOT TẠI ĐÂY ---
     const TELEGRAM_TOKEN = "8696303368:AAGRsaclHC8BcpIsdXtZ1xGmXA6mRERJ7oQ"; // Điền Token Bot của bạn vào đây
@@ -196,10 +249,10 @@
     
     function luuThongTin() {
         const hoTen = document.getElementById('hoTen').value.trim(), sdt = document.getElementById('sdt').value.trim();
-        if (!hoTen || !sdt) return alert("❌ Bạn chưa nhập đầy đủ thông tin!");
-        if (!/^\d{10}$/.test(sdt)) return alert("❌ Số điện thoại không hợp lệ! Nhập chính xác 10 chữ số.");
+        if (!hoTen || !sdt) return hienThongBao("❌ Bạn chưa nhập đầy đủ thông tin!");
+        if (!/^\d{10}$/.test(sdt)) return hienThongBao("❌ Số điện thoại không hợp lệ! Nhập chính xác 10 chữ số.");
         localStorage.setItem('user', JSON.stringify({hoTen, sdt}));
-        alert("Thông tin của bạn đã được lưu thành công!");
+        hienThongBao("✅ Thông tin của bạn đã được lưu thành công!", true);
     }
 
     function toMinutes(timeStr) {
@@ -212,10 +265,24 @@
         const user = JSON.parse(localStorage.getItem('user')), thoiGian = document.getElementById('thoiGian').value;
         const san = document.getElementById('san').value, ngay = document.getElementById('ngay').value;
 
-        if(!user?.hoTen || !user?.sdt) return alert("❌ Vui lòng điền và bấm 'Lưu thông tin' ở trên trước!");
-        if(!thoiGian.includes('-')) return alert("Vui lòng nhập giờ dạng: 17h30-19h30");
+        if(!user?.hoTen || !user?.sdt) return hienThongBao("❌ Vui lòng điền và bấm 'Lưu thông tin' ở trên trước!");
+        if(!thoiGian.includes('-')) return hienThongBao("❌ Vui lòng nhập giờ dạng:<br>17h30-19h30");
 
         const [newStart, newEnd] = thoiGian.split('-').map(toMinutes);
+
+        // --- ĐOẠN KIỂM TRA CHẶN KHUNG GIỜ QUÁ KHỨ (BỔ SUNG) ---
+        const homNayStr = getVNDateString();
+        if (ngay === homNayStr) {
+            const bayGio = new Date();
+            const hienTaiMinutes = (bayGio.getHours() * 60) + bayGio.getMinutes();
+            if (newStart < hienTaiMinutes) {
+                return hienThongBao("❌ Khung giờ này đã trôi qua so với thời gian thực tế!");
+            }
+        }
+        if (ngay < homNayStr) {
+            return hienThongBao("❌ Không thể đặt lịch cho những ngày đã qua!");
+        }
+        // -----------------------------------------------------
 
         db.ref('lichDatCauLong').once('value', snap => {
             let isOverlapping = false;
@@ -226,11 +293,11 @@
                     if (newStart < e && newEnd > s) isOverlapping = true;
                 }
             });
-            if(isOverlapping) return alert("❌ Khung giờ này bị trùng lịch!");
-            
+            if(isOverlapping) return hienThongBao("❌ Khung giờ này bị trùng lịch!");
+                    
             db.ref('lichDatCauLong').push({ ten: user.hoTen, sdt: user.sdt, san, ngay, thoiGian })
             .then(() => {
-                alert("✅ Đặt thành công!");
+                hienThongBao("✅ Đặt thành công!", true);
                 // Gửi tin nhắn đến Telegram khi lưu Firebase thành công
                 const message = `🔔 *THÔNG BÁO ĐẶT SÂN MỚI*\n\n👤 *Khách hàng:* ${user.hoTen}\n📞 *SĐT:* ${user.sdt}\n🏢 *Sân:* ${san}\n📅 *Ngày:* ${ngay}\n⏰ *Thời gian:* ${thoiGian}`;
                 sendTelegramAlert(message);
@@ -248,7 +315,7 @@
                 let l = c.val();
                 if(l.ngay == ngay) {
                     let info = isAdmin ? `| 📞 ${l.sdt}` : "";
-                    let row = `<div class="list-item"><span class="list-item-text">#TEXT#</span><button class="btn-delete" onclick="huy('${c.key}')">Hủy</button></div>`;
+                    let row = `<div class="list-item"><span class="list-item-text">#TEXT#</span><button class="btn-delete" onclick="huy(event, '${c.key}')">Hủy</button></div>`;
                     
                     if(l.san == san) htmlSelectSan += row.replace('#TEXT#', `<b>${l.thoiGian}</b> | ${l.ten} ${info}`);
                     htmlAllSan += row.replace('#TEXT#', `<b style="color:var(--highlight);">${l.san}</b> | <b>${l.thoiGian}</b> | ${l.ten} ${info}`);
@@ -259,7 +326,8 @@
         });
     }
 
-    function huy(id) {
+    function huy(e, id) {
+        if(e) e.stopPropagation(); // Giữ nguyên, chặn sự kiện tắt alert khi bấm hủy lịch
         if(prompt("Mật khẩu Admin:") == "PhucAn2026$") {
             localStorage.setItem('isAdmin', 'true');
             db.ref('lichDatCauLong/'+id).once('value', snap => {
@@ -268,10 +336,11 @@
                     db.ref('lichDatCauLong/'+id).remove().then(() => {
                         const message = `🗑️ *THÔNG BÁO HỦY LỊCH SÂN*\n\n👤 *Khách hàng:* ${l.ten}\n🏢 *Sân:* ${l.san}\n📅 *Ngày:* ${l.ngay}\n⏰ *Khung giờ:* ${l.thoiGian}`;
                         sendTelegramAlert(message);
+                        hienThongBao("✅ Đã hủy lịch thành công!", true);
                     });
                 }
             });
-        } else alert("Sai mật khẩu!");
+        } else hienThongBao("❌ Sai mật khẩu!");
     }
 
     window.onload = () => {
@@ -282,6 +351,7 @@
         loadLich();
         setInterval(kiemTraVaCapNhatNgayMoi, 60000);
     };
+
 // --- ĐOẠN CHẶN F12 VÀ CHUỘT PHẢI ---
 document.addEventListener('contextmenu', event => event.preventDefault());
 document.onkeydown = function (e) {
@@ -291,7 +361,6 @@ document.onkeydown = function (e) {
     if (e.ctrlKey && e.keyCode === 85) return false;
 };
 // ------------------------------------
-
 </script>
 </body>
 </html>
