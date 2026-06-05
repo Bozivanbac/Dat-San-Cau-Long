@@ -245,9 +245,9 @@
     
     <!-- THANH DIỀU HƯỚNG TABS -->
     <div class="tab-navigation">
-        <button class="tab-btn active" onclick="switchTab('dat-san')">📝 ĐẶT SÂN</button>
-        <button class="tab-btn" onclick="switchTab('bang-gia')">💵 BẢNG GIÁ</button>
-        <button class="tab-btn" onclick="switchTab('noi-quy')">📋 NỘI QUY</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'dat-san')">📝 ĐẶT SÂN</button>
+        <button class="tab-btn" onclick="switchTab(event, 'bang-gia')">💵 BẢNG GIÁ</button>
+        <button class="tab-btn" onclick="switchTab(event, 'noi-quy')">📋 NỘI QUY</button>
     </div>
 
     <!-- TAB 1: ĐẶT SÂN -->
@@ -294,11 +294,15 @@
         <input type="text" id="thoiGian" placeholder="Ví dụ: 17h30-19h31">
         <button class="action-btn" onclick="datSan()" style="margin-top:5px; background: linear-gradient(135deg, var(--primary), #0ea5e9);">XÁC NHẬN ĐẶT SÂN</button>
 
-        <div class="section-title">Lịch đã đặt</div>
+        <div class="section-title">Lịch đã đặt (Theo Sân lựa chọn)</div>
         <div id="danhSach"></div>
+
+        <!-- PHẦN HIỂN THỊ TẤT CẢ SÂN TRONG NGÀY -->
+        <div class="section-title" style="border-left-color: var(--highlight);">Tất cả lịch đặt trong ngày</div>
+        <div id="tongHopDanhSach"></div>
     </div>
 
-    <!-- TAB 2: BẢNG GIÁ (Từ ảnh 1) -->
+    <!-- TAB 2: BẢNG GIÁ -->
     <div id="bang-gia" class="tab-content">
         <div class="box">
             <h3 style="color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">📆 TỪ THỨ 2 ĐẾN THỨ 6</h3>
@@ -321,7 +325,7 @@
         <p style="font-size:0.85em; color:var(--text-muted); text-align:center; margin-top:20px;">📍 <b>Địa chỉ:</b> Tổ 1, khu phố 9, Chánh Phú Hoà, Hồ Chí Minh</p>
     </div>
 
-    <!-- TAB 3: NỘI QUY (Từ ảnh 2) -->
+    <!-- TAB 3: NỘI QUY -->
     <div id="noi-quy" class="tab-content">
         <div class="box" style="padding: 20px 15px;">
             <div class="rule-item">
@@ -361,8 +365,28 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // HÀM CHUYỂN ĐỔI QUA LẠI GIỮA CÁC TRANG (TABS)
-    function switchTab(tabId) {
+    // Biến lưu trữ ngày hiện tại đang hiển thị để đối chiếu
+    let currentLocalDateStr = "";
+
+    // Hàm lấy chuỗi ngày hiện tại dạng YYYY-MM-DD chuẩn múi giờ Việt Nam
+    function getVNDateString() {
+        const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+        return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
+    }
+
+    // Hàm kiểm tra và tự động cập nhật ngày mới nếu hệ thống qua đêm
+    function kiemTraVaCapNhatNgayMoi() {
+        const ngayMoiNhat = getVNDateString();
+        // Nếu ngày hệ thống đã thay đổi so với ngày đang hiển thị, tiến hành đổi ngày trên giao diện
+        if (currentLocalDateStr !== ngayMoiNhat) {
+            currentLocalDateStr = ngayMoiNhat;
+            document.getElementById('ngay').value = ngayMoiNhat;
+            loadLich();
+        }
+    }
+
+    function switchTab(event, tabId) {
+        kiemTraVaCapNhatNgayMoi(); // Kiểm tra ngày mỗi khi người dùng đổi tab
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         
@@ -391,6 +415,7 @@
     }
 
     function datSan() {
+        kiemTraVaCapNhatNgayMoi(); // Đảm bảo kiểm tra ngày trước khi submit đặt sân
         const user = JSON.parse(localStorage.getItem('user'));
         const thoiGian = document.getElementById('thoiGian').value;
         const san = document.getElementById('san').value;
@@ -430,16 +455,26 @@
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
         db.ref('lichDatCauLong').on('value', snap => {
-            let html = '';
+            let htmlSelectSan = ''; 
+            let htmlAllSan = '';    
+
             snap.forEach(c => {
                 let l = c.val();
-                if(l.san == san && l.ngay == ngay) {
+                if(l.ngay == ngay) {
                     let info = isAdmin ? `| 📞 ${l.sdt}` : "";
-                    html += `<div class="list-item"><span style="font-size:0.95em;"><b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
-                             <button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${c.key}')">Hủy</button></div>`;
+                    
+                    if(l.san == san) {
+                        htmlSelectSan += `<div class="list-item"><span style="font-size:0.95em;"><b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
+                                         <button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${c.key}')">Hủy</button></div>`;
+                    }
+
+                    htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | <b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
+                                   <button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${c.key}')">Hủy</button></div>`;
                 }
             });
-            document.getElementById('danhSach').innerHTML = html || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Sân trống</p>";
+
+            document.getElementById('danhSach').innerHTML = htmlSelectSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Sân trống</p>";
+            document.getElementById('tongHopDanhSach').innerHTML = htmlAllSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Chưa có lịch đặt nào trong ngày</p>";
         });
     }
 
@@ -453,8 +488,15 @@
     window.onload = () => {
         const user = JSON.parse(localStorage.getItem('user'));
         if(user) { document.getElementById('hoTen').value = user.hoTen; document.getElementById('sdt').value = user.sdt; }
-        document.getElementById('ngay').valueAsDate = new Date();
+        
+        // Khởi tạo ngày hiện tại khi load trang lần đầu
+        currentLocalDateStr = getVNDateString();
+        document.getElementById('ngay').value = currentLocalDateStr;
+        
         loadLich();
+
+        // Tự động kiểm tra thời gian thực sau mỗi 60 giây để cập nhật ngày mới nếu qua đêm
+        setInterval(kiemTraVaCapNhatNgayMoi, 60000);
     };
 </script>
 </body>
