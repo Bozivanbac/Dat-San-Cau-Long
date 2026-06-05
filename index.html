@@ -47,8 +47,6 @@
             justify-content: center;
             gap: 8px;
         }
-        
-        /* THANH MENU ĐIỀU HƯỚNG HIỆN ĐẠI */
         .tab-navigation {
             display: flex;
             background: #111827;
@@ -74,8 +72,6 @@
             background: var(--primary);
             color: #0f172a;
         }
-
-        /* KHUNG NỘI DUNG TABS */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
@@ -99,7 +95,6 @@
             display: inline-block;
             margin-top: 4px;
         }
-        
         .box { 
             background: rgba(255,255,255,0.02); 
             border: 1px solid var(--border); 
@@ -113,6 +108,10 @@
             font-weight: 700;
             margin-bottom: 15px;
         }
+        .box-title-primary { margin-top: 0; color: var(--primary); }
+        .box-title-t2t6 { color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .box-title-t7cn { color: var(--highlight); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        
         label {
             display: block;
             font-weight: 600;
@@ -120,6 +119,8 @@
             color: var(--text-muted);
             font-size: 0.9em;
         }
+        .label-highlight { color: var(--highlight); font-weight: 700; }
+        
         input, select { 
             width: 100%; 
             padding: 14px; 
@@ -137,7 +138,6 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
         }
-
         input[type="date"] {
             padding: 18px 15px; 
             font-size: 1.2em;    
@@ -152,10 +152,11 @@
             transform: scale(1.4); 
         }
         
+        .btn-save-info { background: #334155; color: var(--text-main); margin-top: 5px; width: 100%; padding: 12px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
         .action-btn { 
             width: 100%; 
             padding: 15px; 
-            background: var(--primary); 
+            background: linear-gradient(135deg, var(--primary), #0ea5e9); 
             color: #0f172a; 
             border: none; 
             border-radius: 14px; 
@@ -163,8 +164,10 @@
             font-size: 1em;
             cursor: pointer; 
             transition: all 0.2s;
+            margin-top: 5px;
         }
         .action-btn:active { transform: scale(0.98); }
+        .btn-delete { background: var(--accent); color: white; width: auto; padding: 6px 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
         
         .time-section { margin: 20px 0; }
         .time-section label { color: var(--text-main); font-size: 0.95em; margin-bottom: 10px; }
@@ -199,6 +202,7 @@
             margin-bottom: 10px;
         }
         .list-item b { color: var(--primary); }
+        .list-item-text { font-size: 0.95em; }
         
         .qr-section { 
             margin-top: 35px; 
@@ -209,7 +213,6 @@
         .qr-section div { font-size: 0.95em; font-weight: 600; margin-bottom: 15px; color: var(--text-muted); }
         .qr-section img { width: 140px; height: 140px; border: 4px solid var(--border); border-radius: 16px; padding: 5px; background: white; }
 
-        /* CSS PHẦN BẢNG GIÁ VÀ NỘI QUY */
         .price-row {
             display: flex;
             justify-content: space-between;
@@ -227,15 +230,13 @@
             border-radius: 14px;
             margin-top: 15px;
         }
-        .rule-item {
-            margin-bottom: 18px;
-            line-height: 1.6;
-        }
-        .rule-title {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
+        .promo-box h3 { color: var(--success); margin-top: 0; font-size: 1.05em; }
+        .promo-box p { font-size: 0.95em; margin: 8px 0; }
+        .rule-box { padding: 20px 15px; }
+        .rule-item { margin-bottom: 18px; line-height: 1.6; }
+        .rule-title { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        .rule-desc { font-size: 0.95em; color: var(--text-main); }
+        .footer-address { font-size: 0.85em; color: var(--text-muted); text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -258,18 +259,21 @@
         </div>
 
         <div class="box">
-            <h3 style="margin-top:0; color:var(--primary);">THÔNG TIN KHÁCH HÀNG</h3>
+            <h3 class="box-title-primary">THÔNG TIN KHÁCH HÀNG</h3>
             <label>Họ và tên</label>
             <input type="text" id="hoTen" placeholder="Nhập họ và tên khách">
             <label>Số điện thoại</label>
             <input type="tel" id="sdt" placeholder="Nhập chính xác 10 chữ số">
-            <button onclick="luuThongTin()" style="background: #334155; color: var(--text-main); margin-top: 5px; width:100%; padding:12px; border:none; border-radius:12px; font-weight:700; cursor:pointer;">Lưu thông tin</button>
+            <button class="btn-save-info" onclick="luuThongTin()">Lưu thông tin</button>
         </div>
 
         <label>Chọn Sân</label>
-        <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
+        <select id="san" onchange="loadLich()">
+            <option>Sân số 1</option>
+            <option>Sân số 2</option>
+        </select>
         
-        <label style="color: var(--highlight); font-weight: 700;">📅 BẤM VÀO ĐÂY ĐỂ CHỌN NGÀY ĐẶT SÂN:</label>
+        <label class="label-highlight">📅 BẤM VÀO ĐÂY ĐỂ CHỌN NGÀY ĐẶT SÂN:</label>
         <input type="date" id="ngay" onchange="loadLich()">
         
         <div class="time-section">
@@ -292,7 +296,7 @@
         
         <label>Hoặc nhập giờ tự chọn</label>
         <input type="text" id="thoiGian" placeholder="Ví dụ: 17h30-19h31">
-        <button class="action-btn" onclick="datSan()" style="margin-top:5px; background: linear-gradient(135deg, var(--primary), #0ea5e9);">XÁC NHẬN ĐẶT SÂN</button>
+        <button class="action-btn" onclick="datSan()">XÁC NHẬN ĐẶT SÂN</button>
 
         <div class="section-title">Lịch đã đặt (Theo Sân lựa chọn)</div>
         <div id="danhSach"></div>
@@ -305,48 +309,48 @@
     <!-- TAB 2: BẢNG GIÁ -->
     <div id="bang-gia" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">📆 TỪ THỨ 2 ĐẾN THỨ 6</h3>
+            <h3 class="box-title-t2t6">Line-height: 1.2;📆 TỪ THỨ 2 ĐẾN THỨ 6</h3>
             <div class="price-row"><span>☀️ 5h - 9h</span><span class="price-tag">70k / Giờ</span></div>
             <div class="price-row"><span>🔆 9h - 16h</span><span class="price-tag">60k / Giờ</span></div>
             <div class="price-row"><span>🌙 16h - 22h</span><span class="price-tag">70k / Giờ</span></div>
         </div>
 
         <div class="box">
-            <h3 style="color: var(--highlight); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔥 THỨ 7 & CHỦ NHẬT</h3>
+            <h3 class="box-title-t7cn">🔥 THỨ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ 5h - 22h</span><span class="price-tag">70k / Giờ</span></div>
         </div>
 
         <div class="promo-box">
-            <h3 style="color: var(--success); margin-top: 0; font-size: 1.05em;">🎁 CHƯƠNG TRÌNH KHUYẾN MÃI</h3>
-            <p style="font-size: 0.95em; margin: 8px 0;">🎓 <b>Học sinh, Sinh viên:</b> Chỉ <span style="color:var(--success); font-weight:700;">39k/Giờ</span> (Khung giờ 5h-17h, T2-T6)</p>
-            <p style="font-size: 0.95em; margin: 8px 0;">🤝 <b>Khách đặt sân cố định:</b> Giảm ngay <span style="color:var(--success); font-weight:700;">15%</span></p>
+            <h3>🎁 CHƯƠNG TRÌNH KHUYẾN MÃI</h3>
+            <p>🎓 <b>Học sinh, Sinh viên:</b> Chỉ <span style="color:var(--success); font-weight:700;">39k/Giờ</span> (Khung giờ 5h-17h, T2-T6)</p>
+            <p>🤝 <b>Khách đặt sân cố định:</b> Giảm ngay <span style="color:var(--success); font-weight:700;">15%</span></p>
         </div>
         
-        <p style="font-size:0.85em; color:var(--text-muted); text-align:center; margin-top:20px;">📍 <b>Địa chỉ:</b> Tổ 1, khu phố 9, Chánh Phú Hoà, Hồ Chí Minh</p>
+        <p class="footer-address">📍 <b>Địa chỉ:</b> Tổ 1, khu phố 9, Chánh Phú Hoà, Hồ Chí Minh</p>
     </div>
 
     <!-- TAB 3: NỘI QUY -->
     <div id="noi-quy" class="tab-content">
-        <div class="box" style="padding: 20px 15px;">
+        <div class="box rule-box">
             <div class="rule-item">
                 <div class="rule-title">1. Giày và vợt:</div>
-                <div style="font-size: 0.95em; color: var(--text-main);">Không đi giày đế cứng, đế màu đen vào sân. Khuyến khích sử dụng giày chuyên dụng thi đấu bộ môn cầu lông.</div>
+                <div class="rule-desc">Không đi giày đế cứng, đế màu đen vào sân. Khuyến khích sử dụng giày chuyên dụng thi đấu bộ môn cầu lông.</div>
             </div>
             <div class="rule-item">
                 <div class="rule-title">2. Trẻ em:</div>
-                <div style="font-size: 0.95em; color: var(--text-main);">Khi có trẻ nhỏ đi cùng, phải tự quản lý trẻ, tránh để trẻ chạy vào sân khi có người đang chơi, gây mất an toàn cho trẻ và người chơi.</div>
+                <div class="rule-desc">Khi có trẻ nhỏ đi cùng, phải tự quản lý trẻ, tránh để trẻ chạy vào sân khi có người đang chơi, gây mất an toàn cho trẻ và người chơi.</div>
             </div>
             <div class="rule-item">
                 <div class="rule-title">3. Thuê sân:</div>
-                <div style="font-size: 0.95em; color: var(--text-main);">Liên hệ thuê sân tại quầy, thuê sân nào tập sân đó, vào sân tập không mở đèn vẫn tính tiền .v.v... do chi phí vệ sinh và bảo trì sân.</div>
+                <div class="rule-desc">Liên hệ thuê sân tại quầy, thuê sân nào tập sân đó, vào sân tập không mở đèn vẫn tính tiền .v.v... do chi phí vệ sinh và bảo trì sân.</div>
             </div>
             <div class="rule-item">
                 <div class="rule-title">4. Tài sản và vệ sinh:</div>
-                <div style="font-size: 0.95em; color: var(--text-main);">Tự bảo quản tài sản cá nhân, giữ gìn vệ sinh chung thực hiện nếp sống văn minh nơi công cộng.</div>
+                <div class="rule-desc">Tự bảo quản tài sản cá nhân, giữ gìn vệ sinh chung thực hiện nếp sống văn minh nơi công cộng.</div>
             </div>
             <div class="rule-item" style="margin-bottom: 0;">
                 <div class="rule-title" style="color: var(--accent);">5. Cấm:</div>
-                <div style="font-size: 0.95em; color: var(--text-main); font-weight: 600;">Không hút thuốc và dùng chất kích thích.</div>
+                <div class="rule-desc" style="font-weight: 600;">Không hút thuốc và dùng chất kích thích.</div>
             </div>
         </div>
     </div>
@@ -361,23 +365,23 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-    const firebaseConfig = { apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4", databaseURL: "https://phuc-an-badminton-1ab18-default-rtdb.firebaseio.com", projectId: "phuc-an-badminton-1ab18" };
+    const firebaseConfig = { 
+        apiKey: "AIzaSyAs-wZ-Fm49pTHeZ15T8bZc9S9oFm6XvM4", 
+        databaseURL: "https://phuc-an-badminton-1ab18-default-rtdb.firebaseio.com", 
+        projectId: "phuc-an-badminton-1ab18" 
+    };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Biến lưu trữ ngày hiện tại đang hiển thị để đối chiếu
     let currentLocalDateStr = "";
 
-    // Hàm lấy chuỗi ngày hiện tại dạng YYYY-MM-DD chuẩn múi giờ Việt Nam
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
     }
 
-    // Hàm kiểm tra và tự động cập nhật ngày mới nếu hệ thống qua đêm
     function kiemTraVaCapNhatNgayMoi() {
         const ngayMoiNhat = getVNDateString();
-        // Nếu ngày hệ thống đã thay đổi so với ngày đang hiển thị, tiến hành đổi ngày trên giao diện
         if (currentLocalDateStr !== ngayMoiNhat) {
             currentLocalDateStr = ngayMoiNhat;
             document.getElementById('ngay').value = ngayMoiNhat;
@@ -386,7 +390,7 @@
     }
 
     function switchTab(event, tabId) {
-        kiemTraVaCapNhatNgayMoi(); // Kiểm tra ngày mỗi khi người dùng đổi tab
+        kiemTraVaCapNhatNgayMoi();
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         
@@ -394,7 +398,9 @@
         event.currentTarget.classList.add('active');
     }
 
-    function chonGio(g) { document.getElementById('thoiGian').value = g; }
+    function chonGio(g) { 
+        document.getElementById('thoiGian').value = g; 
+    }
     
     function luuThongTin() {
         const hoTen = document.getElementById('hoTen').value.trim();
@@ -415,7 +421,7 @@
     }
 
     function datSan() {
-        kiemTraVaCapNhatNgayMoi(); // Đảm bảo kiểm tra ngày trước khi submit đặt sân
+        kiemTraVaCapNhatNgayMoi();
         const user = JSON.parse(localStorage.getItem('user'));
         const thoiGian = document.getElementById('thoiGian').value;
         const san = document.getElementById('san').value;
@@ -464,12 +470,18 @@
                     let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                     
                     if(l.san == san) {
-                        htmlSelectSan += `<div class="list-item"><span style="font-size:0.95em;"><b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
-                                         <button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${c.key}')">Hủy</button></div>`;
+                        htmlSelectSan += `
+                            <div class="list-item">
+                                <span class="list-item-text"><b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
+                                <button class="btn-delete" onclick="huy('${c.key}')">Hủy</button>
+                            </div>`;
                     }
 
-                    htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | <b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
-                                   <button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${c.key}')">Hủy</button></div>`;
+                    htmlAllSan += `
+                        <div class="list-item">
+                            <span class="list-item-text"><b style="color:var(--highlight);">${l.san}</b> | <b>${l.thoiGian}</b> | ${l.ten} ${info}</span>
+                            <button class="btn-delete" onclick="huy('${c.key}')">Hủy</button>
+                        </div>`;
                 }
             });
 
@@ -482,20 +494,22 @@
         if(prompt("Mật khẩu Admin:") == "PhucAn2026$") {
             localStorage.setItem('isAdmin', 'true');
             db.ref('lichDatCauLong/'+id).remove();
-        } else { alert("Sai mật khẩu!"); }
+        } else { 
+            alert("Sai mật khẩu!"); 
+        }
     }
 
     window.onload = () => {
         const user = JSON.parse(localStorage.getItem('user'));
-        if(user) { document.getElementById('hoTen').value = user.hoTen; document.getElementById('sdt').value = user.sdt; }
+        if(user) { 
+            document.getElementById('hoTen').value = user.hoTen; 
+            document.getElementById('sdt').value = user.sdt; 
+        }
         
-        // Khởi tạo ngày hiện tại khi load trang lần đầu
         currentLocalDateStr = getVNDateString();
         document.getElementById('ngay').value = currentLocalDateStr;
         
         loadLich();
-
-        // Tự động kiểm tra thời gian thực sau mỗi 60 giây để cập nhật ngày mới nếu qua đêm
         setInterval(kiemTraVaCapNhatNgayMoi, 60000);
     };
 </script>
