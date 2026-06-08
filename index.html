@@ -4,7 +4,7 @@ HTML
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Phúc An Badminton - Premium Cloud POS v4.5</title>
+    <title>Phúc An Badminton - Premium Cloud POS v4.5.1</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -77,7 +77,7 @@ HTML
                 </div>
                 <div>
                     <h1 class="text-base font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">PHÚC AN POS</h1>
-                    <p class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Mobile Native App v4.5</p>
+                    <p class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Mobile Native App v4.5.1</p>
                 </div>
             </div>
             
@@ -256,7 +256,7 @@ HTML
             <div class="bg-slate-950 px-4 py-2.5 flex flex-wrap justify-between items-center gap-2 border-b border-slate-800">
                 <div class="flex gap-4">
                     <button id="tab-btn-history" onclick="switchTab('history')" class="py-1 text-xs font-bold text-slate-500 border-b-2 border-transparent">📊 DOANH THU (Bấm đơn xem chi tiết)</button>
-                    <button id="tab-btn-inventory" onclick="switchTab('inventory')" class="py-1 text-xs font-bold text-slate-500 border-b-2 border-transparent">📦 KHO HÀNG CHUẨN v4.5</button>
+                    <button id="tab-btn-inventory" onclick="switchTab('inventory')" class="py-1 text-xs font-bold text-slate-500 border-b-2 border-transparent">📦 KHO HÀNG CHUẨN v4.5.1</button>
                 </div>
                 <div class="flex items-center gap-2 text-xs flex-wrap">
                     <input id="filter-date" type="date" onchange="renderHistory()" class="bg-slate-900 border border-slate-800 text-slate-200 rounded-lg px-2 py-1 font-bold focus:outline-none">
@@ -377,7 +377,7 @@ HTML
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
         const MASTER_PASSWORD = "PhucAn2026$";
@@ -402,7 +402,7 @@ HTML
         };
 
         let globalInventory = []; let currentCourt = 1; let courtsData = {}; let paymentHistory = []; let expensesData = [];
-        let isCloudDraftLoaded = false; // Đánh dấu đã load xong bản nháp từ Cloud tránh đè ngược dữ liệu cũ
+        let isCloudDraftLoaded = false;
 
         function formatNum(num) { return (isNaN(num) || num === null) ? "0" : Number(Math.round(num * 100) / 100).toLocaleString('vi-VN'); }
 
@@ -431,7 +431,7 @@ HTML
             courtsData = { 1: getEmptyObj(), 2: getEmptyObj(), 'quick': { items: {} } };
             switchTab('history');
 
-            // 1. Tải kho hàng trước
+            // SỬA LỖI: Luồng lắng nghe độc lập hoàn toàn giúp khôi phục dữ liệu lịch sử chuẩn xác 100%
             window.fbListen('inventory', (data) => {
                 globalInventory = data ? (Array.isArray(data) ? data : Object.values(data)) : JSON.parse(JSON.stringify(initialInventory));
                 if (!data) window.fbSet('inventory', globalInventory);
@@ -440,16 +440,14 @@ HTML
                 calculateAll();
             });
 
-            // 2. NÂNG CẤP LỚN: Tải dữ liệu nháp ĐANG CHƠI từ thẳng Firebase Cloud về thiết bị
             window.fbListen('cloud_drafts', (data) => {
                 if (data) {
-                    // Cập nhật lại đối tượng local bằng dữ liệu Cloud vừa nhận
                     if(data[1]) courtsData[1] = data[1];
                     if(data[2]) courtsData[2] = data[2];
                     if(data['quick']) courtsData['quick'] = data['quick'];
                 }
                 isCloudDraftLoaded = true;
-                switchCourt(currentCourt); // Khôi phục giao diện theo dữ liệu vừa nhận
+                syncLocalToForm();
             });
 
             window.fbListen('history', (data) => { paymentHistory = data ? Object.values(data) : []; renderHistory(); });
@@ -458,10 +456,27 @@ HTML
 
         function getEmptyObj() { return { customerName: "", dayType: "weekday", startTime: "", endTime: "", discountType: "none", ownerDiscount: 0, cashUnits: 0, bankUnits: 0, items: {} }; }
 
-        // ĐY ĐƯỢC ĐỔI THÀNH GỬI THẲNG TRẠNG THÁI NHẬP LÊN CLOUD ĐỂ ĐỒNG BỘ MÁY KHÁC
-        function saveStateLive() {
-            if (!isCloudDraftLoaded) return; // Chưa load xong nháp từ cloud thì không ghi đè lung tung
+        // Điền ngược dữ liệu từ bộ nhớ vào form giao diện khi chuyển sân hoặc khi Cloud cập nhật
+        function syncLocalToForm() {
+            if (!isCloudDraftLoaded) return;
+            if (currentCourt === 'quick') {
+                document.getElementById('quick-bank').value = courtsData['quick'].bankUnits || "";
+            } else {
+                const c = courtsData[currentCourt];
+                document.getElementById('customer-name').value = c.customerName || ""; 
+                document.getElementById('day-type').value = c.dayType || "weekday";
+                document.getElementById('start-time').value = c.startTime || ""; 
+                document.getElementById('end-time').value = c.endTime || "";
+                document.getElementById('discount-select').value = c.discountType || "none";
+                document.getElementById('owner-discount').value = c.ownerDiscount || ""; 
+                document.getElementById('bank-units').value = c.bankUnits || "";
+                renderShortcuts();
+            }
+            calculateAll();
+        }
 
+        function saveStateLive() {
+            if (!isCloudDraftLoaded) return;
             if (currentCourt === 'quick') {
                 courtsData['quick'].bankUnits = parseFloat(document.getElementById('quick-bank').value) || 0;
             } else {
@@ -474,16 +489,8 @@ HTML
                 c.ownerDiscount = parseFloat(document.getElementById('owner-discount').value) || 0;
                 c.bankUnits = parseFloat(document.getElementById('bank-units').value) || 0;
             }
-            
-            // Gửi nháp lên Firebase Realtime
             window.fbSet('cloud_drafts', courtsData);
             calculateAll();
-        }
-
-        function triggerToast(m) {
-            const t = document.getElementById('toast-success'); document.getElementById('toast-msg').innerText = m;
-            t.classList.remove('opacity-0', 'scale-90', 'pointer-events-none'); t.classList.add('opacity-100', 'scale-100');
-            setTimeout(() => { t.classList.remove('opacity-100', 'scale-100'); t.classList.add('opacity-0', 'scale-90', 'pointer-events-none'); }, 2000);
         }
 
         function switchCourt(n) {
@@ -498,28 +505,15 @@ HTML
                 document.getElementById('section-court-bill').style.display = 'none'; 
                 document.getElementById('section-quick-sale').style.display = 'block';
                 document.getElementById('menu-current-target').innerText = "VÃNG LAI";
-                document.getElementById('quick-bank').value = courtsData['quick'].bankUnits || "";
             } else {
                 document.getElementById('time-config-section').style.display = 'block'; 
                 document.getElementById('section-court-bill').style.display = 'flex';
                 document.getElementById('section-quick-sale').style.display = 'none';
                 document.getElementById('menu-current-target').innerText = "SÂN " + n; 
                 document.getElementById('bill-court-title').innerText = n;
-                
-                const c = courtsData[n];
-                document.getElementById('customer-name').value = c.customerName || ""; 
-                document.getElementById('day-type').value = c.dayType || "weekday";
-                document.getElementById('start-time').value = c.startTime || ""; 
-                document.getElementById('end-time').value = c.endTime || "";
-                document.getElementById('discount-select').value = c.discountType || "none";
-                document.getElementById('owner-discount').value = c.ownerDiscount || ""; 
-                document.getElementById('bank-units').value = c.bankUnits || "";
-                renderShortcuts();
             }
-            calculateAll();
+            syncLocalToForm();
         }
-
-        function onDayTypeChange() { saveStateLive(); renderShortcuts(); }
 
         function renderShortcuts() {
             const container = document.getElementById('shortcut-container'); container.innerHTML = "";
@@ -535,7 +529,6 @@ HTML
         function renderMenuDichVu() {
             const d = document.getElementById('menu-drinks'); const g = document.getElementById('menu-gear');
             d.innerHTML = ""; g.innerHTML = "";
-
             globalInventory.forEach(prod => {
                 const item = document.createElement('div');
                 item.className = "bg-slate-950 border border-slate-855 rounded-lg p-2 flex flex-col justify-between text-center shadow-md";
@@ -552,30 +545,33 @@ HTML
             });
         }
 
+        // SỬA LỖI: Cập nhật món mượt mà không bị đơ giật hay nhảy số về 0
         function updateItemQty(pId, delta) {
-            const c = courtsData[currentCourt]; const cur = c.items[pId] || 0;
+            if (!isCloudDraftLoaded) return;
+            const c = courtsData[currentCourt]; if (!c.items) c.items = {};
+            const cur = c.items[pId] || 0;
             const p = globalInventory.find(x => x.id === pId);
             if(!p) return;
             let maxVal = p.qty; 
-            
             if (p.isShuttlecock && p.packSize === 12) { 
-                const sib = globalInventory.find(x => x.id === p.linkTo); 
-                if (sib) maxVal = Math.floor(sib.qty / 12); 
+                const sib = globalInventory.find(x => x.id === p.linkTo); if (sib) maxVal = Math.floor(sib.qty / 12); 
             }
-            
             if (delta > 0 && cur >= maxVal) { alert("⚠️ Số lượng tồn kho không đủ để cung cấp!"); return; }
             const n = cur + delta; if (n <= 0) delete c.items[pId]; else c.items[pId] = n;
+            
+            // Đổ trực tiếp số lượng hiển thị ngay lập tức
+            const el = document.getElementById(`qty-view-${pId}`); if (el) el.innerText = c.items[pId] || 0;
             saveStateLive();
         }
 
         function calculateAll() {
             const c = courtsData[currentCourt]; if (!c) return;
 
-            globalInventory.forEach(p => { const el = document.getElementById(`qty-view-${p.id}`); if (el) el.innerText = c.items[p.id] || 0; });
+            globalInventory.forEach(p => { const el = document.getElementById(`qty-view-${p.id}`); if (el) el.innerText = (c.items && c.items[p.id]) ? c.items[p.id] : 0; });
 
             if (currentCourt === 'quick') {
                 let total = 0, html = "";
-                Object.keys(c.items).forEach(id => { const p = globalInventory.find(x => x.id === id); if(p){ total += (p.price * c.items[id]); html += `<div class="flex justify-between"><span>• ${p.name} (x${c.items[id]})</span><span>${p.price*c.items[id]}k</span></div>`; } });
+                Object.keys(c.items || {}).forEach(id => { const p = globalInventory.find(x => x.id === id); if(p){ total += (p.price * c.items[id]); html += `<div class="flex justify-between"><span>• ${p.name} (x${c.items[id]})</span><span>${p.price*c.items[id]}k</span></div>`; } });
                 c.cashUnits = Math.max(0, total - (parseFloat(document.getElementById('quick-bank').value) || 0));
                 document.getElementById('quick-items-list').innerHTML = html || `<span class="text-slate-600 italic">Giỏ hàng trống...</span>`;
                 document.getElementById('quick-total-fee').innerText = `${total}k`; return;
@@ -659,12 +655,9 @@ HTML
             let costGoods = deductInv(c.items);
             const r = { id: 'PAB-Q-'+Date.now(), date: document.getElementById('filter-date').value, time: new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}), courtNum: "Lẻ", customerName: "Khách lẻ vãng lai", timeRange: "Bán lẻ", courtFee: 0, serviceFee: serv, totalBill: serv, profitGoods: serv - costGoods, cashReceived: c.cashUnits, bankReceived: c.bankUnits, isLocked: false, rawDetails: { items: c.items } };
             
-            window.fbPush('history', r); 
-            window.fbSet('inventory', globalInventory); 
-            
-            courtsData['quick'] = { items: {} }; 
-            document.getElementById('quick-bank').value = ""; 
-            window.fbSet('cloud_drafts', courtsData); // Làm sạch bản nháp Cloud
+            window.fbPush('history', r); window.fbSet('inventory', globalInventory); 
+            courtsData['quick'] = { items: {} }; document.getElementById('quick-bank').value = ""; 
+            window.fbSet('cloud_drafts', courtsData); 
             triggerToast("Đã chốt bán lẻ!");
         }
 
@@ -688,7 +681,7 @@ HTML
             let costGoods = deductInv(c.items);
             let tot = Math.max(0, finalCourtFee + serv - c.ownerDiscount);
 
-            const r = { id: 'PAB-'+Date.now(), date: document.getElementById('filter-date').value, time: new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}), courtNum: currentCourt, customerName: c.customerName || "Khách lẻ", timeRange: `${c.startTime}-${c.endTime} (${mins} ph)`, courtFee: finalCourtFee, serviceFee: serv, totalBill: tot, profitGoods: serv - costGoods, cashReceived: c.cashUnits, bankReceived: c.bankUnits, isLocked: false, rawDetails: JSON.parse(JSON.stringify(c)) };
+            const r = { id: 'PAB-'+Date.now(), date: document.getElementById('filter-date').value, time: new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}), courtNum: currentCourt, customerName: c.customerName || "Khách lẻ", timeRange: `${c.startTime}-${c.endTime} (${mins} ph)`, courtFee: finalCourtFee, serviceFee: serv, totalBill: tot, profitGoods: serv - costGoods, cashReceived: c.cashUnits, bankReceived: (parseFloat(document.getElementById('bank-units').value) || 0), isLocked: false, rawDetails: JSON.parse(JSON.stringify(c)) };
             
             window.fbPush('history', r); 
             window.fbSet('inventory', globalInventory); 
@@ -704,15 +697,13 @@ HTML
                 document.getElementById('discount-select').value="none"; document.getElementById('owner-discount').value=""; 
                 document.getElementById('bank-units').value=""; 
             } 
-            window.fbSet('cloud_drafts', courtsData); // Cập nhật rỗng lên Cloud
+            window.fbSet('cloud_drafts', courtsData);
             calculateAll(); 
         }
         
         function resetQuickSaleCart() { 
-            courtsData['quick'] = { items: {} };
-            document.getElementById('quick-bank').value=""; 
-            window.fbSet('cloud_drafts', courtsData);
-            calculateAll(); 
+            courtsData['quick'] = { items: {} }; document.getElementById('quick-bank').value=""; 
+            window.fbSet('cloud_drafts', courtsData); calculateAll(); 
         }
 
         function switchTab(t) {
@@ -730,134 +721,78 @@ HTML
             try {
                 const bill = JSON.parse(decodeURIComponent(billDataStr));
                 const itemsObj = bill.rawDetails ? bill.rawDetails.items : (bill.items || {});
-                
                 let detailsHtml = "";
-                if (bill.courtFee > 0) {
-                    detailsHtml += `<div class="text-slate-400">• Tiền giờ sân: <span class="text-white font-bold">${formatNum(bill.courtFee)}k</span> (${bill.timeRange || ''})</div>`;
-                }
+                if (bill.courtFee > 0) { detailsHtml += `<div class="text-slate-400">• Tiền giờ sân: <span class="text-white font-bold">${formatNum(bill.courtFee)}k</span> (${bill.timeRange || ''})</div>`; }
                 
                 let listItems = [];
                 Object.keys(itemsObj || {}).forEach(id => {
-                    const prod = globalInventory.find(x => x.id === id);
-                    const name = prod ? prod.name : id;
+                    const prod = globalInventory.find(x => x.id === id); const name = prod ? prod.name : id;
                     listItems.push(`<span class="text-cyan-400 font-bold">${name}</span> (x${itemsObj[id]})`);
                 });
                 
-                if (listItems.length > 0) {
-                    detailsHtml += `<div class="text-slate-400">• Mặt hàng đã sử dụng: ${listItems.join(', ')}</div>`;
-                } else if (bill.courtFee == 0) {
-                    detailsHtml += `<div class="text-slate-500 italic">• Đơn rỗng không có chi tiết dịch vụ.</div>`;
-                }
-                
-                if (bill.rawDetails && bill.rawDetails.ownerDiscount > 0) {
-                    detailsHtml += `<div class="text-rose-400 font-medium">• Đã giảm thêm trừ trực tiếp: -${bill.rawDetails.ownerDiscount}k</div>`;
-                }
+                if (listItems.length > 0) { detailsHtml += `<div class="text-slate-400">• Mặt hàng đã sử dụng: ${listItems.join(', ')}</div>`; } 
+                else if (bill.courtFee == 0) { detailsHtml += `<div class="text-slate-500 italic">• Đơn rỗng không có chi tiết dịch vụ.</div>`; }
+                if (bill.rawDetails && bill.rawDetails.ownerDiscount > 0) { detailsHtml += `<div class="text-rose-400 font-medium">• Đã giảm thêm trừ trực tiếp: -${bill.rawDetails.ownerDiscount}k</div>`; }
 
-                const detailRow = document.createElement('tr');
-                detailRow.id = `detail-row-${rowId}`;
-                detailRow.className = "bg-slate-950/80 text-[11px] border-b border-slate-800";
-                detailRow.innerHTML = `
-                    <td colspan="12" class="p-3 pl-6 bg-slate-950/60 border-l-4 border-cyan-500 transition-all">
-                        <div class="space-y-1 py-1 text-slate-300">
-                            <div class="text-[10px] font-extrabold uppercase text-cyan-400 tracking-wider mb-1 flex items-center gap-1">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                                CHI TIẾT SỬ DỤNG CỦA ĐƠN HÀNG:
-                            </div>
-                            ${detailsHtml}
-                        </div>
-                    </td>
-                `;
+                const detailRow = document.createElement('tr'); detailRow.id = `detail-row-${rowId}`; detailRow.className = "bg-slate-950/80 text-[11px] border-b border-slate-800";
+                detailRow.innerHTML = `<td colspan="12" class="p-3 pl-6 bg-slate-950/60 border-l-4 border-cyan-500 transition-all"><div class="space-y-1 py-1 text-slate-300"><div class="text-[10px] font-extrabold uppercase text-cyan-400 tracking-wider mb-1 flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>CHI TIẾT SỬ DỤNG CỦA ĐƠN HÀNG:</div>${detailsHtml}</div></td>`;
                 mainRow.parentNode.insertBefore(detailRow, mainRow.nextSibling); mainRow.classList.add('row-expanded');
-            } catch(err) { console.error("Lỗi parse dữ liệu hóa đơn:", err); }
+            } catch(err) { console.error(err); }
         };
 
         window.actionLockSettlement = function() {
-            const targetDate = document.getElementById('filter-date').value;
-            if (!targetDate) return;
-            if (confirm(`⚠️ Bạn có chắc chắn muốn CHỐT SỔ toàn bộ hóa đơn và chi phí từ ngày ${targetDate} trở về trước không?\nSau khi chốt, số tiền đợt này sẽ về 0 và chuyển sang trạng thái an toàn.`)) {
-                window.fbListen('history', (snap) => {
-                    if (snap) {
-                        Object.keys(snap).forEach(k => {
-                            if (snap[k].date <= targetDate && !snap[k].isLocked) window.fbUpdate(`history/${k}`, { isLocked: true });
-                        });
-                    }
-                });
-                window.fbListen('expenses', (snap) => {
-                    if (snap) {
-                        Object.keys(snap).forEach(k => {
-                            if (snap[k].date <= targetDate && !snap[k].isLocked) window.fbUpdate(`expenses/${k}`, { isLocked: true });
-                        });
-                    }
-                });
+            const targetDate = document.getElementById('filter-date').value; if (!targetDate) return;
+            if (confirm(`⚠️ Bạn có chắc chắn muốn CHỐT SỔ toàn bộ hóa đơn và chi phí từ ngày ${targetDate} trở về trước không?`)) {
+                paymentHistory.forEach((b) => { if (b.date <= targetDate && !b.isLocked) window.fbUpdate(`history/${b.id}`, { isLocked: true }); });
+                expensesData.forEach((e) => { if (e.date <= targetDate && !e.isLocked) window.fbUpdate(`expenses/${e.id}`, { isLocked: true }); });
                 triggerToast("Đã thực hiện chốt sổ thành công!");
             }
         };
 
         function renderHistory() {
-            const fDate = document.getElementById('filter-date').value; 
-            const fMonth = fDate.substring(0, 7);
-            const targetWeek = getWeekNumber(fDate); 
-            const targetYear = new Date(fDate).getFullYear();
-
+            const fDate = document.getElementById('filter-date').value; if(!fDate) return;
+            const fMonth = fDate.substring(0, 7); const targetWeek = getWeekNumber(fDate); const targetYear = new Date(fDate).getFullYear();
             const tbody = document.getElementById('history-tbody'); tbody.innerHTML = "";
             
-            let dayTot = 0, cash = 0, bank = 0, exp = 0;
-            let weekTot = 0, weekCash = 0, weekBank = 0;
-            let monthCash = 0, monthBank = 0, monthExp = 0;
-            let unLockedCash = 0, unLockedBank = 0, unLockedExp = 0;
+            let dayTot = 0, cash = 0, bank = 0, exp = 0; let weekTot = 0, weekCash = 0, weekBank = 0;
+            let monthCash = 0, monthBank = 0, monthExp = 0; let unLockedCash = 0, unLockedBank = 0, unLockedExp = 0;
 
             paymentHistory.forEach((b, index) => {
-                const bWeek = getWeekNumber(b.date);
-                const bYear = new Date(b.date).getFullYear();
-
+                const bWeek = getWeekNumber(b.date); const bYear = new Date(b.date).getFullYear();
                 if (b.date === fDate) {
                     dayTot += b.totalBill; cash += b.cashReceived; bank += b.bankReceived;
-                    const tr = document.createElement('tr'); 
-                    tr.id = `main-row-${index}`; tr.className = "border-b border-slate-800/60 hover:bg-slate-800/30 font-semibold text-slate-300 transition text-[11px] cursor-pointer";
-                    
+                    const tr = document.createElement('tr'); tr.id = `main-row-${index}`; tr.className = "border-b border-slate-800/60 hover:bg-slate-800/30 font-semibold text-slate-300 transition text-[11px] cursor-pointer";
                     const billDataStr = encodeURIComponent(JSON.stringify(b));
                     tr.setAttribute('onclick', `toggleRowDetail('${index}', '${billDataStr}')`);
-                    
-                    const statusBadge = b.isLocked 
-                        ? `<span class="bg-emerald-950 text-emerald-400 px-1.5 py-0.5 rounded text-[10px] border border-emerald-900">Đã chốt</span>`
-                        : `<span class="bg-amber-950 text-amber-400 px-1.5 py-0.5 rounded text-[10px] border border-amber-900">Chưa chốt</span>`;
-
+                    const statusBadge = b.isLocked ? `<span class="bg-emerald-950 text-emerald-400 px-1.5 py-0.5 rounded text-[10px] border border-emerald-900">Đã chốt</span>` : `<span class="bg-amber-950 text-amber-400 px-1.5 py-0.5 rounded text-[10px] border border-amber-900">Chưa chốt</span>`;
                     tr.innerHTML = `<td class="p-2.5 text-slate-500">${b.time}</td><td class="p-2.5 font-bold ${b.courtNum==='Lẻ'?'text-rose-400':'text-cyan-400'}">${b.courtNum==='Lẻ'?'Bán lẻ':'Sân '+b.courtNum}</td><td class="p-2.5 max-w-[100px] truncate text-white">${b.customerName}</td><td class="p-2.5 text-slate-400">${b.timeRange}</td><td class="p-2.5 text-right">${formatNum(b.courtFee)}k</td><td class="p-2.5 text-right text-rose-400">${formatNum(b.serviceFee)}k</td><td class="p-2.5 text-right text-cyan-400">${formatNum(b.totalBill)}k</td><td class="p-2.5 text-right text-slate-500">${formatNum(b.profitGoods)}k</td><td class="p-2.5 text-rose-400">${formatNum(b.cashReceived)}k</td><td class="p-2.5 text-cyan-400">${formatNum(b.bankReceived)}k</td><td class="p-2.5 text-center">${statusBadge}</td><td class="p-2.5 text-center" onclick="event.stopPropagation();"><button onclick="deleteBill('${b.id}', event)" class="text-slate-600 hover:text-red-400 font-bold p-1">✕</button></td>`;
                     tbody.appendChild(tr);
                 }
-
                 if (bWeek === targetWeek && bYear === targetYear) { weekTot += b.totalBill; weekCash += b.cashReceived; weekBank += b.bankReceived; }
                 if (b.date.startsWith(fMonth)) { monthCash += b.cashReceived; monthBank += b.bankReceived; }
                 if (!b.isLocked) { unLockedCash += b.cashReceived; unLockedBank += b.bankReceived; }
             });
             
             expensesData.forEach(e => {
-                if (e.date === fDate) exp += e.amount;
-                if (e.date.startsWith(fMonth)) monthExp += e.amount;
-                if (!e.isLocked) unLockedExp += e.amount;
+                if (e.date === fDate) exp += e.amount; if (e.date.startsWith(fMonth)) monthExp += e.amount; if (!e.isLocked) unLockedExp += e.amount;
             });
 
             document.getElementById('expense-list-container').innerHTML = expensesData.filter(e => e.date === fDate).map(e => `<div class="flex justify-between bg-slate-900 p-2 rounded-lg border border-slate-800"><span>• ${e.reason} ${e.isLocked?'🔒':''}</span><span class="text-rose-400 font-bold">-${e.amount}k</span></div>`).join("") || `<span class="text-slate-600 italic">Không có khoản chi nào...</span>`;
-            
             document.getElementById('stat-day-total').innerText = `${formatNum(dayTot)}k`; 
             document.getElementById('stat-day-cash').innerText = `${formatNum(cash)}k`; 
             document.getElementById('stat-day-bank').innerText = `${formatNum(bank)}k`; 
             document.getElementById('stat-day-expense').innerText = `${formatNum(exp)}k`; 
-            
             document.getElementById('stat-month-cash').innerText = `${formatNum(monthCash - monthExp)}k`;
             document.getElementById('stat-month-bank').innerText = `${formatNum(monthBank)}k`;
-
             document.getElementById('stat-week-total').innerText = `${formatNum(weekTot)}k`;
             document.getElementById('stat-week-cash').innerText = `${formatNum(weekCash)}k`;
             document.getElementById('stat-week-bank').innerText = `${formatNum(weekBank)}k`;
-
             document.getElementById('stat-unlocked-cash').innerText = `${formatNum(unLockedCash - unLockedExp)}k`;
             document.getElementById('stat-unlocked-bank').innerText = `${formatNum(unLockedBank)}k`;
         }
 
-        function deleteBill(id, e) { if (prompt("🔐 Vui lòng cung cấp mật khẩu quản trị cao cấp để XÓA đơn này:") === MASTER_PASSWORD) { window.fbListen('history', (snap) => { if(snap) Object.keys(snap).forEach(k => { if(snap[k].id === id) window.fbRemove(`history/${k}`); }); }); } }
+        function deleteBill(id, e) { if (prompt("🔐 Vui lòng cung cấp mật khẩu quản trị cao cấp để XÓA đơn này:") === MASTER_PASSWORD) { window.fbListen('history', (snap) => { if(snap) Object.keys(snap).forEach(k => { if(snap[k].id === id || snap[k].id === parseFloat(id)) window.fbRemove(`history/${k}`); }); }); } }
         function addNewExpense() { const r = document.getElementById('exp-add-reason').value.trim(); const a = parseFloat(document.getElementById('exp-add-amount').value); if (r && a > 0) { window.fbPush('expenses', { id: 'EXP-'+Date.now(), date: document.getElementById('filter-date').value, time: new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}), reason: r, amount: a, isLocked: false }); document.getElementById('exp-add-reason').value=""; document.getElementById('exp-add-amount').value=""; } }
-
         window.addNewProduct = function() {
             if (prompt("🔐 Vui lòng nhập mật khẩu quản trị để thêm hàng mới:") !== MASTER_PASSWORD) { alert("⚠️ Sai mật khẩu quản trị!"); return; }
             const id = document.getElementById('new-prod-id').value.trim().toLowerCase().replace(/\s+/g, '_'); const name = document.getElementById('new-prod-name').value.trim(); const type = document.getElementById('new-prod-type').value; const qty = parseInt(document.getElementById('new-prod-qty').value); const cost = parseFloat(document.getElementById('new-prod-cost').value); const price = parseFloat(document.getElementById('new-prod-price').value);
@@ -866,9 +801,7 @@ HTML
             const newProd = { id: id, name: name, type: type, qty: qty, cost: cost, price: price, isShuttlecock: false }; globalInventory.push(newProd); window.fbSet('inventory', globalInventory);
             document.getElementById('new-prod-id').value = ""; document.getElementById('new-prod-name').value = ""; document.getElementById('new-prod-qty').value = ""; document.getElementById('new-prod-cost').value = ""; document.getElementById('new-prod-price').value = ""; triggerToast("Đã thêm thành công sản phẩm mới!");
         };
-
         window.deleteProduct = function(pId) { if (prompt("🔐 Vui lòng nhập mật khẩu quản trị để XÓA sản phẩm này:") !== MASTER_PASSWORD) { alert("⚠️ Sai mật khẩu quản trị!"); return; } globalInventory = globalInventory.filter(p => p.id !== pId); window.fbSet('inventory', globalInventory); triggerToast("Đã xóa sản phẩm khỏi kho!"); };
-
         window.startEditCell = function(pId, field, curValue) {
             const td = document.getElementById(`cell-${field}-${pId}`); if (!td) return;
             const input = document.createElement('input'); input.type = 'number'; input.value = curValue; input.className = 'edit-input';
@@ -882,7 +815,6 @@ HTML
             input.onkeydown = function(e) { if (e.key === 'Enter') this.blur(); };
             td.innerHTML = ''; td.appendChild(input); input.focus(); input.select();
         };
-
         function renderInventoryTable() {
             const tbody = document.getElementById('inventory-tbody'); if (!tbody) return; tbody.innerHTML = "";
             if(!globalInventory || globalInventory.length === 0) { tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500 italic">Dữ liệu kho đang trống...</td></tr>`; return; }
