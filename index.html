@@ -195,34 +195,33 @@ HTML
         }
         .action-btn:active { transform: scale(0.98); }
         
-        .section-title { font-size: 1.1em; font-weight: 700; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .section-title { font-size: 1.1em; font-weight: 700; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--highlight); padding-left: 10px; }
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #111827; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
         .list-item b { color: var(--primary); }
         
+        /* STYLE HIỂN THỊ TRẠNG THÁI CA CHƠI */
+        .live-status-badge {
+            font-size: 0.8em;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin-left: 6px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .status-upcoming { background: rgba(245, 158, 11, 0.15); color: var(--highlight); }
+        .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
+        .status-ending { background: rgba(249, 115, 22, 0.15); color: #f97316; }
+        .status-done { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+
         .qr-section { margin-top: 35px; text-align: center; padding: 20px 15px 0 15px; border-top: 1px dashed var(--border); }
         .qr-section div { font-size: 0.95em; font-weight: 600; margin-bottom: 15px; color: var(--text-muted); }
         .qr-section img { width: 140px; height: 140px; border: 4px solid var(--border); border-radius: 16px; padding: 5px; background: white; }
 
-        .price-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--border); }
-        .price-tag { color: var(--highlight); font-weight: 700; }
-        .promo-box { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); padding: 15px; border-radius: 14px; margin-top: 15px; }
-        .rule-item { margin-bottom: 18px; line-height: 1.6; }
-        .rule-title { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
-
-        /* 💻 DESIGN GHI CÔNG NHÀ PHÁT TRIỂN VĂN BẮC */
         .developer-footer {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 0.8em;
-            color: var(--text-muted);
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            text-align: center; margin-top: 25px; font-size: 0.8em; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;
         }
-        .developer-footer span {
-            color: var(--primary);
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
-        }
+        .developer-footer span { color: var(--primary); font-weight: 700; text-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
     </style>
 </head>
 <body>
@@ -233,7 +232,7 @@ HTML
         <div class="modal-title">TÍNH NĂNG BỊ GIỚI HẠN</div>
         <div class="modal-content">
             Quy trình hủy hoặc đổi lịch sân chỉ dành cho <b>Ban quản trị (Admin)</b>.<br><br>
-            If quý khách có sự cố muốn đổi ca chơi, xin vui lòng liên hệ ngay Hotline đường dây nóng của sân:<br>
+            Nếu quý khách có sự cố muốn đổi ca chơi, xin vui lòng liên hệ ngay Hotline đường dây nóng của sân:<br>
             <a href="tel:0395936865" style="color:var(--primary); font-size:1.3em; font-weight:800; text-decoration:none; display:inline-block; margin-top:10px;">☎ 0395.936.865</a>
         </div>
         <div class="modal-footer-tip">Chạm bất kỳ đâu bên ngoài để đóng thông báo</div>
@@ -274,8 +273,8 @@ HTML
             <button onclick="luuThongTin()" style="background: #334155; color: var(--text-main); margin-top: 5px; width:100%; padding:12px; border:none; border-radius:12px; font-weight:700; cursor:pointer;">Lưu thông tin</button>
         </div>
 
-        <label>Chọn Sân</label>
-        <select id="san" onchange="loadLich()"><option>Sân số 1</option><option>Sân số 2</option></select>
+        <label>Chọn Sân muốn đặt</label>
+        <select id="san"><option>Sân số 1</option><option>Sân số 2</option></select>
         
         <label style="color: var(--highlight); font-weight: 700;">📅 BẤM VÀO ĐÂY ĐỂ CHỌN NGÀY ĐẶT SÂN:</label>
         <input type="date" id="ngay" onchange="loadLich()">
@@ -299,13 +298,10 @@ HTML
         </div>
         
         <label>Hoặc nhập giờ tự chọn</label>
-        <input type="text" id="thoiGian" placeholder="Ví dụ: 17h30-19h30">
+        <input type="text" id="thoiGian" placeholder="Ví dụ: 17h3-19h3">
         <button class="action-btn" onclick="datSan()" style="margin-top:5px; background: linear-gradient(135deg, var(--primary), #0ea5e9);">XÁC NHẬN ĐẶT SÂN</button>
 
-        <div class="section-title">Lịch đã đặt (Theo Sân lựa chọn)</div>
-        <div id="danhSach"></div>
-
-        <div class="section-title" style="border-left-color: var(--highlight);">Tất cả lịch đặt trong ngày</div>
+        <div class="section-title">BẢNG LỊCH ĐẶT TRONG NGÀY (SÂN 1 ➔ SÂN 2, GIỜ SỚM XẾP TRƯỚC)</div>
         <div id="tongHopDanhSach"></div>
     </div>
 
@@ -375,6 +371,7 @@ HTML
 
     let currentLocalDateStr = "";
     let firebaseListener = null;
+    let mangLichToanBoHienTai = []; 
 
     const TELEGRAM_BOT_TOKEN = "8696303368:AAGRsaclHC8BcpIsdXtZ1xGmXA6mRERJ7oQ";
     const TELEGRAM_CHAT_ID = "8349164896";
@@ -394,6 +391,57 @@ HTML
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
+    }
+
+    function yeuCauQuyenThongBao() {
+        if (!("Notification" in window)) return;
+        if (Notification.permission === "default") {
+            Notification.requestPermission();
+        }
+    }
+
+    // --- 🔔 HỆ THỐNG GỬI THÔNG BÁO TỰ ĐỘNG: NHẮC HẸN (TRƯỚC 15 PHÚT) VÀ CẢM ƠN (KHI HẾT GIỜ) ---
+    function thucHienQuetNhacHenGio() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.sdt) return; 
+        if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+        const ngayHienTai = getVNDateString();
+        const gioHeThong = new Date();
+        const phutHienTai = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
+
+        mangLichToanBoHienTai.forEach(l => {
+            if (l.ngay === ngayHienTai && l.sdt === user.sdt) {
+                const [s, e] = l.thoiGian.split('-');
+                const phutBatDau = toMinutes(s);
+                const phutKetThuc = toMinutes(e);
+                
+                // Khóa duy nhất để kiểm soát không bắn trùng thông báo bừa bãi
+                const thongBaoNhacKey = `notified_nhac_${l.ngay}_${l.thoiGian}_${l.san}`;
+                const thongBaoCamOnKey = `notified_thanks_${l.ngay}_${l.thoiGian}_${l.san}`;
+
+                // TÁC VỤ 1: Nhắc hẹn lên sân trước 15 phút
+                const khoangCachPhut = phutBatDau - phutHienTai;
+                if (khoangCachPhut === 15 && !localStorage.getItem(thongBaoNhacKey)) {
+                    localStorage.setItem(thongBaoNhacKey, "true");
+                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+                    new Notification("🏸 PHÚC AN BADMINTON", {
+                        body: `Anh/Chị ${l.ten} ơi! Sắp đến giờ chơi tại ${l.san} (${l.thoiGian}) rồi ạ. Chuẩn bị trang phục lên sân nhé! 🎉`,
+                        icon: "https://cdn-icons-png.flaticon.com/512/5355/5355811.png"
+                    });
+                }
+
+                // TÁC VỤ 2: Gửi lời cảm ơn ý nghĩa ngay khi vừa hết giờ ca chơi
+                if (phutHienTai === phutKetThuc && !localStorage.getItem(thongBaoCamOnKey)) {
+                    localStorage.setItem(thongBaoCamOnKey, "true");
+                    if (navigator.vibrate) navigator.vibrate([300, 150, 300]);
+                    new Notification("🏸 PHÚC AN BADMINTON", {
+                        body: `Cảm ơn anh/chị ${l.ten} đã tin tưởng giao lưu tại sân hôm nay! Chúc anh/chị luôn dồi dào sức khỏe, tràn đầy năng lượng và hẹn gặp lại ở những trận cầu tiếp theo nhé! 🥰`,
+                        icon: "https://cdn-icons-png.flaticon.com/512/5355/5355811.png"
+                    });
+                }
+            }
+        });
     }
 
     function kiemTraVaCapNhatNgayMoi() {
@@ -420,24 +468,76 @@ HTML
         const sdt = document.getElementById('sdt').value.trim();
         if (!hoTen || !sdt || !/^\d{10}$/.test(sdt)) return alert("❌ Vui lòng nhập đầy đủ tên và SĐT gồm 10 chữ số.");
         localStorage.setItem('user', JSON.stringify({hoTen: hoTen, sdt: sdt}));
+        yeuCauQuyenThongBao(); 
         alert("Thông tin khách đã được lưu!");
     }
 
-    function toMinutes(timeStr) {
-        let cleanTime = timeStr.toLowerCase().trim().replace('g', ':').replace('h', ':');
-        if (!cleanTime.includes(':')) cleanTime += ':00';
-        let parts = cleanTime.split(':');
+    function parseSmartTimePiece(piece) {
+        let clean = piece.toLowerCase().trim().replace('g', ':').replace('h', ':').replace('p', '');
+        if (!clean.includes(':')) {
+            let h = parseInt(clean, 10) || 0;
+            return { hour: h, minute: 0 };
+        }
+        let parts = clean.split(':');
         let h = parseInt(parts[0], 10) || 0;
-        let m = parseInt(parts[1], 10) || 0;
-        return (h * 60) + m;
+        let mStr = parts[1] ? parts[1].trim() : "";
+        let m = 0;
+        if (mStr !== "") {
+            m = parseInt(mStr, 10) || 0;
+        }
+        return { hour: h, minute: m };
+    }
+
+    function toMinutes(timeStr) {
+        let parsed = parseSmartTimePiece(timeStr);
+        return (parsed.hour * 60) + parsed.minute;
+    }
+
+    function formatMinutesToText(totalMinutes) {
+        let h = Math.floor(totalMinutes / 60);
+        let m = totalMinutes % 60;
+        let hStr = h < 10 ? '0' + h : h;
+        let mStr = m < 10 ? '0' + m : m;
+        return `${hStr}h${mStr}`;
     }
 
     function getBuoi(timeStr) {
-        let cleanTime = timeStr.toLowerCase().trim().replace('g', ':').replace('h', ':');
-        let h = parseInt(cleanTime.split('-')[0].split(':')[0], 10) || 0;
+        let min = toMinutes(timeStr.split('-')[0]);
+        let h = Math.floor(min / 60);
         if (h < 12) return "sáng";
         if (h >= 12 && h < 18) return "chiều";
         return "tối";
+    }
+
+    function taoNhanTrangThaiLive(targetNgay, thoiGianStr) {
+        const ngayHienTai = getVNDateString();
+        
+        if (targetNgay !== ngayHienTai) {
+            return `<span class="live-status-badge status-upcoming"> Chờ lịch</span>`;
+        }
+
+        const gioHeThong = new Date();
+        const phutHienTai = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
+
+        const [s, e] = thoiGianStr.split('-');
+        const phutBatDau = toMinutes(s);
+        const phutKetThuc = toMinutes(e);
+
+        if (phutHienTai >= phutKetThuc) {
+            return `<span class="live-status-badge status-done"> Hoàn thành</span>`;
+        }
+        else if (phutHienTai >= phutBatDau && phutHienTai < phutKetThuc) {
+            if (phutKetThuc - phutHienTai <= 15) {
+                return `<span class="live-status-badge status-ending"><marquee scrollamount="2" width="80">⚠️ Sắp hết giờ...</marquee></span>`;
+            }
+            return `<span class="live-status-badge status-playing"><marquee scrollamount="2" width="70">🔥 Đang chơi...</marquee></span>`;
+        }
+        else if (phutBatDau - phutHienTai <= 15 && phutBatDau - phutHienTai > 0) {
+            return `<span class="live-status-badge status-upcoming"><marquee scrollamount="2" width="80"> Sắp bắt đầu...</marquee></span>`;
+        }
+        else {
+            return `<span class="live-status-badge status-upcoming"> Chờ lên sân</span>`;
+        }
     }
 
     function kichHoatAdmin() {
@@ -509,18 +609,20 @@ HTML
     function datSan() {
         kiemTraVaCapNhatNgayMoi(); 
         const user = JSON.parse(localStorage.getItem('user'));
-        const thoiGian = document.getElementById('thoiGian').value.trim();
+        let thoiGianGoc = document.getElementById('thoiGian').value.trim();
         const san = document.getElementById('san').value;
         const ngay = document.getElementById('ngay').value;
 
         if(!user || !user.hoTen || !user.sdt) return alert("❌ Vui lòng điền và bấm 'Lưu thông tin' ở trên trước khi đặt!");
-        if(!thoiGian || !thoiGian.includes('-')) return alert("Vui lòng nhập giờ dạng: 17h30-19h30");
+        if(!thoiGianGoc || !thoiGianGoc.includes('-')) return alert("Vui lòng nhập giờ dạng: 17h3-19h3");
 
-        const [startStr, endStr] = thoiGian.split('-');
+        const [startStr, endStr] = thoiGianGoc.split('-');
         const newStart = toMinutes(startStr);
         const newEnd = toMinutes(endStr);
 
         if(newStart >= newEnd) return alert("❌ Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc!");
+
+        const thoiGianDaChuanHoa = formatMinutesToText(newStart) + "-" + formatMinutesToText(newEnd);
 
         const ngayHienTai = getVNDateString();
         if (ngay === ngayHienTai) {
@@ -547,16 +649,17 @@ HTML
                 alert("❌ Khung giờ này bị trùng lịch hoặc giao nhau với một lịch khác! Vui lòng chọn giờ khác.");
             } else {
                 db.ref('lichDatCauLong').push({
-                    ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGian
+                    ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGianDaChuanHoa
                 }).then(() => {
+                    yeuCauQuyenThongBao(); 
                     alert("✅ Đặt thành công!");
                     document.getElementById('thoiGian').value = '';
                     
                     let tinNhanTelegam = `📝 <b>LỊCH ĐẶT SÂN MỚI</b>\n` +
                                          `━━━━━━━━━━━━━━━━━━\n` +
-                                         ` sân: <b>${san}</b>\n` +
+                                         ` Sân: <b>${san}</b>\n` +
                                          `📅 Ngày đặt: <code>${ngay}</code>\n` +
-                                         `⏰ Khung giờ: <b>${thoiGian}</b>\n` +
+                                         `⏰ Khung giờ: <b>${thoiGianDaChuanHoa}</b>\n` +
                                          `👤 Tên khách: <b>${user.hoTen}</b>\n` +
                                          `📞 Điện thoại: <code>${user.sdt}</code>`;
                     guiThongBaoTelegram(tinNhanTelegam);
@@ -566,33 +669,46 @@ HTML
     }
 
     function loadLich() {
-        const san = document.getElementById('san').value;
         const ngay = document.getElementById('ngay').value;
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
         if (firebaseListener) db.ref('lichDatCauLong').off('value', firebaseListener);
 
         firebaseListener = db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).on('value', snap => {
-            let htmlSelectSan = ''; let htmlAllSan = '';    
+            let htmlAllSan = '';    
+            mangLichToanBoHienTai = []; 
 
             updateLiveTicker(snap, ngay);
 
             snap.forEach(c => {
-                let l = c.val();
+                let item = c.val();
+                item.key = c.key;
+                mangLichToanBoHienTai.push(item);
+            });
+
+            mangLichToanBoHienTai.sort((a, b) => {
+                if (a.san !== b.san) {
+                    return a.san.localeCompare(b.san, 'vi', { numeric: true });
+                }
+                let phutBatDauA = toMinutes(a.thoiGian.split('-')[0]);
+                let phutBatDauB = toMinutes(b.thoiGian.split('-')[0]);
+                return phutBatDauA - phutBatDauB;
+            });
+
+            mangLichToanBoHienTai.forEach(l => {
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
-                let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${c.key}')">Hủy</button>`;
+                let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${l.key}')">Hủy</button>`;
 
                 let buoi = getBuoi(l.thoiGian);
-                let textThoiGian = `<b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>`;
+                let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
+                let textThoiGian = `<b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>${liveBadge}`;
 
-                if(l.san == san) {
-                    htmlSelectSan += `<div class="list-item"><span style="font-size:0.95em;">${textThoiGian} | ${l.ten} ${info}</span>${buttonHuy}</div>`;
-                }
                 htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | ${textThoiGian} | ${l.ten} ${info}</span>${buttonHuy}</div>`;
             });
 
-            document.getElementById('danhSach').innerHTML = htmlSelectSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Sân trống</p>";
             document.getElementById('tongHopDanhSach').innerHTML = htmlAllSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Chưa có lịch đặt nào trong ngày</p>";
+            
+            thucHienQuetNhacHenGio();
         });
     }
 
@@ -603,7 +719,7 @@ HTML
                 if(l) {
                     let tinNhanHuy = `❌ <b>THÔNG BÁO HỦY SÂN</b>\n` +
                                      `━━━━━━━━━━━━━━━━━━\n` +
-                                     ` sân: <b>${l.san}</b>\n` +
+                                     ` Sân: <b>${l.san}</b>\n` +
                                      `📅 Ngày hủy: <code>${l.ngay}</code>\n` +
                                      `⏰ Khung giờ: <b>${l.thoiGian}</b>\n` +
                                      `👤 Tên khách cũ: <b>${l.ten}</b>\n` +
@@ -647,6 +763,7 @@ HTML
         setInterval(() => {
             kiemTraVaCapNhatNgayMoi();
             loadLich();
+            thucHienQuetNhacHenGio();
         }, 60000);
     };
 </script>
