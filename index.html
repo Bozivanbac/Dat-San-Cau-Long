@@ -34,12 +34,13 @@ HTML
             border-radius: 24px; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
             border: 1px solid var(--border);
+            position: relative;
         }
 
-        /* 👑 THIẾT KẾ TÊN THƯƠNG HIỆU PHÚC AN BADMINTON HIỆN ĐẠI */
+        /* THIẾT KẾ THƯƠNG HIỆU */
         .brand-container {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             cursor: pointer;
             user-select: none;
         }
@@ -60,7 +61,7 @@ HTML
         }
         .brand-logo span {
             font-size: 1.1em;
-            -webkit-text-fill-color: initial; /* Giữ màu icon nguyên bản */
+            -webkit-text-fill-color: initial; 
             filter: drop-shadow(0 2px 8px rgba(56,189,248,0.5));
         }
         .brand-sub {
@@ -75,8 +76,40 @@ HTML
             0% { filter: drop-shadow(0 2px 4px rgba(56, 189, 248, 0.1)); }
             100% { filter: drop-shadow(0 4px 14px rgba(56, 189, 248, 0.3)); }
         }
+
+        /* BẢNG CHẠY CHỮ CHỨNG KHOÁN */
+        .ticker-container {
+            background: #0b0f19;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .ticker-label {
+            background: var(--success);
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+            margin-right: 10px;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+        }
+        .ticker-container marquee {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .ticker-item {
+            margin-right: 35px;
+            display: inline-block;
+        }
         
-        /* 🚨 GIAO DIỆN THÔNG BÁO CẢNH BÁO GIỮA MÀN HÌNH (POPUP MODAL) */
+        /* CẢNH BÁO GIỮA MÀN HÌNH */
         .custom-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -91,9 +124,7 @@ HTML
             opacity: 0; pointer-events: none;
             transition: all 0.3s ease;
         }
-        .custom-overlay.active {
-            opacity: 1; pointer-events: auto;
-        }
+        .custom-overlay.active { opacity: 1; pointer-events: auto; }
         .custom-modal {
             background: #1e293b;
             border: 2px solid var(--accent);
@@ -106,36 +137,14 @@ HTML
             transform: scale(0.9);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .custom-overlay.active .custom-modal {
-            transform: scale(1);
-        }
-        .modal-icon {
-            font-size: 3em;
-            color: var(--accent);
-            margin-bottom: 15px;
-            animation: pulseWarning 1.5s infinite;
-        }
-        .modal-title {
-            font-size: 1.25em;
-            font-weight: 800;
-            color: #f8fafc;
-            margin-bottom: 12px;
-        }
-        .modal-content {
-            font-size: 0.95em;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        .modal-content b {
-            color: #f8fafc;
-        }
+        .custom-overlay.active .custom-modal { transform: scale(1); }
+        .modal-icon { font-size: 3em; color: var(--accent); margin-bottom: 15px; animation: pulseWarning 1.5s infinite; }
+        .modal-title { font-size: 1.25em; font-weight: 800; color: #f8fafc; margin-bottom: 12px; }
+        .modal-content { font-size: 0.95em; color: var(--text-muted); line-height: 1.6; }
+        .modal-content b { color: #f8fafc; }
         .modal-footer-tip {
-            margin-top: 25px;
-            font-size: 0.8em;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            padding-top: 15px;
-            font-style: italic;
+            margin-top: 25px; font-size: 0.8em; color: var(--text-muted); border-top: 1px solid var(--border);
+            padding-top: 15px; font-style: italic;
         }
         @keyframes pulseWarning {
             0% { transform: scale(1); }
@@ -143,182 +152,77 @@ HTML
             100% { transform: scale(1); }
         }
 
-        /* THANH MENU ĐIỀU HƯỚNG */
+        /* MENU VÀ FORM */
         .tab-navigation {
-            display: flex;
-            background: #111827;
-            padding: 6px;
-            border-radius: 14px;
-            margin-bottom: 25px;
-            border: 1px solid var(--border);
+            display: flex; background: #111827; padding: 6px; border-radius: 14px;
+            margin-bottom: 25px; border: 1px solid var(--border);
         }
         .tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: transparent;
-            color: var(--text-muted);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 700;
-            transition: all 0.2s;
-            text-align: center;
+            flex: 1; padding: 10px; background: transparent; color: var(--text-muted);
+            border: none; border-radius: 10px; cursor: pointer; font-size: 0.9em;
+            font-weight: 700; transition: all 0.2s; text-align: center;
         }
-        .tab-btn.active {
-            background: var(--primary);
-            color: #0f172a;
-        }
-
+        .tab-btn.active { background: var(--primary); color: #0f172a; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         .hotline-box { 
-            background: rgba(56, 189, 248, 0.08); 
-            color: var(--primary); 
-            padding: 14px; 
-            border-radius: 16px; 
-            text-align: center; 
-            font-weight: 600; 
-            margin-bottom: 25px; 
-            border: 1px solid rgba(56, 189, 248, 0.2); 
-            font-size: 0.95em;
-            line-height: 1.5;
+            background: rgba(56, 189, 248, 0.08); color: var(--primary); padding: 14px; 
+            border-radius: 16px; text-align: center; font-weight: 600; margin-bottom: 25px; 
+            border: 1px solid rgba(56, 189, 248, 0.2); font-size: 0.95em; line-height: 1.5;
         }
-        .hotline-box a { 
-            color: var(--primary); 
-            text-decoration: none; 
-            font-size: 1.15em; 
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 4px;
-        }
+        .hotline-box a { color: var(--primary); text-decoration: none; font-size: 1.15em; font-weight: 700; display: inline-block; margin-top: 4px; }
         
-        .box { 
-            background: rgba(255,255,255,0.02); 
-            border: 1px solid var(--border); 
-            padding: 20px; 
-            border-radius: 18px; 
-            margin-bottom: 25px; 
-        }
-        .box h3 {
-            font-size: 1em;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-            font-size: 0.9em;
-        }
+        .box { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 20px; border-radius: 18px; margin-bottom: 25px; }
+        .box h3 { font-size: 1em; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9em; }
         input, select { 
-            width: 100%; 
-            padding: 14px; 
-            margin: 6px 0 16px 0; 
-            background: #111827;
-            border: 1px solid var(--border); 
-            border-radius: 12px; 
-            box-sizing: border-box; 
-            color: var(--text-main);
-            font-size: 1em;
-            transition: all 0.2s;
+            width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #111827;
+            border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; 
+            color: var(--text-main); font-size: 1em; transition: all 0.2s;
         }
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-        }
-
+        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
         input[type="date"] {
-            padding: 18px 15px; 
-            font-size: 1.2em;    
-            font-weight: 700;
-            color: var(--highlight); 
-            border: 2px solid rgba(245, 158, 11, 0.4); 
-            background: #0f172a;
-            cursor: pointer;
+            padding: 18px 15px; font-size: 1.2em; font-weight: 700; color: var(--highlight); 
+            border: 2px solid rgba(245, 158, 11, 0.4); background: #0f172a; cursor: pointer;
         }
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(75%) sepia(80%) saturate(1000%) hue-rotate(340deg); 
-            transform: scale(1.4); 
-        }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(75%) sepia(80%) saturate(1000%) hue-rotate(340deg); transform: scale(1.4); }
         
         .action-btn { 
-            width: 100%; 
-            padding: 15px; 
-            background: var(--primary); 
-            color: #0f172a; 
-            border: none; 
-            border-radius: 14px; 
-            font-weight: 700; 
-            font-size: 1em;
-            cursor: pointer; 
-            transition: all 0.2s;
+            width: 100%; padding: 15px; background: var(--primary); color: #0f172a; 
+            border: none; border-radius: 14px; font-weight: 700; font-size: 1em;
+            cursor: pointer; transition: all 0.2s;
         }
         .action-btn:active { transform: scale(0.98); }
         
-        .time-section { margin: 20px 0; }
-        .time-section label { color: var(--text-main); font-size: 0.95em; margin-bottom: 10px; }
-        .time-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-        .chip { 
-            padding: 10px 16px; 
-            background: #111827; 
-            border: 1px solid var(--border); 
-            border-radius: 50px; 
-            font-size: 0.9em; 
-            cursor: pointer; 
-            color: var(--text-main); 
-            font-weight: 600; 
-        }
-        
-        .section-title {
-            font-size: 1.1em;
-            font-weight: 700;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary);
-            padding-left: 10px;
-        }
-        .list-item { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 14px; 
-            background: #111827;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            margin-bottom: 10px;
-        }
+        .section-title { font-size: 1.1em; font-weight: 700; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #111827; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
         .list-item b { color: var(--primary); }
         
-        .qr-section { 
-            margin-top: 35px; 
-            text-align: center; 
-            padding: 20px 15px 0 15px; 
-            border-top: 1px dashed var(--border); 
-        }
+        .qr-section { margin-top: 35px; text-align: center; padding: 20px 15px 0 15px; border-top: 1px dashed var(--border); }
         .qr-section div { font-size: 0.95em; font-weight: 600; margin-bottom: 15px; color: var(--text-muted); }
         .qr-section img { width: 140px; height: 140px; border: 4px solid var(--border); border-radius: 16px; padding: 5px; background: white; }
 
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px dashed var(--border);
-        }
+        .price-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--border); }
         .price-tag { color: var(--highlight); font-weight: 700; }
-        .promo-box {
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 15px;
-            border-radius: 14px;
-            margin-top: 15px;
-        }
+        .promo-box { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); padding: 15px; border-radius: 14px; margin-top: 15px; }
         .rule-item { margin-bottom: 18px; line-height: 1.6; }
         .rule-title { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+
+        /* 💻 DESIGN GHI CÔNG NHÀ PHÁT TRIỂN VĂN BẮC */
+        .developer-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.8em;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .developer-footer span {
+            color: var(--primary);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -329,7 +233,7 @@ HTML
         <div class="modal-title">TÍNH NĂNG BỊ GIỚI HẠN</div>
         <div class="modal-content">
             Quy trình hủy hoặc đổi lịch sân chỉ dành cho <b>Ban quản trị (Admin)</b>.<br><br>
-            Nếu quý khách có sự cố muốn đổi ca chơi, xin vui lòng liên hệ ngay Hotline đường dây nóng của sân:<br>
+            If quý khách có sự cố muốn đổi ca chơi, xin vui lòng liên hệ ngay Hotline đường dây nóng của sân:<br>
             <a href="tel:0395936865" style="color:var(--primary); font-size:1.3em; font-weight:800; text-decoration:none; display:inline-block; margin-top:10px;">☎ 0395.936.865</a>
         </div>
         <div class="modal-footer-tip">Chạm bất kỳ đâu bên ngoài để đóng thông báo</div>
@@ -340,6 +244,13 @@ HTML
     <div class="brand-container" onclick="kichHoatAdmin()">
         <div class="brand-logo"><span>🏸</span> Phúc An Badminton</div>
         <div class="brand-sub">Professional Court</div>
+    </div>
+
+    <div class="ticker-container">
+        <div class="ticker-label">SÂN TRỐNG</div>
+        <marquee id="liveTicker" behavior="scroll" direction="left" scrollamount="5">
+            Đang tải dữ liệu tìm sân trống...
+        </marquee>
     </div>
     
     <div class="tab-navigation">
@@ -400,7 +311,7 @@ HTML
 
     <div id="bang-gia" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">📆 TỪ THỨ 2 ĐẾN THỨ 6</h3>
+            <h3 style="color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;"><b>📆 TỪ THỨ 2 ĐẾN THỨ 6</b></h3>
             <div class="price-row"><span>☀️ 5h - 9h</span><span class="price-tag">70k / Giờ</span></div>
             <div class="price-row"><span>🔆 9h - 16h</span><span class="price-tag">60k / Giờ</span></div>
             <div class="price-row"><span>🌙 16h - 22h</span><span class="price-tag">70k / Giờ</span></div>
@@ -444,6 +355,10 @@ HTML
     <div class="qr-section">
         <div>Quét mã tham gia nhóm Zalo</div>
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" alt="QR Zalo">
+    </div>
+
+    <div class="developer-footer">
+        ⚡ Phát triển bởi <span>Văn Bắc</span>
     </div>
 </div>
 
@@ -517,6 +432,14 @@ HTML
         return (h * 60) + m;
     }
 
+    function getBuoi(timeStr) {
+        let cleanTime = timeStr.toLowerCase().trim().replace('g', ':').replace('h', ':');
+        let h = parseInt(cleanTime.split('-')[0].split(':')[0], 10) || 0;
+        if (h < 12) return "sáng";
+        if (h >= 12 && h < 18) return "chiều";
+        return "tối";
+    }
+
     function kichHoatAdmin() {
         let pass = prompt("Nhập mã Admin để cấu hình thiết bị:");
         if (pass === "PhucAn2026$") {
@@ -526,6 +449,61 @@ HTML
         } else if (pass !== null) {
             alert("Sai mã cấu hình!");
         }
+    }
+
+    function updateLiveTicker(snap, targetNgay) {
+        const gioHeThong = new Date();
+        const phutHienTai = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
+        const ngayHienTai = getVNDateString();
+        
+        if (targetNgay < ngayHienTai) {
+            document.getElementById('liveTicker').innerHTML = "Đang xem dữ liệu của ngày cũ.";
+            return;
+        }
+
+        const danhSachCaChuan = ["05h00-07h00", "07h00-09h00", "09h00-11h00", "17h00-19h00", "19h00-21h00", "21h00-23h00"];
+        const cacSan = ["Sân số 1", "Sân số 2"];
+        
+        let mapLichDat = {};
+        snap.forEach(c => {
+            let l = c.val();
+            if(l.ngay === targetNgay) {
+                if(!mapLichDat[l.san]) mapLichDat[l.san] = [];
+                mapLichDat[l.san].push(l);
+            }
+        });
+
+        let tickerHtml = "";
+
+        danhSachCaChuan.forEach(ca => {
+            const [s, e] = ca.split('-');
+            const batDauCa = toMinutes(s);
+            const ketThucCa = toMinutes(e);
+            
+            if (targetNgay === ngayHienTai && ketThucCa <= phutHienTai) {
+                return; 
+            }
+
+            cacSan.forEach(san => {
+                let isEmpty = true;
+                
+                if(mapLichDat[san]) {
+                    mapLichDat[san].forEach(l => {
+                        const [ls, le] = l.thoiGian.split('-');
+                        if (batDauCa < toMinutes(le) && ketThucCa > toMinutes(ls)) {
+                            isEmpty = false; 
+                        }
+                    });
+                }
+                
+                if (isEmpty) {
+                    let buoi = getBuoi(ca);
+                    tickerHtml += `<span class="ticker-item">🔹 <b>${san}</b> | <span style="color:var(--primary); font-weight:800;">${ca} ${buoi}</span> <span style='color:var(--success);'>🟢 Trống</span></span>`;
+                }
+            });
+        });
+
+        document.getElementById('liveTicker').innerHTML = tickerHtml || "🔥 Đã kín toàn bộ lịch hôm nay! Không còn sân trống.";
     }
 
     function datSan() {
@@ -597,15 +575,20 @@ HTML
         firebaseListener = db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).on('value', snap => {
             let htmlSelectSan = ''; let htmlAllSan = '';    
 
+            updateLiveTicker(snap, ngay);
+
             snap.forEach(c => {
                 let l = c.val();
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${c.key}')">Hủy</button>`;
 
+                let buoi = getBuoi(l.thoiGian);
+                let textThoiGian = `<b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>`;
+
                 if(l.san == san) {
-                    htmlSelectSan += `<div class="list-item"><span style="font-size:0.95em;"><b>${l.thoiGian}</b> | ${l.ten} ${info}</span>${buttonHuy}</div>`;
+                    htmlSelectSan += `<div class="list-item"><span style="font-size:0.95em;">${textThoiGian} | ${l.ten} ${info}</span>${buttonHuy}</div>`;
                 }
-                htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | <b>${l.thoiGian}</b> | ${l.ten} ${info}</span>${buttonHuy}</div>`;
+                htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | ${textThoiGian} | ${l.ten} ${info}</span>${buttonHuy}</div>`;
             });
 
             document.getElementById('danhSach').innerHTML = htmlSelectSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Sân trống</p>";
@@ -638,10 +621,8 @@ HTML
             return;
         }
 
-        // BẬT MODAL THÔNG BÁO GIỮA MÀN HÌNH THAY CHO ALERT CŨ
         hienCanhBao();
         
-        // Mở ngầm hộp thoại nhận mật khẩu nếu Admin thao tác cấp bách
         setTimeout(() => {
             let checkPass = prompt("Mật khẩu Quản trị (Dành riêng cho chủ sân thao tác nhanh):");
             if (checkPass === "PhucAn2026$") {
@@ -662,7 +643,11 @@ HTML
         currentLocalDateStr = getVNDateString();
         document.getElementById('ngay').value = currentLocalDateStr;
         loadLich();
-        setInterval(kiemTraVaCapNhatNgayMoi, 60000);
+        
+        setInterval(() => {
+            kiemTraVaCapNhatNgayMoi();
+            loadLich();
+        }, 60000);
     };
 </script>
 </body>
