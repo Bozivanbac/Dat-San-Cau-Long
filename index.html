@@ -35,20 +35,115 @@ HTML
             box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
             border: 1px solid var(--border);
         }
-        h1 { 
-            color: var(--text-main); 
-            text-align: center; 
-            font-size: 1.5em; 
-            margin-top: 0;
-            margin-bottom: 20px; 
-            font-weight: 800;
+
+        /* 👑 THIẾT KẾ TÊN THƯƠNG HIỆU PHÚC AN BADMINTON HIỆN ĐẠI */
+        .brand-container {
+            text-align: center;
+            margin-bottom: 25px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .brand-logo {
+            font-size: 1.6em;
+            font-weight: 900;
             letter-spacing: -0.5px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 50%, #f43f5e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            text-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+            animation: pullGlow 3s ease-in-out infinite alternate;
+        }
+        .brand-logo span {
+            font-size: 1.1em;
+            -webkit-text-fill-color: initial; /* Giữ màu icon nguyên bản */
+            filter: drop-shadow(0 2px 8px rgba(56,189,248,0.5));
+        }
+        .brand-sub {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-weight: 600;
+        }
+        @keyframes pullGlow {
+            0% { filter: drop-shadow(0 2px 4px rgba(56, 189, 248, 0.1)); }
+            100% { filter: drop-shadow(0 4px 14px rgba(56, 189, 248, 0.3)); }
         }
         
+        /* 🚨 GIAO DIỆN THÔNG BÁO CẢNH BÁO GIỮA MÀN HÌNH (POPUP MODAL) */
+        .custom-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0; pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .custom-overlay.active {
+            opacity: 1; pointer-events: auto;
+        }
+        .custom-modal {
+            background: #1e293b;
+            border: 2px solid var(--accent);
+            border-radius: 24px;
+            max-width: 400px;
+            width: 100%;
+            padding: 30px 24px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(244, 63, 94, 0.25);
+            transform: scale(0.9);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .custom-overlay.active .custom-modal {
+            transform: scale(1);
+        }
+        .modal-icon {
+            font-size: 3em;
+            color: var(--accent);
+            margin-bottom: 15px;
+            animation: pulseWarning 1.5s infinite;
+        }
+        .modal-title {
+            font-size: 1.25em;
+            font-weight: 800;
+            color: #f8fafc;
+            margin-bottom: 12px;
+        }
+        .modal-content {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .modal-content b {
+            color: #f8fafc;
+        }
+        .modal-footer-tip {
+            margin-top: 25px;
+            font-size: 0.8em;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+            font-style: italic;
+        }
+        @keyframes pulseWarning {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(244,63,94,0.6)); }
+            100% { transform: scale(1); }
+        }
+
+        /* THANH MENU ĐIỀU HƯỚNG */
         .tab-navigation {
             display: flex;
             background: #111827;
@@ -214,10 +309,7 @@ HTML
             padding: 12px 0;
             border-bottom: 1px dashed var(--border);
         }
-        .price-tag {
-            color: var(--highlight);
-            font-weight: 700;
-        }
+        .price-tag { color: var(--highlight); font-weight: 700; }
         .promo-box {
             background: rgba(16, 185, 129, 0.08);
             border: 1px solid rgba(16, 185, 129, 0.2);
@@ -225,21 +317,30 @@ HTML
             border-radius: 14px;
             margin-top: 15px;
         }
-        .rule-item {
-            margin-bottom: 18px;
-            line-height: 1.6;
-        }
-        .rule-title {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
+        .rule-item { margin-bottom: 18px; line-height: 1.6; }
+        .rule-title { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
+<div id="alertOverlay" class="custom-overlay" onclick="dongCanhBao()">
+    <div class="custom-modal" onclick="event.stopPropagation()">
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">TÍNH NĂNG BỊ GIỚI HẠN</div>
+        <div class="modal-content">
+            Quy trình hủy hoặc đổi lịch sân chỉ dành cho <b>Ban quản trị (Admin)</b>.<br><br>
+            Nếu quý khách có sự cố muốn đổi ca chơi, xin vui lòng liên hệ ngay Hotline đường dây nóng của sân:<br>
+            <a href="tel:0395936865" style="color:var(--primary); font-size:1.3em; font-weight:800; text-decoration:none; display:inline-block; margin-top:10px;">☎ 0395.936.865</a>
+        </div>
+        <div class="modal-footer-tip">Chạm bất kỳ đâu bên ngoài để đóng thông báo</div>
+    </div>
+</div>
+
 <div class="card">
-    <h1 onclick="kichHoatAdmin()"><span>🏸</span> PHÚC AN BADMINTON</h1>
+    <div class="brand-container" onclick="kichHoatAdmin()">
+        <div class="brand-logo"><span>🏸</span> Phúc An Badminton</div>
+        <div class="brand-sub">Professional Court</div>
+    </div>
     
     <div class="tab-navigation">
         <button class="tab-btn active" onclick="switchTab(event, 'dat-san')">📝 ĐẶT SÂN</button>
@@ -363,16 +464,15 @@ HTML
     const TELEGRAM_BOT_TOKEN = "8696303368:AAGRsaclHC8BcpIsdXtZ1xGmXA6mRERJ7oQ";
     const TELEGRAM_CHAT_ID = "8349164896";
 
+    function hienCanhBao() { document.getElementById('alertOverlay').classList.add('active'); }
+    function dongCanhBao() { document.getElementById('alertOverlay').classList.remove('active'); }
+
     function guiThongBaoTelegram(noiDung) {
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
         fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: noiDung,
-                parse_mode: "HTML"
-            })
+            body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: noiDung, parse_mode: "HTML" })
         }).catch(err => console.error("Lỗi Telegram:", err));
     }
 
@@ -408,7 +508,6 @@ HTML
         alert("Thông tin khách đã được lưu!");
     }
 
-    // Chuyển đổi định dạng chuỗi giờ (Ví dụ: 17h30 hoặc 17:30) thành số phút từ đầu ngày
     function toMinutes(timeStr) {
         let cleanTime = timeStr.toLowerCase().trim().replace('g', ':').replace('h', ':');
         if (!cleanTime.includes(':')) cleanTime += ':00';
@@ -418,7 +517,6 @@ HTML
         return (h * 60) + m;
     }
 
-    // Hàm kích hoạt quyền Admin kín (Bấm vào tiêu đề lớn chữ PHÚC AN BADMINTON)
     function kichHoatAdmin() {
         let pass = prompt("Nhập mã Admin để cấu hình thiết bị:");
         if (pass === "PhucAn2026$") {
@@ -446,7 +544,6 @@ HTML
 
         if(newStart >= newEnd) return alert("❌ Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc!");
 
-        // --- TÍNH NĂNG 1: CHẶN ĐẶT KHUNG GIỜ ĐÃ TRÔI QUA TRONG NGÀY ---
         const ngayHienTai = getVNDateString();
         if (ngay === ngayHienTai) {
             const gioHienTai = new Date();
@@ -458,20 +555,13 @@ HTML
             return alert("❌ Không thể chọn đặt lịch cho những ngày trong quá khứ!");
         }
 
-        // --- TÍNH NĂNG 2: KIỂM TRA TRÙNG LỊCH TUYỆT ĐỐI THEO PHÚT ---
         db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).once('value', (snap) => {
             let isOverlapping = false;
             snap.forEach(c => {
                 let l = c.val();
                 if(l.san == san) {
                     const [s, e] = l.thoiGian.split('-');
-                    const existingStart = toMinutes(s);
-                    const existingEnd = toMinutes(e);
-                    
-                    // Thuật toán kiểm tra giao nhau: Hai ca đè nhau khi (Bắt đầu ca mới < Kết thúc ca cũ) VÀ (Kết thúc ca mới > Bắt đầu ca cũ)
-                    if (newStart < existingEnd && newEnd > existingStart) {
-                        isOverlapping = true;
-                    }
+                    if (newStart < toMinutes(e) && newEnd > toMinutes(s)) isOverlapping = true;
                 }
             });
 
@@ -505,8 +595,7 @@ HTML
         if (firebaseListener) db.ref('lichDatCauLong').off('value', firebaseListener);
 
         firebaseListener = db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).on('value', snap => {
-            let htmlSelectSan = ''; 
-            let htmlAllSan = '';    
+            let htmlSelectSan = ''; let htmlAllSan = '';    
 
             snap.forEach(c => {
                 let l = c.val();
@@ -524,7 +613,6 @@ HTML
         });
     }
 
-    // --- TÍNH NĂNG 3: CHỈ ADMIN MỚI ĐƯỢC QUYỀN HỦY LỊCH ---
     function huy(id) {
         function thucHienHuyVaGuiTin(idXoa) {
             db.ref('lichDatCauLong/' + idXoa).once('value', (snap) => {
@@ -543,7 +631,6 @@ HTML
             });
         }
 
-        // Nếu thiết bị này đã xác thực mật khẩu Admin từ trước (bằng cách kích hoạt ngầm)
         if (localStorage.getItem('isAdmin') === 'true') {
             if(confirm("Xác nhận hành động Admin: Bạn có chắc chắn muốn xóa lịch này không?")) {
                 thucHienHuyVaGuiTin(id);
@@ -551,16 +638,19 @@ HTML
             return;
         }
 
-        // Đối với khách vãng lai thông thường khi bấm nút hủy:
-        alert("⚠️ CHÚ Ý: Tính năng hủy/đổi lịch chỉ dành cho Admin của sân.\n\nNếu bạn gặp sự cố muốn thay đổi giờ chơi, vui lòng liên hệ trực tiếp Hotline của sân: 0395.936.865 để được hỗ trợ kịp thời!");
+        // BẬT MODAL THÔNG BÁO GIỮA MÀN HÌNH THAY CHO ALERT CŨ
+        hienCanhBao();
         
-        // Hộp thoại xác thực mật khẩu dành riêng cho Admin nếu muốn thao tác nhanh tại máy khách
-        let checkPass = prompt("Nhập mật khẩu Admin quản trị (Nếu bạn là chủ sân):");
-        if (checkPass === "PhucAn2026$") {
-            thucHienHuyVaGuiTin(id);
-        } else if (checkPass !== null) {
-            alert("Mật khẩu không chính xác! Hành động bị từ chối.");
-        }
+        // Mở ngầm hộp thoại nhận mật khẩu nếu Admin thao tác cấp bách
+        setTimeout(() => {
+            let checkPass = prompt("Mật khẩu Quản trị (Dành riêng cho chủ sân thao tác nhanh):");
+            if (checkPass === "PhucAn2026$") {
+                dongCanhBao();
+                thucHienHuyVaGuiTin(id);
+            } else if (checkPass !== null) {
+                alert("Mật khẩu không chính xác!");
+            }
+        }, 500);
     }
 
     window.onload = () => {
