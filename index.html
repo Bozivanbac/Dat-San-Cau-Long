@@ -38,26 +38,13 @@ HTML
         }
 
         /* THIẾT KẾ THƯƠNG HIỆU */
-        .brand-container {
-            text-align: center;
-            margin-bottom: 15px;
-            cursor: pointer;
-            user-select: none;
-        }
+        .brand-container { text-align: center; margin-bottom: 15px; cursor: pointer; user-select: none; }
         .brand-logo {
-            font-size: 1.6em;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            text-transform: uppercase;
+            font-size: 1.6em; font-weight: 900; letter-spacing: -0.5px; text-transform: uppercase;
             background: linear-gradient(135deg, #38bdf8 0%, #0284c7 50%, #f43f5e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
-            animation: pullGlow 3s ease-in-out infinite alternate;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            text-shadow: 0 4px 12px rgba(56, 189, 248, 0.15); animation: pullGlow 3s ease-in-out infinite alternate;
         }
         .brand-logo span { font-size: 1.1em; -webkit-text-fill-color: initial; filter: drop-shadow(0 2px 8px rgba(56,189,248,0.5)); }
         .brand-sub { font-size: 0.75em; text-transform: uppercase; letter-spacing: 4px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
@@ -67,23 +54,15 @@ HTML
         }
 
         /* BẢNG CHẠY CHỮ CHỨNG KHOÁN */
-        .ticker-container {
-            background: #0b0f19; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; margin-bottom: 25px; overflow: hidden; display: flex; align-items: center;
-        }
-        .ticker-label {
-            background: var(--success); color: #fff; font-size: 0.75em; font-weight: 800; padding: 3px 8px; border-radius: 6px; white-space: nowrap; margin-right: 10px; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
-        }
+        .ticker-container { background: #0b0f19; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; margin-bottom: 25px; overflow: hidden; display: flex; align-items: center; }
+        .ticker-label { background: var(--success); color: #fff; font-size: 0.75em; font-weight: 800; padding: 3px 8px; border-radius: 6px; white-space: nowrap; margin-right: 10px; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #e2e8f0; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
         /* CẢNH BÁO GIỮA MÀN HÌNH */
-        .custom-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: all 0.3s ease;
-        }
+        .custom-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: all 0.3s ease; }
         .custom-overlay.active { opacity: 1; pointer-events: auto; }
-        .custom-modal {
-            background: #1e293b; border: 2px solid var(--accent); border-radius: 24px; max-width: 400px; width: 100%; padding: 30px 24px; text-align: center; box-shadow: 0 25px 50px -12px rgba(244, 63, 94, 0.25); transform: scale(0.9); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+        .custom-modal { background: #1e293b; border: 2px solid var(--accent); border-radius: 24px; max-width: 400px; width: 100%; padding: 30px 24px; text-align: center; box-shadow: 0 25px 50px -12px rgba(244, 63, 94, 0.25); transform: scale(0.9); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .custom-overlay.active .custom-modal { transform: scale(1); }
         .modal-icon { font-size: 3em; color: var(--accent); margin-bottom: 15px; animation: pulseWarning 1.5s infinite; }
         .modal-title { font-size: 1.25em; font-weight: 800; color: #f8fafc; margin-bottom: 12px; }
@@ -99,26 +78,20 @@ HTML
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .hotline-box { 
-            background: rgba(56, 189, 248, 0.08); color: var(--primary); padding: 14px; border-radius: 16px; text-align: center; font-weight: 600; margin-bottom: 25px; border: 1px solid rgba(56, 189, 248, 0.2); font-size: 0.95em; line-height: 1.5;
-        }
+        .hotline-box { background: rgba(56, 189, 248, 0.08); color: var(--primary); padding: 14px; border-radius: 16px; text-align: center; font-weight: 600; margin-bottom: 25px; border: 1px solid rgba(56, 189, 248, 0.2); font-size: 0.95em; line-height: 1.5; }
         .hotline-box a { color: var(--primary); text-decoration: none; font-size: 1.15em; font-weight: 700; display: inline-block; margin-top: 4px; }
         
         .box { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 20px; border-radius: 18px; margin-bottom: 25px; }
         .box h3 { font-size: 1em; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 15px; }
         label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9em; }
-        input, select { 
-            width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #111827; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; color: var(--text-main); font-size: 1em; transition: all 0.2s;
-        }
+        input, select { width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #111827; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; color: var(--text-main); font-size: 1em; transition: all 0.2s; }
         input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
         input[type="date"] { padding: 18px 15px; font-size: 1.2em; font-weight: 700; color: var(--highlight); border: 2px solid rgba(245, 158, 11, 0.4); background: #0f172a; cursor: pointer; }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(75%) sepia(80%) saturate(1000%) hue-rotate(340deg); transform: scale(1.4); }
         
         /* KHU VỰC CHỌN CA CỐ ĐỊNH */
         .time-wheel-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 20px 0; }
-        .wheel-slot {
-            background: #111827; border: 1px solid var(--border); border-radius: 16px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; user-select: none; display: flex; flex-direction: column; gap: 4px;
-        }
+        .wheel-slot { background: #111827; border: 1px solid var(--border); border-radius: 16px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; user-select: none; display: flex; flex-direction: column; gap: 4px; }
         .wheel-slot .slot-time { font-size: 1.05em; font-weight: 700; color: var(--text-main); }
         .wheel-slot .slot-status { font-size: 0.8em; font-weight: 600; color: var(--success); }
         .wheel-slot.selected { background: linear-gradient(135deg, var(--primary), #0ea5e9); border-color: var(--primary); transform: scale(1.02); box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25); }
@@ -133,23 +106,15 @@ HTML
         .picker-row:last-child { margin-bottom: 0; }
         .picker-label { font-size: 0.9em; font-weight: 700; color: var(--text-muted); min-width: 90px; }
         .picker-slider-wrapper { flex: 1; display: flex; align-items: center; gap: 12px; }
-        .range-slider {
-            flex: 1; -webkit-appearance: none; background: #334155; height: 8px; border-radius: 9px; outline: none; cursor: pointer;
-        }
-        .range-slider::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 10px rgba(56,189,248,0.5); cursor: pointer; transition: 0.1s;
-        }
+        .range-slider { flex: 1; -webkit-appearance: none; background: #334155; height: 8px; border-radius: 9px; outline: none; cursor: pointer; }
+        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 10px rgba(56,189,248,0.5); cursor: pointer; transition: 0.1s; }
         .range-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
         .picker-output { background: #0f172a; border: 1px solid var(--border); color: var(--highlight); font-weight: 800; font-size: 1.1em; padding: 6px 12px; border-radius: 10px; min-width: 80px; text-align: center; }
 
-        .action-btn { 
-            width: 100%; padding: 15px; background: var(--primary); color: #0f172a; border: none; border-radius: 14px; font-weight: 700; font-size: 1em; cursor: pointer; transition: all 0.2s;
-        }
+        .action-btn { width: 100%; padding: 15px; background: var(--primary); color: #0f172a; border: none; border-radius: 14px; font-weight: 700; font-size: 1em; cursor: pointer; transition: all 0.2s; }
         .action-btn:active { transform: scale(0.98); }
         
-        .telegram-notice-btn {
-            display: none; background: #24a1de; color: white; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.95em; text-decoration: none; margin: 15px 0; box-shadow: 0 4px 15px rgba(36, 161, 222, 0.3); transition: all 0.2s;
-        }
+        .telegram-notice-btn { display: none; background: #24a1de; color: white; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.95em; text-decoration: none; margin: 15px 0; box-shadow: 0 4px 15px rgba(36, 161, 222, 0.3); transition: all 0.2s; }
         .telegram-notice-btn:active { transform: scale(0.98); }
 
         .section-title { font-size: 1.1em; font-weight: 700; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--highlight); padding-left: 10px; }
@@ -165,7 +130,6 @@ HTML
         .qr-section { margin-top: 35px; text-align: center; padding: 20px 15px 0 15px; border-top: 1px dashed var(--border); }
         .qr-section div { font-size: 0.95em; font-weight: 600; margin-bottom: 15px; color: var(--text-muted); }
         .qr-section img { width: 140px; height: 140px; border: 4px solid var(--border); border-radius: 16px; padding: 5px; background: white; }
-
         .developer-footer { text-align: center; margin-top: 25px; font-size: 0.8em; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
         .developer-footer span { color: var(--primary); font-weight: 700; text-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
     </style>
@@ -193,9 +157,7 @@ HTML
 
     <div class="ticker-container">
         <div class="ticker-label">SÂN TRỐNG</div>
-        <marquee id="liveTicker" behavior="scroll" direction="left" scrollamount="5">
-            Đang tải dữ liệu tìm sân trống...
-        </marquee>
+        <marquee id="liveTicker" behavior="scroll" direction="left" scrollamount="5">Đang tải dữ liệu tìm sân trống...</marquee>
     </div>
     
     <div class="tab-navigation">
@@ -205,10 +167,7 @@ HTML
     </div>
 
     <div id="dat-san" class="tab-content active">
-        <div class="hotline-box">
-            Hủy/Đổi sân gặp sự cố gọi ngay:<br>
-            <a href="tel:0395936865">☎ 0395.936.865</a>
-        </div>
+        <div class="hotline-box">Hủy/Đổi sân gặp sự cố gọi ngay:<br><a href="tel:0395936865">☎ 0395.936.865</a></div>
 
         <div class="box">
             <h3 style="margin-top:0; color:var(--primary);">THÔNG TIN KHÁCH HÀNG</h3>
@@ -250,9 +209,7 @@ HTML
         
         <button class="action-btn" onclick="datSan()" style="margin-top:5px; background: linear-gradient(135deg, var(--primary), #0ea5e9);">XÁC NHẬN ĐẶT SÂN</button>
 
-        <a id="telegramNoticeBtn" href="https://t.me/PhucAnBadmintonBot" target="_blank" class="telegram-notice-btn">
-            🔔 NHẬN NHẮC LỊCH QUA TELEGRAM ĐIỆN THOẠI (MIỄN PHÍ)
-        </a>
+        <a id="telegramNoticeBtn" href="https://t.me/PhucAnBadmintonBot" target="_blank" class="telegram-notice-btn">HN NHẬN NHẮC LỊCH QUA TELEGRAM ĐIỆN THOẠI (MIỄN PHÍ)</a>
 
         <div class="section-title">BẢNG LỊCH ĐẶT TRONG NGÀY (SÂN 1 ➔ SÂN 2, GIỜ SỚM XẾP TRƯỚC)</div>
         <div id="tongHopDanhSach"></div>
@@ -265,39 +222,15 @@ HTML
             <div class="price-row"><span>🔆 9h - 16h</span><span class="price-tag">60k / Giờ</span></div>
             <div class="price-row"><span>🌙 16h - 22h</span><span class="price-tag">70k / Giờ</span></div>
         </div>
-
         <div class="box">
             <h3 style="color: var(--highlight); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔥 THỨ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ 5h - 22h</span><span class="price-tag">70k / Giờ</span></div>
         </div>
-
-        <div class="promo-box">
-            <h3 style="color: var(--success); margin-top: 0; font-size: 1.05em;">🎁 CHƯƠNG TRÌNH KHUYẾN MÃI</h3>
-            <p style="font-size: 0.95em; margin: 8px 0;">🎓 <b>Học sinh, Sinh viên:</b> Chỉ <span style="color:var(--success); font-weight:700;">39k/Giờ</span> (Khung giờ 5h-17h, T2-T6)</p>
-            <p style="font-size: 0.95em; margin: 8px 0;">🤝 <b>Khách đặt sân cố định:</b> Giảm ngay <span style="color:var(--success); font-weight:700;">15%</span></p>
-        </div>
-        
-        <p style="font-size:0.85em; color:var(--text-muted); text-align:center; margin-top:20px;">📍 <b>Địa chỉ:</b> Tổ 1, khu phố 9, Chánh Phú Hoà, Bến Cát, Bình Dương</p>
     </div>
 
     <div id="noi-quy" class="tab-content">
         <div class="box" style="padding: 20px 15px;">
-            <div class="rule-item">
-                <div class="rule-title">1. Giày và vợt:</div>
-                <div style="font-size: 0.95em; color: var(--text-main);">Không đi giày đế cứng, đế màu đen vào sân.</div>
-            </div>
-            <div class="rule-item">
-                <div class="rule-title">2. Trẻ em:</div>
-                <div style="font-size: 0.95em; color: var(--text-main);">Tự quản lý trẻ đi cùng để đảm bảo an toàn.</div>
-            </div>
-            <div class="rule-item">
-                <div class="rule-title">3. Thuê sân:</div>
-                <div style="font-size: 0.95em; color: var(--text-main);">Vào sân tập không mở đèn vẫn tính tiền theo quy định bảo trì.</div>
-            </div>
-            <div class="rule-item" style="margin-bottom: 0;">
-                <div class="rule-title" style="color: var(--accent);">4. Cấm:</div>
-                <div style="font-size: 0.95em; color: var(--text-main); font-weight: 600;">Không hút thuốc và dùng chất kích thích.</div>
-            </div>
+            <div class="rule-item"><div class="rule-title">1. Giày và vợt:</div><div style="font-size: 0.95em; color: var(--text-main);">Không đi giày đế cứng, đế màu đen vào sân.</div></div>
         </div>
     </div>
 
@@ -305,10 +238,7 @@ HTML
         <div>Quét mã tham gia nhóm Zalo</div>
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" alt="QR Zalo">
     </div>
-
-    <div class="developer-footer">
-        ⚡ Phát triển bởi <span>Văn Bắc</span>
-    </div>
+    <div class="developer-footer">⚡ Phát triển bởi <span>Văn Bắc</span></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -348,161 +278,14 @@ HTML
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
     }
 
-    function yeuCauQuyenThongBao() {
-        if (!("Notification" in window)) return;
-        if (Notification.permission === "default") { Notification.requestPermission(); }
-    }
-
-    function thucHienQuetNhacHenGio() {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (!user || !user.sdt) return; 
-        if (!("Notification" in window) || Notification.permission !== "granted") return;
-
-        const ngayHienTai = getVNDateString();
-        const gioHeThong = new Date();
-        const phutHienTai = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
-
-        mangLichToanBoHienTai.forEach(l => {
-            if (l.ngay === ngayHienTai && l.sdt === user.sdt) {
-                const [s, e] = l.thoiGian.split('-');
-                const phutBatDau = toMinutes(s); const phutKetThuc = toMinutes(e);
-                
-                const thongBaoNhacKey = `notified_nhac_${l.ngay}_${l.thoiGian}_${l.san}`;
-                const thongBaoCamOnKey = `notified_thanks_${l.ngay}_${l.thoiGian}_${l.san}`;
-
-                if (phutBatDau - phutHienTai === 15 && !localStorage.getItem(thongBaoNhacKey)) {
-                    localStorage.setItem(thongBaoNhacKey, "true");
-                    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    new Notification("🏸 PHÚC AN BADMINTON", {
-                        body: `Anh/Chị ${l.ten} ơi! Sắp đến giờ chơi tại ${l.san} (${l.thoiGian}) rồi ạ. Chuẩn bị trang phục lên sân nhé! 🎉`,
-                        icon: "https://cdn-icons-png.flaticon.com/512/5355/5355811.png"
-                    });
-                }
-
-                if (phutHienTai === phutKetThuc && !localStorage.getItem(thongBaoCamOnKey)) {
-                    localStorage.setItem(thongBaoCamOnKey, "true");
-                    if (navigator.vibrate) navigator.vibrate([300, 150, 300]);
-                    new Notification("🏸 PHÚC AN BADMINTON", {
-                        body: `Cảm ơn anh/chị ${l.ten} đã tin tưởng giao lưu tại sân hôm nay! Chúc anh/chị luôn dồi dào sức khỏe, tràn đầy năng lượng và hẹn gặp lại ở những trận cầu tiếp theo nhé! 🥰`,
-                        icon: "https://cdn-icons-png.flaticon.com/512/5355/5355811.png"
-                    });
-                }
-            }
-        });
-    }
-
-    // --- 🛠️ FIX LỖI THANH TRƯỢT TỰ CHỌN GIỜ LẺ ---
-    function capNhatGioTuChon() {
-        document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected'));
-
-        let startMin = parseInt(document.getElementById('startSlider').value);
-        let endMin = parseInt(document.getElementById('endSlider').value);
-
-        if (startMin >= endMin) {
-            endMin = startMin + 15;
-            document.getElementById('endSlider').value = endMin;
-        }
-
-        let startTimeText = formatMinutesToText(startMin);
-        let endTimeText = formatMinutesToText(endMin);
-
-        document.getElementById('startOutput').innerText = startTimeText;
-        document.getElementById('endOutput').innerText = endTimeText;
-
-        document.getElementById('thoiGian').value = startTimeText + "-" + endTimeText;
-    }
-
-    // --- 🛠️ FIX LỖI HÀM DỰNG VÒNG QUAY CHỌN GIỜ ---
-    function renderTimeWheel() {
-        const sanDangChon = document.getElementById('san').value;
-        const ngayDangChon = document.getElementById('ngay').value;
-        const ngayHienTai = getVNDateString();
-        const gioHeThong = new Date();
-        const phutHienTaiSystem = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
-
-        let container = document.getElementById('timeWheel');
-        if (!container) return;
-        container.innerHTML = ""; 
-
-        DANH_SACH_CA_CHUAN.forEach(ca => {
-            const [s, e] = ca.split('-');
-            const phutBatDauCa = toMinutes(s); const phutKetThucCa = toMinutes(e);
-            const buoi = getBuoi(ca);
-
-            let isLocked = false; let statusText = "🟢 Trống";
-
-            if (ngayDangChon === ngayHienTai && phutHienTaiSystem >= phutKetThucCa) {
-                isLocked = true; statusText = "⏱️ Đã qua";
-            }
-
-            mangLichToanBoHienTai.forEach(l => {
-                if (l.san === sanDangChon && l.ngay === ngayDangChon) {
-                    const [ls, le] = l.thoiGian.split('-');
-                    if (phutBatDauCa < toMinutes(le) && phutKetThucCa > toMinutes(ls)) {
-                        isLocked = true; statusText = "❌ Đã kín";
-                    }
-                }
-            });
-
-            let displayCa = ca.replace(/00/g, ''); // Fix lỗi replace bừa bãi cũ
-
-            let slot = document.createElement('div');
-            slot.className = `wheel-slot ${isLocked ? 'locked' : ''}`;
-            slot.innerHTML = `
-                <span class="slot-time">${displayCa} ${buoi}</span>
-                <span class="slot-status">${statusText}</span>
-            `;
-
-            if (!isLocked) {
-                slot.onclick = function() {
-                    document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected'));
-                    slot.classList.add('selected');
-                    document.getElementById('thoiGian').value = ca; 
-
-                    let minStart = toMinutes(s);
-                    let minEnd = toMinutes(e);
-                    document.getElementById('startSlider').value = minStart;
-                    document.getElementById('endSlider').value = minEnd;
-                    document.getElementById('startOutput').innerText = formatMinutesToText(minStart);
-                    document.getElementById('endOutput').innerText = formatMinutesToText(minEnd);
-                };
-            }
-            container.appendChild(slot);
-        });
-    }
-
-    function kiemTraVaCapNhatNgayMoi() {
-        const ngayMoiNhat = getVNDateString();
-        if (currentLocalDateStr !== ngayMoiNhat) {
-            currentLocalDateStr = ngayMoiNhat;
-            document.getElementById('ngay').value = ngayMoiNhat;
-            loadLich();
-        }
-    }
-
-    function switchTab(event, tabId) {
-        kiemTraVaCapNhatNgayMoi();
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-
-    function luuThongTin() {
-        const hoTen = document.getElementById('hoTen').value.trim();
-        const sdt = document.getElementById('sdt').value.trim();
-        if (!hoTen || !sdt || !/^\d{10}$/.test(sdt)) return alert("❌ Vui lòng nhập đầy đủ tên và SĐT gồm 10 chữ số.");
-        localStorage.setItem('user', JSON.stringify({hoTen: hoTen, sdt: sdt}));
-        if ("Notification" in window && Notification.permission === "default") { Notification.requestPermission(); }
-        alert("Thông tin khách đã được lưu!");
-    }
-
     function parseSmartTimePiece(piece) {
+        if (!piece) return { hour: 0, minute: 0 };
         let clean = piece.toLowerCase().trim()
                          .replace(/g/g, ':')   
                          .replace(/h/g, ':')   
                          .replace(/p/g, '')    
-                         .replace(/sáng/g, '').replace(/chiều/g, '').replace(/tối/g, ''); 
+                         .replace(/sáng/g, '').replace(/chiều/g, '').replace(/tối/g, '')
+                         .replace(/\s+/g, ''); 
         
         if (!clean.includes(':')) {
             let h = parseInt(clean, 10) || 0;
@@ -517,11 +300,25 @@ HTML
     }
 
     function toMinutes(timeStr) {
-        let parsed = parseSmartTimePiece(timeStr);
-        return (parsed.hour * 60) + parsed.minute;
+        if(!timeStr) return 0;
+        let pieces = timeStr.split('-');
+        if(pieces.length > 0) {
+            let parsed = parseSmartTimePiece(pieces[0]);
+            return (parsed.hour * 60) + parsed.minute;
+        }
+        return 0;
     }
 
-    // Định dạng số phút tổng sang văn bản chuẩn h
+    function toMinutesEnd(timeStr) {
+        if(!timeStr) return 0;
+        let pieces = timeStr.split('-');
+        if(pieces.length > 1) {
+            let parsed = parseSmartTimePiece(pieces[1]);
+            return (parsed.hour * 60) + parsed.minute;
+        }
+        return 0;
+    }
+
     function formatMinutesToText(totalMinutes) {
         let h = Math.floor(totalMinutes / 60); let m = totalMinutes % 60;
         let hStr = h < 10 ? '0' + h : h; let mStr = m < 10 ? '0' + m : m;
@@ -529,28 +326,107 @@ HTML
     }
 
     function getBuoi(timeStr) {
-        let min = toMinutes(timeStr.split('-')[0]);
+        let pieces = timeStr.split('-');
+        let min = toMinutes(pieces[0]);
         let h = Math.floor(min / 60);
         if (h < 12) return "sáng";
         if (h >= 12 && h < 18) return "chiều";
         return "tối";
     }
 
+    function capNhatGioTuChon() {
+        document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected'));
+        let startMin = parseInt(document.getElementById('startSlider').value);
+        let endMin = parseInt(document.getElementById('endSlider').value);
+
+        if (startMin >= endMin) {
+            endMin = startMin + 15;
+            document.getElementById('endSlider').value = endMin;
+        }
+
+        let startTimeText = formatMinutesToText(startMin);
+        let endTimeText = formatMinutesToText(endMin);
+
+        document.getElementById('startOutput').innerText = startTimeText;
+        document.getElementById('endOutput').innerText = endTimeText;
+        document.getElementById('thoiGian').value = startTimeText + "-" + endTimeText;
+    }
+
+    function renderTimeWheel() {
+        const sanDangChon = document.getElementById('san').value;
+        const ngayDangChon = document.getElementById('ngay').value;
+        const ngayHienTai = getVNDateString();
+        const gioHeThong = new Date();
+        const phutHienTaiSystem = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
+
+        let container = document.getElementById('timeWheel');
+        if (!container) return;
+        container.innerHTML = ""; 
+
+        DANH_SACH_CA_CHUAN.forEach(ca => {
+            const [s, e] = ca.split('-');
+            const phutBatDauCa = parseSmartTimePiece(s).hour * 60; 
+            const phutKetThucCa = parseSmartTimePiece(e).hour * 60;
+            const buoi = getBuoi(ca);
+
+            let isLocked = false; let statusText = "🟢 Trống";
+
+            if (ngayDangChon === ngayHienTai && phutHienTaiSystem >= phutKetThucCa) {
+                isLocked = true; statusText = "⏱️ Đã qua";
+            }
+
+            mangLichToanBoHienTai.forEach(l => {
+                if (l.san === sanDangChon && l.ngay === ngayDangChon) {
+                    let lsMin = toMinutes(l.thoiGian);
+                    let leMin = toMinutesEnd(l.thoiGian);
+                    if (phutBatDauCa < leMin && phutKetThucCa > lsMin) {
+                        isLocked = true; statusText = "❌ Đã kín";
+                    }
+                }
+            });
+
+            let displayCa = ca.split('-').map(time => time.replace('00','')).join('-');
+
+            let slot = document.createElement('div');
+            slot.className = `wheel-slot ${isLocked ? 'locked' : ''}`;
+            slot.innerHTML = `
+                <span class="slot-time">${displayCa} ${buoi}</span>
+                <span class="slot-status">${statusText}</span>
+            `;
+
+            if (!isLocked) {
+                slot.onclick = function() {
+                    document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected'));
+                    slot.classList.add('selected');
+                    document.getElementById('thoiGian').value = ca; 
+
+                    let minStart = parseSmartTimePiece(s).hour * 60;
+                    let minEnd = parseSmartTimePiece(e).hour * 60;
+                    document.getElementById('startSlider').value = minStart;
+                    document.getElementById('endSlider').value = minEnd;
+                    document.getElementById('startOutput').innerText = formatMinutesToText(minStart);
+                    document.getElementById('endOutput').innerText = formatMinutesToText(minEnd);
+                };
+            }
+            container.appendChild(slot);
+        });
+    }
+
     function taoNhanTrangThaiLive(targetNgay, thoiGianStr) {
         const ngayHienTai = getVNDateString();
         if (targetNgay !== ngayHienTai) return `<span class="live-status-badge status-upcoming"> Chờ lịch</span>`;
-
         const gioHeThong = new Date();
         const phutHienTai = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
-        const [s, e] = thoiGianStr.split('-');
-        const phutBatDau = toMinutes(s); const phutKetThuc = toMinutes(e);
+        
+        let sMin = toMinutes(thoiGianStr);
+        let eMin = toMinutesEnd(thoiGianStr);
 
-        if (phutHienTai >= phutKetThuc) return `<span class="live-status-badge status-done"> Hoàn thành</span>`;
-        else if (phutHienTai >= phutBatDau && phutHienTai < phutKetThuc) {
-            if (phutKetThuc - phutHienTai <= 15) return `<span class="live-status-badge status-ending"><marquee scrollamount="2" width="80">⚠️ Sắp hết giờ...</marquee></span>`;
+        if (phutHienTai >= eMin) return `<span class="live-status-badge status-done"> Hoàn thành</span>`;
+        else if (phutHienTai >= sMin && phutHienTai < eMin) {
+            if (eMin - phutHienTai <= 15) return `<span class="live-status-badge status-ending"><marquee scrollamount="2" width="80">⚠️ Sắp hết giờ...</marquee></span>`;
             return `<span class="live-status-badge status-playing"><marquee scrollamount="2" width="70">🔥 Đang chơi...</marquee></span>`;
         }
-        else if (phutBatDau - phutHienTai <= 15 && phutBatDau - phutHienTai > 0) return `<span class="live-status-badge status-upcoming"><marquee scrollamount="2" width="80"> Sắp bắt đầu...</marquee></span>`;
+        else if (sMin - phutHienTai <= 15 && sMin - phutHienTai > 0) return `<span class="live-status-badge status-upcoming"><marquee scrollamount="2" width="80"> Sắp bắt đầu...</marquee></span>`;
         else return `<span class="live-status-badge status-upcoming"> Chờ lên sân</span>`;
     }
 
@@ -573,24 +449,23 @@ HTML
         let tickerHtml = "";
         DANH_SACH_CA_CHUAN.forEach(ca => {
             const [s, e] = ca.split('-');
-            const batDauCa = toMinutes(s); const ketThucCa = toMinutes(e);
+            const batDauCa = parseSmartTimePiece(s).hour * 60; 
+            const ketThucCa = parseSmartTimePiece(e).hour * 60;
             if (targetNgay === ngayHienTai && ketThucCa <= phutHienTai) return; 
 
             cacSan.forEach(san => {
                 let isEmpty = true;
                 if(mapLichDat[san]) {
                     mapLichDat[san].forEach(l => {
-                        const [ls, le] = l.thoiGian.split('-');
-                        if (batDauCa < toMinutes(le) && ketThucCa > toMinutes(ls)) isEmpty = false; 
+                        let lsMin = toMinutes(l.thoiGian);
+                        let leMin = toMinutesEnd(l.thoiGian);
+                        if (batDauCa < leMin && ketThucCa > lsMin) isEmpty = false; 
                     });
                 }
-                if (isEmpty) {
-                    let buoi = getBuoi(ca);
-                    tickerHtml += `<span class="ticker-item">🔹 <b>${san}</b> | <span style="color:var(--primary); font-weight:800;">${ca} ${buoi}</span> <span style='color:var(--success);'>🟢 Trống</span></span>`;
-                }
+                if (isEmpty) { tickerHtml += `<span class="ticker-item">🔹 <b>${san}</b> | <span style="color:var(--primary); font-weight:800;">${ca}</span> <span style='color:var(--success);'>🟢 Trống</span></span>`; }
             });
         });
-        document.getElementById('liveTicker').innerHTML = tickerHtml || "🔥 Đã kín toàn bộ lịch hôm nay! Không còn sân trống.";
+        document.getElementById('liveTicker').innerHTML = tickerHtml || "🔥 Đã kín toàn bộ lịch hôm nay!";
     }
 
     function datSan() {
@@ -601,47 +476,35 @@ HTML
         const ngay = document.getElementById('ngay').value;
 
         if(!user || !user.hoTen || !user.sdt) return alert("❌ Vui lòng điền và bấm 'Lưu thông tin' ở trên trước khi đặt!");
-        if(!thoiGianGoc) return alert("❌ Vui lòng chạm chọn Ca chuẩn hoặc kéo thanh trượt chọn giờ!");
+        if(!thoiGianGoc) return alert("❌ Vui lòng chọn Ca chuẩn hoặc kéo thanh trượt chọn giờ!");
 
-        const [startStr, endStr] = thoiGianGoc.split('-');
-        const newStart = toMinutes(startStr); const newEnd = toMinutes(endStr);
-        const thoiGianDaChuanHoa = formatMinutesToText(newStart) + "-" + formatMinutesToText(newEnd);
+        let sMin = toMinutes(thoiGianGoc);
+        let eMin = toMinutesEnd(thoiGianGoc);
+        const thoiGianDaChuanHoa = formatMinutesToText(sMin) + "-" + formatMinutesToText(eMin);
 
         const ngayHienTai = getVNDateString();
-        if (ngay === ngayHienTai) {
-            const gioHienTai = new Date();
-            const phutHienTaiSystem = (gioHienTai.getHours() * 60) + gioHienTai.getMinutes();
-            if (newStart < phutHienTaiSystem) return alert("❌ Không thể đặt sân khung giờ đã trôi qua trong ngày hôm nay!");
-        } else if (ngay < ngayHienTai) { return alert("❌ Không thể chọn đặt lịch cho những ngày trong quá khứ!"); }
+        if (ngay === ngayHienTai && sMin < ((new Date()).getHours() * 60 + (new Date()).getMinutes())) {
+            return alert("❌ Không thể đặt sân khung giờ đã trôi qua!");
+        }
 
         db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).once('value', (snap) => {
             let isOverlapping = false;
             snap.forEach(c => {
                 let l = c.val();
                 if(l.san == san) {
-                    const [s, e] = l.thoiGian.split('-');
-                    if (newStart < toMinutes(e) && newEnd > toMinutes(s)) isOverlapping = true;
+                    let lsMin = toMinutes(l.thoiGian);
+                    let leMin = toMinutesEnd(l.thoiGian);
+                    if (sMin < leMin && eMin > lsMin) isOverlapping = true;
                 }
             });
 
             if(isOverlapping) {
-                alert("❌ Khung giờ này bị trùng lịch hoặc giao nhau với một lịch khác đã có người đặt! Vui lòng trượt chọn giờ khác.");
+                alert("❌ Khung giờ này bị trùng lịch hoặc giao nhau với một lịch khác đã có người đặt!");
             } else {
-                db.ref('lichDatCauLong').push({
-                    ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGianDaChuanHoa
-                }).then(() => {
+                db.ref('lichDatCauLong').push({ ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGianDaChuanHoa }).then(() => {
                     alert("✅ Đặt sân thành công!");
                     document.getElementById('thoiGian').value = '';
                     document.getElementById('telegramNoticeBtn').style.display = 'block';
-                    
-                    let tinNhanTelegam = `📝 <b>LỊCH ĐẶT SÂN MỚI</b>\n` +
-                                         `━━━━━━━━━━━━━━━━━━\n` +
-                                         ` Sân: <b>${san}</b>\n` +
-                                         `📅 Ngày đặt: <code>${ngay}</code>\n` +
-                                         `⏰ Khung giờ: <b>${thoiGianDaChuanHoa}</b>\n` +
-                                         `👤 Tên khách: <b>${user.hoTen}</b>\n` +
-                                         `📞 Điện thoại: <code>${user.sdt}</code>`;
-                    guiThongBaoTelegram(tinNhanTelegam);
                 });
             }
         });
@@ -656,61 +519,64 @@ HTML
             let htmlAllSan = ''; mangLichToanBoHienTai = []; 
             updateLiveTicker(snap, ngay);
 
-            snap.forEach(c => {
-                let item = c.val(); item.key = c.key; mangLichToanBoHienTai.push(item);
-            });
-
+            snap.forEach(c => { let item = c.val(); item.key = c.key; mangLichToanBoHienTai.push(item); });
             renderTimeWheel();
 
             mangLichToanBoHienTai.sort((a, b) => {
                 if (a.san !== b.san) return a.san.localeCompare(b.san, 'vi', { numeric: true });
-                return toMinutes(a.thoiGian.split('-')[0]) - toMinutes(b.thoiGian.split('-')[0]);
+                return toMinutes(a.thoiGian) - toMinutes(b.thoiGian);
             });
 
             mangLichToanBoHienTai.forEach(l => {
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${l.key}')">Hủy</button>`;
                 let buoi = getBuoi(l.thoiGian); let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
-                let textThoiGian = `<b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>${liveBadge}`;
-
-                htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | ${textThoiGian} | ${l.ten} ${info}</span>${buttonHuy}</div>`;
+                htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | <b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>${liveBadge} | ${l.ten} ${info}</span>${buttonHuy}</div>`;
             });
-
             document.getElementById('tongHopDanhSach').innerHTML = htmlAllSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Chưa có lịch đặt nào trong ngày</p>";
-            thucHienQuetNhacHenGio();
         });
     }
 
     function huy(id) {
-        function thucHienHuyVaGuiTin(idXoa) {
-            db.ref('lichDatCauLong/' + idXoa).once('value', (snap) => {
-                let l = snap.val();
-                if(l) {
-                    let tinNhanHuy = `❌ <b>THÔNG BÁO HỦY SÂN</b>\n` + `━━━━━━━━━━━━━━━━━━\n` + ` Sân: <b>${l.san}</b>\n` + `📅 Ngày hủy: <code>${l.ngay}</code>\n` + `⏰ Khung giờ: <b>${l.thoiGian}</b>\n` + `👤 Tên khách cũ: <b>${l.ten}</b>\n` + `📢 Trạng thái: <i>Hủy thành công bởi Admin</i>`;
-                    guiThongBaoTelegram(tinNhanHuy);
-                }
-                db.ref('lichDatCauLong/' + idXoa).remove();
-            });
-        }
         if (localStorage.getItem('isAdmin') === 'true') {
-            if(confirm("Xác nhận hành động Admin: Bạn có chắc chắn muốn xóa lịch này không?")) thucHienHuyVaGuiTin(id);
+            if(confirm("Xác nhận hành động Admin xóa lịch?")) db.ref('lichDatCauLong/' + id).remove();
             return;
         }
         hienCanhBao();
         setTimeout(() => {
-            let checkPass = prompt("Mật khẩu Quản trị (Dành riêng cho chủ sân thao tác nhanh):");
-            if (checkPass === "PhucAn2026$") { dongCanhBao(); thucHienHuyVaGuiTin(id); }
-            else if (checkPass !== null) alert("Mật khẩu không chính xác!");
+            let checkPass = prompt("Mật khẩu Quản trị:");
+            if (checkPass === "PhucAn2026$") { dongCanhBao(); db.ref('lichDatCauLong/' + id).remove(); }
         }, 500);
     }
 
+    function switchTab(event, tabId) {
+        kiemTraVaCapNhatNgayMoi();
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function luuThongTin() {
+        const hoTen = document.getElementById('hoTen').value.trim();
+        const sdt = document.getElementById('sdt').value.trim();
+        if (!hoTen || !sdt || !/^\d{10}$/.test(sdt)) return alert("❌ SĐT gồm 10 chữ số.");
+        localStorage.setItem('user', JSON.stringify({hoTen: hoTen, sdt: sdt}));
+        alert("Thông tin khách đã được lưu!");
+    }
+
     function kichHoatAdmin() {
-        let pass = prompt("Nhập mã Admin để cấu hình thiết bị:");
-        if (pass === "PhucAn2026$") {
-            localStorage.setItem('isAdmin', 'true');
-            alert("🔑 Đã kích hoạt quyền Admin trên trình duyệt này!");
+        let pass = prompt("Nhập mã Admin:");
+        if (pass === "PhucAn2026$") { localStorage.setItem('isAdmin', 'true'); loadLich(); }
+    }
+
+    function kiemTraVaCapNhatNgayMoi() {
+        const ngayMoiNhat = getVNDateString();
+        if (currentLocalDateStr !== ngayMoiNhat) {
+            currentLocalDateStr = ngayMoiNhat;
+            document.getElementById('ngay').value = ngayMoiNhat;
             loadLich();
-        } else if (pass !== null) { alert("Sai mã cấu hình!"); }
+        }
     }
 
     window.onload = () => {
@@ -723,10 +589,7 @@ HTML
         document.getElementById('ngay').value = currentLocalDateStr;
         loadLich();
         capNhatGioTuChon(); 
-        
-        setInterval(() => {
-            kiemTraVaCapNhatNgayMoi(); loadLich(); thucHienQuetNhacHenGio();
-        }, 60000);
+        setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); }, 60000);
     };
 </script>
 </body>
