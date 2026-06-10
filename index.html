@@ -59,19 +59,8 @@ HTML
             text-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
             animation: pullGlow 3s ease-in-out infinite alternate;
         }
-        .brand-logo span {
-            font-size: 1.1em;
-            -webkit-text-fill-color: initial; 
-            filter: drop-shadow(0 2px 8px rgba(56,189,248,0.5));
-        }
-        .brand-sub {
-            font-size: 0.75em;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            font-weight: 600;
-        }
+        .brand-logo span { font-size: 1.1em; -webkit-text-fill-color: initial; filter: drop-shadow(0 2px 8px rgba(56,189,248,0.5)); }
+        .brand-sub { font-size: 0.75em; text-transform: uppercase; letter-spacing: 4px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
         @keyframes pullGlow {
             0% { filter: drop-shadow(0 2px 4px rgba(56, 189, 248, 0.1)); }
             100% { filter: drop-shadow(0 4px 14px rgba(56, 189, 248, 0.3)); }
@@ -79,97 +68,39 @@ HTML
 
         /* BẢNG CHẠY CHỮ CHỨNG KHOÁN */
         .ticker-container {
-            background: #0b0f19;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 8px 10px;
-            margin-bottom: 25px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
+            background: #0b0f19; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; margin-bottom: 25px; overflow: hidden; display: flex; align-items: center;
         }
         .ticker-label {
-            background: var(--success);
-            color: #fff;
-            font-size: 0.75em;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 6px;
-            white-space: nowrap;
-            margin-right: 10px;
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+            background: var(--success); color: #fff; font-size: 0.75em; font-weight: 800; padding: 3px 8px; border-radius: 6px; white-space: nowrap; margin-right: 10px; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
         }
-        .ticker-container marquee {
-            font-size: 0.85em;
-            font-weight: 600;
-            color: #e2e8f0;
-        }
-        .ticker-item {
-            margin-right: 35px;
-            display: inline-block;
-        }
+        .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #e2e8f0; }
+        .ticker-item { margin-right: 35px; display: inline-block; }
         
         /* CẢNH BÁO GIỮA MÀN HÌNH */
         .custom-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0; pointer-events: none;
-            transition: all 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: all 0.3s ease;
         }
         .custom-overlay.active { opacity: 1; pointer-events: auto; }
         .custom-modal {
-            background: #1e293b;
-            border: 2px solid var(--accent);
-            border-radius: 24px;
-            max-width: 400px;
-            width: 100%;
-            padding: 30px 24px;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(244, 63, 94, 0.25);
-            transform: scale(0.9);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: #1e293b; border: 2px solid var(--accent); border-radius: 24px; max-width: 400px; width: 100%; padding: 30px 24px; text-align: center; box-shadow: 0 25px 50px -12px rgba(244, 63, 94, 0.25); transform: scale(0.9); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .custom-overlay.active .custom-modal { transform: scale(1); }
         .modal-icon { font-size: 3em; color: var(--accent); margin-bottom: 15px; animation: pulseWarning 1.5s infinite; }
         .modal-title { font-size: 1.25em; font-weight: 800; color: #f8fafc; margin-bottom: 12px; }
         .modal-content { font-size: 0.95em; color: var(--text-muted); line-height: 1.6; }
         .modal-content b { color: #f8fafc; }
-        .modal-footer-tip {
-            margin-top: 25px; font-size: 0.8em; color: var(--text-muted); border-top: 1px solid var(--border);
-            padding-top: 15px; font-style: italic;
-        }
-        @keyframes pulseWarning {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(244,63,94,0.6)); }
-            100% { transform: scale(1); }
-        }
+        .modal-footer-tip { margin-top: 25px; font-size: 0.8em; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 15px; font-style: italic; }
+        @keyframes pulseWarning { 0% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(244,63,94,0.6)); } 100% { transform: scale(1); } }
 
         /* MENU VÀ FORM */
-        .tab-navigation {
-            display: flex; background: #111827; padding: 6px; border-radius: 14px;
-            margin-bottom: 25px; border: 1px solid var(--border);
-        }
-        .tab-btn {
-            flex: 1; padding: 10px; background: transparent; color: var(--text-muted);
-            border: none; border-radius: 10px; cursor: pointer; font-size: 0.9em;
-            font-weight: 700; transition: all 0.2s; text-align: center;
-        }
+        .tab-navigation { display: flex; background: #111827; padding: 6px; border-radius: 14px; margin-bottom: 25px; border: 1px solid var(--border); }
+        .tab-btn { flex: 1; padding: 10px; background: transparent; color: var(--text-muted); border: none; border-radius: 10px; cursor: pointer; font-size: 0.9em; font-weight: 700; transition: all 0.2s; text-align: center; }
         .tab-btn.active { background: var(--primary); color: #0f172a; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
         .hotline-box { 
-            background: rgba(56, 189, 248, 0.08); color: var(--primary); padding: 14px; 
-            border-radius: 16px; text-align: center; font-weight: 600; margin-bottom: 25px; 
-            border: 1px solid rgba(56, 189, 248, 0.2); font-size: 0.95em; line-height: 1.5;
+            background: rgba(56, 189, 248, 0.08); color: var(--primary); padding: 14px; border-radius: 16px; text-align: center; font-weight: 600; margin-bottom: 25px; border: 1px solid rgba(56, 189, 248, 0.2); font-size: 0.95em; line-height: 1.5;
         }
         .hotline-box a { color: var(--primary); text-decoration: none; font-size: 1.15em; font-weight: 700; display: inline-block; margin-top: 4px; }
         
@@ -177,38 +108,55 @@ HTML
         .box h3 { font-size: 1em; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 15px; }
         label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9em; }
         input, select { 
-            width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #111827;
-            border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; 
-            color: var(--text-main); font-size: 1em; transition: all 0.2s;
+            width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #111827; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; color: var(--text-main); font-size: 1em; transition: all 0.2s;
         }
         input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
-        input[type="date"] {
-            padding: 18px 15px; font-size: 1.2em; font-weight: 700; color: var(--highlight); 
-            border: 2px solid rgba(245, 158, 11, 0.4); background: #0f172a; cursor: pointer;
-        }
+        input[type="date"] { padding: 18px 15px; font-size: 1.2em; font-weight: 700; color: var(--highlight); border: 2px solid rgba(245, 158, 11, 0.4); background: #0f172a; cursor: pointer; }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(75%) sepia(80%) saturate(1000%) hue-rotate(340deg); transform: scale(1.4); }
         
+        /* KHU VỰC CHỌN CA CỐ ĐỊNH */
+        .time-wheel-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 20px 0; }
+        .wheel-slot {
+            background: #111827; border: 1px solid var(--border); border-radius: 16px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; user-select: none; display: flex; flex-direction: column; gap: 4px;
+        }
+        .wheel-slot .slot-time { font-size: 1.05em; font-weight: 700; color: var(--text-main); }
+        .wheel-slot .slot-status { font-size: 0.8em; font-weight: 600; color: var(--success); }
+        .wheel-slot.selected { background: linear-gradient(135deg, var(--primary), #0ea5e9); border-color: var(--primary); transform: scale(1.02); box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25); }
+        .wheel-slot.selected .slot-time, .wheel-slot.selected .slot-status { color: #0f172a !important; }
+        .wheel-slot.locked { background: #1e293b; border-color: rgba(255,255,255,0.03); opacity: 0.35; cursor: not-allowed; }
+        .wheel-slot.locked .slot-time { color: var(--text-muted); text-decoration: line-through; }
+        .wheel-slot.locked .slot-status { color: var(--accent); }
+
+        /* THANH TRƯỢT GIỜ TỰ CHỌN TỐI GIẢN */
+        .custom-picker-container { background: #111827; border: 1px solid var(--border); border-radius: 18px; padding: 15px; margin-bottom: 25px; }
+        .picker-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; gap: 10px; }
+        .picker-row:last-child { margin-bottom: 0; }
+        .picker-label { font-size: 0.9em; font-weight: 700; color: var(--text-muted); min-width: 90px; }
+        .picker-slider-wrapper { flex: 1; display: flex; align-items: center; gap: 12px; }
+        .range-slider {
+            flex: 1; -webkit-appearance: none; background: #334155; height: 8px; border-radius: 9px; outline: none; cursor: pointer;
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 10px rgba(56,189,248,0.5); cursor: pointer; transition: 0.1s;
+        }
+        .range-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        .picker-output { background: #0f172a; border: 1px solid var(--border); color: var(--highlight); font-weight: 800; font-size: 1.1em; padding: 6px 12px; border-radius: 10px; min-width: 80px; text-align: center; }
+
         .action-btn { 
-            width: 100%; padding: 15px; background: var(--primary); color: #0f172a; 
-            border: none; border-radius: 14px; font-weight: 700; font-size: 1em;
-            cursor: pointer; transition: all 0.2s;
+            width: 100%; padding: 15px; background: var(--primary); color: #0f172a; border: none; border-radius: 14px; font-weight: 700; font-size: 1em; cursor: pointer; transition: all 0.2s;
         }
         .action-btn:active { transform: scale(0.98); }
         
+        .telegram-notice-btn {
+            display: none; background: #24a1de; color: white; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 0.95em; text-decoration: none; margin: 15px 0; box-shadow: 0 4px 15px rgba(36, 161, 222, 0.3); transition: all 0.2s;
+        }
+        .telegram-notice-btn:active { transform: scale(0.98); }
+
         .section-title { font-size: 1.1em; font-weight: 700; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--highlight); padding-left: 10px; }
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #111827; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
         .list-item b { color: var(--primary); }
         
-        /* STYLE HIỂN THỊ TRẠNG THÁI CA CHƠI */
-        .live-status-badge {
-            font-size: 0.8em;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 6px;
-            margin-left: 6px;
-            display: inline-block;
-            vertical-align: middle;
-        }
+        .live-status-badge { font-size: 0.8em; font-weight: 800; padding: 3px 8px; border-radius: 6px; margin-left: 6px; display: inline-block; vertical-align: middle; }
         .status-upcoming { background: rgba(245, 158, 11, 0.15); color: var(--highlight); }
         .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
         .status-ending { background: rgba(249, 115, 22, 0.15); color: #f97316; }
@@ -218,9 +166,7 @@ HTML
         .qr-section div { font-size: 0.95em; font-weight: 600; margin-bottom: 15px; color: var(--text-muted); }
         .qr-section img { width: 140px; height: 140px; border: 4px solid var(--border); border-radius: 16px; padding: 5px; background: white; }
 
-        .developer-footer {
-            text-align: center; margin-top: 25px; font-size: 0.8em; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;
-        }
+        .developer-footer { text-align: center; margin-top: 25px; font-size: 0.8em; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
         .developer-footer span { color: var(--primary); font-weight: 700; text-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
     </style>
 </head>
@@ -274,32 +220,39 @@ HTML
         </div>
 
         <label>Chọn Sân muốn đặt</label>
-        <select id="san"><option>Sân số 1</option><option>Sân số 2</option></select>
+        <select id="san" onchange="renderTimeWheel()"><option>Sân số 1</option><option>Sân số 2</option></select>
         
-        <label style="color: var(--highlight); font-weight: 700;">📅 BẤM VÀO ĐÂY ĐỂ CHỌN NGÀY ĐẶT SÂN:</label>
+        <label style="color: var(--highlight); font-weight: 700;">📅 CHỌN NGÀY ĐẶT SÂN:</label>
         <input type="date" id="ngay" onchange="loadLich()">
         
-        <div class="time-section">
-            <label>☀️ Ca Sáng (Mỗi ca 2 tiếng):</label>
-            <div class="time-chips">
-                <span class="chip" onclick="chonGio('05h00-07h00')">05h - 07h</span>
-                <span class="chip" onclick="chonGio('07h00-09h00')">07h - 09h</span>
-                <span class="chip" onclick="chonGio('09h00-11h00')">09h - 11h</span>
+        <label style="margin-top: 15px; color: var(--primary);">⚡ CHỌN NHANH CA CHUẨN (2 TIẾNG):</label>
+        <div id="timeWheel" class="time-wheel-container"></div>
+        
+        <label style="color: var(--highlight);">🔄 HOẶC KÉO CHỌN GIỜ THEO Ý MUỐN:</label>
+        <div class="custom-picker-container">
+            <div class="picker-row">
+                <span class="picker-label">🛫 Giờ vào:</span>
+                <div class="picker-slider-wrapper">
+                    <input type="range" id="startSlider" class="range-slider" min="300" max="1320" step="15" value="1020" oninput="capNhatGioTuChon()">
+                    <span id="startOutput" class="picker-output">17h00</span>
+                </div>
+            </div>
+            <div class="picker-row">
+                <span class="picker-label">🛬 Giờ ra:</span>
+                <div class="picker-slider-wrapper">
+                    <input type="range" id="endSlider" class="range-slider" min="315" max="1380" step="15" value="1140" oninput="capNhatGioTuChon()">
+                    <span id="endOutput" class="picker-output">19h00</span>
+                </div>
             </div>
         </div>
 
-        <div class="time-section">
-            <label>🌙 Ca Tối (Mỗi ca 2 tiếng):</label>
-            <div class="time-chips">
-                <span class="chip" onclick="chonGio('17h00-19h00')">17h - 19h</span>
-                <span class="chip" onclick="chonGio('19h00-21h00')">19h - 21h</span>
-                <span class="chip" onclick="chonGio('21h00-23h00')">21h - 23h</span>
-            </div>
-        </div>
+        <input type="hidden" id="thoiGian"> 
         
-        <label>Hoặc nhập giờ tự chọn</label>
-        <input type="text" id="thoiGian" placeholder="Ví dụ: 17h3-19h3">
         <button class="action-btn" onclick="datSan()" style="margin-top:5px; background: linear-gradient(135deg, var(--primary), #0ea5e9);">XÁC NHẬN ĐẶT SÂN</button>
+
+        <a id="telegramNoticeBtn" href="https://t.me/PhucAnBadmintonBot" target="_blank" class="telegram-notice-btn">
+            🔔 NHẬN NHẮC LỊCH QUA TELEGRAM ĐIỆN THOẠI (MIỄN PHÍ)
+        </a>
 
         <div class="section-title">BẢNG LỊCH ĐẶT TRONG NGÀY (SÂN 1 ➔ SÂN 2, GIỜ SỚM XẾP TRƯỚC)</div>
         <div id="tongHopDanhSach"></div>
@@ -376,6 +329,8 @@ HTML
     const TELEGRAM_BOT_TOKEN = "8696303368:AAGRsaclHC8BcpIsdXtZ1xGmXA6mRERJ7oQ";
     const TELEGRAM_CHAT_ID = "8349164896";
 
+    const DANH_SACH_CA_CHUAN = ["05h00-07h00", "07h00-09h00", "09h00-11h00", "17h00-19h00", "19h00-21h00", "21h00-23h00"];
+
     function hienCanhBao() { document.getElementById('alertOverlay').classList.add('active'); }
     function dongCanhBao() { document.getElementById('alertOverlay').classList.remove('active'); }
 
@@ -388,6 +343,7 @@ HTML
         }).catch(err => console.error("Lỗi Telegram:", err));
     }
 
+    // Lấy chuỗi ngày định dạng VN
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
@@ -395,12 +351,9 @@ HTML
 
     function yeuCauQuyenThongBao() {
         if (!("Notification" in window)) return;
-        if (Notification.permission === "default") {
-            Notification.requestPermission();
-        }
+        if (Notification.permission === "default") { Notification.requestPermission(); }
     }
 
-    // --- 🔔 HỆ THỐNG GỬI THÔNG BÁO TỰ ĐỘNG: NHẮC HẸN (TRƯỚC 15 PHÚT) VÀ CẢM ƠN (KHI HẾT GIỜ) ---
     function thucHienQuetNhacHenGio() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || !user.sdt) return; 
@@ -413,16 +366,12 @@ HTML
         mangLichToanBoHienTai.forEach(l => {
             if (l.ngay === ngayHienTai && l.sdt === user.sdt) {
                 const [s, e] = l.thoiGian.split('-');
-                const phutBatDau = toMinutes(s);
-                const phutKetThuc = toMinutes(e);
+                const phutBatDau = toMinutes(s); const phutKetThuc = toMinutes(e);
                 
-                // Khóa duy nhất để kiểm soát không bắn trùng thông báo bừa bãi
                 const thongBaoNhacKey = `notified_nhac_${l.ngay}_${l.thoiGian}_${l.san}`;
                 const thongBaoCamOnKey = `notified_thanks_${l.ngay}_${l.thoiGian}_${l.san}`;
 
-                // TÁC VỤ 1: Nhắc hẹn lên sân trước 15 phút
-                const khoangCachPhut = phutBatDau - phutHienTai;
-                if (khoangCachPhut === 15 && !localStorage.getItem(thongBaoNhacKey)) {
+                if (phutBatDau - phutHienTai === 15 && !localStorage.getItem(thongBaoNhacKey)) {
                     localStorage.setItem(thongBaoNhacKey, "true");
                     if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
                     new Notification("🏸 PHÚC AN BADMINTON", {
@@ -431,7 +380,6 @@ HTML
                     });
                 }
 
-                // TÁC VỤ 2: Gửi lời cảm ơn ý nghĩa ngay khi vừa hết giờ ca chơi
                 if (phutHienTai === phutKetThuc && !localStorage.getItem(thongBaoCamOnKey)) {
                     localStorage.setItem(thongBaoCamOnKey, "true");
                     if (navigator.vibrate) navigator.vibrate([300, 150, 300]);
@@ -441,6 +389,86 @@ HTML
                     });
                 }
             }
+        });
+    }
+
+    // --- 🔄 SỬA ĐỔI: KÉO CHỌN GIỜ TỰ DO - BƯỚC NHẢY 15 PHÚT TÁCH TÁCH ---
+    function capNhatGioTuChon() {
+        // Nhả màu chọn ở các ca cố định phía trên khi khách dùng thanh trượt lẻ
+        document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected'));
+
+        let startMin = parseInt(document.getElementById('startSlider').value);
+        let endMin = parseInt(document.getElementById('endSlider').value);
+
+        // Bảo vệ: Nếu khách kéo Giờ Ra nhỏ hơn hoặc bằng Giờ Vào, tự động ép Giờ Ra tăng lên 15 phút lẻ kế tiếp
+        if (startMin >= endMin) {
+            endMin = startMin + 15;
+            document.getElementById('endSlider').value = endMin;
+        }
+
+        let startTimeText = formatMinutesToText(startMin);
+        let endTimeText = formatMinutesToText(endMin);
+
+        document.getElementById('startOutput').innerText = startTimeText;
+        document.getElementById('endOutput').innerText = endTimeText;
+
+        // Tự động gán thẳng giá trị chuỗi thời gian được chọn ra bộ nhớ lưu trữ chính
+        document.getElementById('thoiGian').value = startTimeText + "-" + endTimeText;
+    }
+
+    function renderTimeWheel() {
+        const sanDangChon = document.getElementById('san').value;
+        const ngayDangChon = document.getElementById('ngay').value;
+        const ngayHienTai = getVNDateString();
+        const gioHeThong = new Date();
+        const phutHienTaiSystem = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
+
+        let container = document.getElementById('timeWheel');
+        container.innerHTML = ""; 
+
+        DANH_SACH_CA_CHUAN.forEach(ca => {
+            const [s, e] = ca.split('-');
+            const phutBatDauCa = toMinutes(s); const phutKetThucCa = toMinutes(e);
+            const buoi = getBuoi(ca);
+
+            let isLocked = false; let statusText = "🟢 Trống";
+
+            if (ngayDangChon === ngayHienTai && phutHienTaiSystem >= phutKetThucCa) {
+                isLocked = true; statusText = "⏱️ Đã qua";
+            }
+
+            mangLichToanBoHienTai.forEach(l => {
+                if (l.san === sanDangChon && l.ngay === ngayDangChon) {
+                    const [ls, le] = l.thoiGian.split('-');
+                    if (phutBatDauCa < toMinutes(le) && phutKetThucCa > toMinutes(ls)) {
+                        isLocked = true; statusText = "❌ Đã kín";
+                    }
+                }
+            });
+
+            let slot = document.createElement('div');
+            slot.className = `wheel-slot ${isLocked ? 'locked' : ''}`;
+            slot.innerHTML = `
+                <span class="slot-time">${ca.replace(/00/g,'')} ${buoi}</span>
+                <span class="slot-status">${statusText}</span>
+            `;
+
+            if (!isLocked) {
+                slot.onclick = function() {
+                    document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected'));
+                    slot.classList.add('selected');
+                    document.getElementById('thoiGian').value = ca; 
+
+                    // Đồng bộ thanh trượt chạy theo tương ứng khi bấm ca cố định
+                    let minStart = toMinutes(s);
+                    let minEnd = toMinutes(e);
+                    document.getElementById('startSlider').value = minStart;
+                    document.getElementById('endSlider').value = minEnd;
+                    document.getElementById('startOutput').innerText = formatMinutesToText(minStart);
+                    document.getElementById('endOutput').innerText = formatMinutesToText(minEnd);
+                };
+            }
+            container.appendChild(slot);
         });
     }
 
@@ -461,14 +489,12 @@ HTML
         event.currentTarget.classList.add('active');
     }
 
-    function chonGio(g) { document.getElementById('thoiGian').value = g; }
-    
     function luuThongTin() {
         const hoTen = document.getElementById('hoTen').value.trim();
         const sdt = document.getElementById('sdt').value.trim();
         if (!hoTen || !sdt || !/^\d{10}$/.test(sdt)) return alert("❌ Vui lòng nhập đầy đủ tên và SĐT gồm 10 chữ số.");
         localStorage.setItem('user', JSON.stringify({hoTen: hoTen, sdt: sdt}));
-        yeuCauQuyenThongBao(); 
+        if ("Notification" in window && Notification.permission === "default") { Notification.requestPermission(); }
         alert("Thông tin khách đã được lưu!");
     }
 
@@ -482,9 +508,7 @@ HTML
         let h = parseInt(parts[0], 10) || 0;
         let mStr = parts[1] ? parts[1].trim() : "";
         let m = 0;
-        if (mStr !== "") {
-            m = parseInt(mStr, 10) || 0;
-        }
+        if (mStr !== "") { m = parseInt(mStr, 10) || 0; }
         return { hour: h, minute: m };
     }
 
@@ -494,10 +518,8 @@ HTML
     }
 
     function formatMinutesToText(totalMinutes) {
-        let h = Math.floor(totalMinutes / 60);
-        let m = totalMinutes % 60;
-        let hStr = h < 10 ? '0' + h : h;
-        let mStr = m < 10 ? '0' + m : m;
+        let h = Math.floor(totalMinutes / 60); let m = totalMinutes % 60;
+        let hStr = h < 10 ? '0' + h : h; let mStr = m < 10 ? '0' + m : m;
         return `${hStr}h${mStr}`;
     }
 
@@ -511,59 +533,29 @@ HTML
 
     function taoNhanTrangThaiLive(targetNgay, thoiGianStr) {
         const ngayHienTai = getVNDateString();
-        
-        if (targetNgay !== ngayHienTai) {
-            return `<span class="live-status-badge status-upcoming"> Chờ lịch</span>`;
-        }
+        if (targetNgay !== ngayHienTai) return `<span class="live-status-badge status-upcoming"> Chờ lịch</span>`;
 
         const gioHeThong = new Date();
         const phutHienTai = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
-
         const [s, e] = thoiGianStr.split('-');
-        const phutBatDau = toMinutes(s);
-        const phutKetThuc = toMinutes(e);
+        const phutBatDau = toMinutes(s); const phutKetThuc = toMinutes(e);
 
-        if (phutHienTai >= phutKetThuc) {
-            return `<span class="live-status-badge status-done"> Hoàn thành</span>`;
-        }
+        if (phutHienTai >= phutKetThuc) return `<span class="live-status-badge status-done"> Hoàn thành</span>`;
         else if (phutHienTai >= phutBatDau && phutHienTai < phutKetThuc) {
-            if (phutKetThuc - phutHienTai <= 15) {
-                return `<span class="live-status-badge status-ending"><marquee scrollamount="2" width="80">⚠️ Sắp hết giờ...</marquee></span>`;
-            }
+            if (phutKetThuc - phutHienTai <= 15) return `<span class="live-status-badge status-ending"><marquee scrollamount="2" width="80">⚠️ Sắp hết giờ...</marquee></span>`;
             return `<span class="live-status-badge status-playing"><marquee scrollamount="2" width="70">🔥 Đang chơi...</marquee></span>`;
         }
-        else if (phutBatDau - phutHienTai <= 15 && phutBatDau - phutHienTai > 0) {
-            return `<span class="live-status-badge status-upcoming"><marquee scrollamount="2" width="80"> Sắp bắt đầu...</marquee></span>`;
-        }
-        else {
-            return `<span class="live-status-badge status-upcoming"> Chờ lên sân</span>`;
-        }
-    }
-
-    function kichHoatAdmin() {
-        let pass = prompt("Nhập mã Admin để cấu hình thiết bị:");
-        if (pass === "PhucAn2026$") {
-            localStorage.setItem('isAdmin', 'true');
-            alert("🔑 Đã kích hoạt quyền Admin trên trình duyệt này!");
-            loadLich();
-        } else if (pass !== null) {
-            alert("Sai mã cấu hình!");
-        }
+        else if (phutBatDau - phutHienTai <= 15 && phutBatDau - phutHienTai > 0) return `<span class="live-status-badge status-upcoming"><marquee scrollamount="2" width="80"> Sắp bắt đầu...</marquee></span>`;
+        else return `<span class="live-status-badge status-upcoming"> Chờ lên sân</span>`;
     }
 
     function updateLiveTicker(snap, targetNgay) {
         const gioHeThong = new Date();
         const phutHienTai = (gioHeThong.getHours() * 60) + gioHeThong.getMinutes();
         const ngayHienTai = getVNDateString();
-        
-        if (targetNgay < ngayHienTai) {
-            document.getElementById('liveTicker').innerHTML = "Đang xem dữ liệu của ngày cũ.";
-            return;
-        }
+        if (targetNgay < ngayHienTai) { document.getElementById('liveTicker').innerHTML = "Đang xem dữ liệu của ngày cũ."; return; }
 
-        const danhSachCaChuan = ["05h00-07h00", "07h00-09h00", "09h00-11h00", "17h00-19h00", "19h00-21h00", "21h00-23h00"];
         const cacSan = ["Sân số 1", "Sân số 2"];
-        
         let mapLichDat = {};
         snap.forEach(c => {
             let l = c.val();
@@ -574,35 +566,25 @@ HTML
         });
 
         let tickerHtml = "";
-
-        danhSachCaChuan.forEach(ca => {
+        DANH_SACH_CA_CHUAN.forEach(ca => {
             const [s, e] = ca.split('-');
-            const batDauCa = toMinutes(s);
-            const ketThucCa = toMinutes(e);
-            
-            if (targetNgay === ngayHienTai && ketThucCa <= phutHienTai) {
-                return; 
-            }
+            const batDauCa = toMinutes(s); const ketThucCa = toMinutes(e);
+            if (targetNgay === ngayHienTai && ketThucCa <= phutHienTai) return; 
 
             cacSan.forEach(san => {
                 let isEmpty = true;
-                
                 if(mapLichDat[san]) {
                     mapLichDat[san].forEach(l => {
                         const [ls, le] = l.thoiGian.split('-');
-                        if (batDauCa < toMinutes(le) && ketThucCa > toMinutes(ls)) {
-                            isEmpty = false; 
-                        }
+                        if (batDauCa < toMinutes(le) && ketThucCa > toMinutes(ls)) isEmpty = false; 
                     });
                 }
-                
                 if (isEmpty) {
                     let buoi = getBuoi(ca);
                     tickerHtml += `<span class="ticker-item">🔹 <b>${san}</b> | <span style="color:var(--primary); font-weight:800;">${ca} ${buoi}</span> <span style='color:var(--success);'>🟢 Trống</span></span>`;
                 }
             });
         });
-
         document.getElementById('liveTicker').innerHTML = tickerHtml || "🔥 Đã kín toàn bộ lịch hôm nay! Không còn sân trống.";
     }
 
@@ -614,26 +596,18 @@ HTML
         const ngay = document.getElementById('ngay').value;
 
         if(!user || !user.hoTen || !user.sdt) return alert("❌ Vui lòng điền và bấm 'Lưu thông tin' ở trên trước khi đặt!");
-        if(!thoiGianGoc || !thoiGianGoc.includes('-')) return alert("Vui lòng nhập giờ dạng: 17h3-19h3");
+        if(!thoiGianGoc) return alert("❌ Vui lòng chạm chọn Ca chuẩn hoặc kéo thanh trượt chọn giờ!");
 
         const [startStr, endStr] = thoiGianGoc.split('-');
-        const newStart = toMinutes(startStr);
-        const newEnd = toMinutes(endStr);
-
-        if(newStart >= newEnd) return alert("❌ Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc!");
-
+        const newStart = toMinutes(startStr); const newEnd = toMinutes(endStr);
         const thoiGianDaChuanHoa = formatMinutesToText(newStart) + "-" + formatMinutesToText(newEnd);
 
         const ngayHienTai = getVNDateString();
         if (ngay === ngayHienTai) {
             const gioHienTai = new Date();
             const phutHienTaiSystem = (gioHienTai.getHours() * 60) + gioHienTai.getMinutes();
-            if (newStart < phutHienTaiSystem) {
-                return alert("❌ Không thể đặt sân khung giờ đã trôi qua trong ngày hôm nay!");
-            }
-        } else if (ngay < ngayHienTai) {
-            return alert("❌ Không thể chọn đặt lịch cho những ngày trong quá khứ!");
-        }
+            if (newStart < phutHienTaiSystem) return alert("❌ Không thể đặt sân khung giờ đã trôi qua trong ngày hôm nay!");
+        } else if (ngay < ngayHienTai) { return alert("❌ Không thể chọn đặt lịch cho những ngày trong quá khứ!"); }
 
         db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).once('value', (snap) => {
             let isOverlapping = false;
@@ -646,14 +620,14 @@ HTML
             });
 
             if(isOverlapping) {
-                alert("❌ Khung giờ này bị trùng lịch hoặc giao nhau với một lịch khác! Vui lòng chọn giờ khác.");
+                alert("❌ Khung giờ này bị trùng lịch hoặc giao nhau với một lịch khác đã có người đặt! Vui lòng trượt chọn giờ khác.");
             } else {
                 db.ref('lichDatCauLong').push({
                     ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGianDaChuanHoa
                 }).then(() => {
-                    yeuCauQuyenThongBao(); 
-                    alert("✅ Đặt thành công!");
+                    alert("✅ Đặt sân thành công!");
                     document.getElementById('thoiGian').value = '';
+                    document.getElementById('telegramNoticeBtn').style.display = 'block';
                     
                     let tinNhanTelegam = `📝 <b>LỊCH ĐẶT SÂN MỚI</b>\n` +
                                          `━━━━━━━━━━━━━━━━━━\n` +
@@ -671,43 +645,33 @@ HTML
     function loadLich() {
         const ngay = document.getElementById('ngay').value;
         const isAdmin = localStorage.getItem('isAdmin') === 'true';
-
         if (firebaseListener) db.ref('lichDatCauLong').off('value', firebaseListener);
 
         firebaseListener = db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).on('value', snap => {
-            let htmlAllSan = '';    
-            mangLichToanBoHienTai = []; 
-
+            let htmlAllSan = ''; mangLichToanBoHienTai = []; 
             updateLiveTicker(snap, ngay);
 
             snap.forEach(c => {
-                let item = c.val();
-                item.key = c.key;
-                mangLichToanBoHienTai.push(item);
+                let item = c.val(); item.key = c.key; mangLichToanBoHienTai.push(item);
             });
 
+            renderTimeWheel();
+
             mangLichToanBoHienTai.sort((a, b) => {
-                if (a.san !== b.san) {
-                    return a.san.localeCompare(b.san, 'vi', { numeric: true });
-                }
-                let phutBatDauA = toMinutes(a.thoiGian.split('-')[0]);
-                let phutBatDauB = toMinutes(b.thoiGian.split('-')[0]);
-                return phutBatDauA - phutBatDauB;
+                if (a.san !== b.san) return a.san.localeCompare(b.san, 'vi', { numeric: true });
+                return toMinutes(a.thoiGian.split('-')[0]) - toMinutes(b.thoiGian.split('-')[0]);
             });
 
             mangLichToanBoHienTai.forEach(l => {
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${l.key}')">Hủy</button>`;
-
-                let buoi = getBuoi(l.thoiGian);
-                let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
+                let buoi = getBuoi(l.thoiGian); let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
                 let textThoiGian = `<b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>${liveBadge}`;
 
                 htmlAllSan += `<div class="list-item"><span style="font-size:0.95em;"><b style="color:var(--highlight);">${l.san}</b> | ${textThoiGian} | ${l.ten} ${info}</span>${buttonHuy}</div>`;
             });
 
             document.getElementById('tongHopDanhSach').innerHTML = htmlAllSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Chưa có lịch đặt nào trong ngày</p>";
-            
             thucHienQuetNhacHenGio();
         });
     }
@@ -717,37 +681,31 @@ HTML
             db.ref('lichDatCauLong/' + idXoa).once('value', (snap) => {
                 let l = snap.val();
                 if(l) {
-                    let tinNhanHuy = `❌ <b>THÔNG BÁO HỦY SÂN</b>\n` +
-                                     `━━━━━━━━━━━━━━━━━━\n` +
-                                     ` Sân: <b>${l.san}</b>\n` +
-                                     `📅 Ngày hủy: <code>${l.ngay}</code>\n` +
-                                     `⏰ Khung giờ: <b>${l.thoiGian}</b>\n` +
-                                     `👤 Tên khách cũ: <b>${l.ten}</b>\n` +
-                                     `📢 Trạng thái: <i>Hủy thành công bởi Admin</i>`;
+                    let tinNhanHuy = `❌ <b>THÔNG BÁO HỦY SÂN</b>\n` + `━━━━━━━━━━━━━━━━━━\n` + ` Sân: <b>${l.san}</b>\n` + `📅 Ngày hủy: <code>${l.ngay}</code>\n` + `⏰ Khung giờ: <b>${l.thoiGian}</b>\n` + `👤 Tên khách cũ: <b>${l.ten}</b>\n` + `📢 Trạng thái: <i>Hủy thành công bởi Admin</i>`;
                     guiThongBaoTelegram(tinNhanHuy);
                 }
                 db.ref('lichDatCauLong/' + idXoa).remove();
             });
         }
-
         if (localStorage.getItem('isAdmin') === 'true') {
-            if(confirm("Xác nhận hành động Admin: Bạn có chắc chắn muốn xóa lịch này không?")) {
-                thucHienHuyVaGuiTin(id);
-            }
+            if(confirm("Xác nhận hành động Admin: Bạn có chắc chắn muốn xóa lịch này không?")) thucHienHuyVaGuiTin(id);
             return;
         }
-
         hienCanhBao();
-        
         setTimeout(() => {
             let checkPass = prompt("Mật khẩu Quản trị (Dành riêng cho chủ sân thao tác nhanh):");
-            if (checkPass === "PhucAn2026$") {
-                dongCanhBao();
-                thucHienHuyVaGuiTin(id);
-            } else if (checkPass !== null) {
-                alert("Mật khẩu không chính xác!");
-            }
+            if (checkPass === "PhucAn2026$") { dongCanhBao(); thucHienHuyVaGuiTin(id); }
+            else if (checkPass !== null) alert("Mật khẩu không chính xác!");
         }, 500);
+    }
+
+    function kichHoatAdmin() {
+        let pass = prompt("Nhập mã Admin để cấu hình thiết bị:");
+        if (pass === "PhucAn2026$") {
+            localStorage.setItem('isAdmin', 'true');
+            alert("🔑 Đã kích hoạt quyền Admin trên trình duyệt này!");
+            loadLich();
+        } else if (pass !== null) { alert("Sai mã cấu hình!"); }
     }
 
     window.onload = () => {
@@ -759,11 +717,10 @@ HTML
         currentLocalDateStr = getVNDateString();
         document.getElementById('ngay').value = currentLocalDateStr;
         loadLich();
+        capNhatGioTuChon(); 
         
         setInterval(() => {
-            kiemTraVaCapNhatNgayMoi();
-            loadLich();
-            thucHienQuetNhacHenGio();
+            kiemTraVaCapNhatNgayMoi(); loadLich(); thucHienQuetNhacHenGio();
         }, 60000);
     };
 </script>
