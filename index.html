@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -54,9 +53,9 @@ HTML
         .modal-content { font-size: 0.9em; color: #94a3b8; line-height: 1.5; }
         .modal-footer-tip { margin-top: 20px; font-size: 0.8em; color: #4b5563; font-style: italic; }
         
-        /* ĐỊNH NGHĨA TAB CHUẨN ĐỂ SỬA LỖI CLICK CHUYỂN ĐỔI */
+        /* CSS TABS SỬA ĐỒNG BỘ */
         .tab-navigation { display: flex; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 12px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.03); }
-        .tab-btn { flex: 1; padding: 12px; background: transparent; color: #64748b; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85em; font-weight: 700; text-align: center; outline: none; transition: 0.2s; }
+        .tab-btn { flex: 1; padding: 12px; background: transparent; color: #64748b; border: none; border-radius: 8px; cursor: pointer; font-size: 0.85em; font-weight: 700; text-align: center; outline: none; }
         .tab-btn.active { background: #0099ff; color: #fff; font-weight: 800; box-shadow: 0 0 10px rgba(0,153,255,0.4); }
         
         .tab-content { display: none; }
@@ -342,8 +341,6 @@ HTML
                 messaging.getToken({ vapidKey: 'BFl_YOUR_PUBLIC_VAPID_KEY_HERE' }).then((currentToken) => {
                     if (currentToken) { deviceNotificationToken = currentToken; }
                 }).catch((err) => console.log('Lỗi token:', err));
-            } else {
-                console.log("Khách chưa bật quyền thông báo đẩy.");
             }
         });
     }
@@ -430,6 +427,7 @@ HTML
         capNhatGiaoDienScrubber(sMin, eMin);
     }
 
+    /* VÁ LỖI HIỂN THỊ SLIDER KHÔNG ĐƠ TRÌNH DUYỆT */
     function capNhatGiaoDienScrubber(sMin, eMin) {
         const minVal = 300, maxVal = 1380;
         let pctStart = ((sMin - minVal) / (maxVal - minVal)) * 100;
@@ -603,11 +601,12 @@ HTML
         });
     }
 
-    /* 🔄 TỰ ĐỘNG CẬP NHẬT LỊCH THỜI GIAN THỰC ĐỘC LẬP KHÔNG BỊ TRÙNG LẶP */
+    /* 🔄 VÁ LỖI CỐT LÕI: TỰ ĐỘNG CẬP NHẬT LỊCH REALTIME KHÔNG BỊ TREO */
     function loadLich() {
         const ngay = document.getElementById('ngay').value, isAdmin = localStorage.getItem('isAdmin') === 'true';
         if (firebaseListener) db.ref('lichDatCauLong').off('value', firebaseListener);
 
+        // Lắng nghe liên tục thời gian thực độc lập
         firebaseListener = db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).on('value', snap => {
             let htmlAllSan = ''; mangLichToanBoHienTai = []; 
             updateLiveTicker(snap, ngay);
@@ -632,16 +631,24 @@ HTML
         setTimeout(() => { if (prompt("Mật khẩu Quản trị:") === "PhucAn2026$") { dongCanhBao(); db.ref('lichDatCauLong/' + id).remove(); } }, 300);
     }
 
-    /* 🛡️ SỬA LỖI HOÀN TOÀN: CHUYỂN TABS CHUẨN ĐỒNG BỘ CSS LỚP ACTIVE */
+    /* 🛠️ SỬA TRIỆT ĐỂ LỖI CHUYỂN TABS TRÊN ĐIỆN THOẠI VÀ WEB */
     function switchTab(event, tabId) {
         if(event) event.preventDefault();
         kiemTraVaCapNhatNgayMoi();
         
-        // Gỡ class active khỏi nút và nội dung cũ
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+        // Ẩn tất cả nội dung
+        const contents = document.querySelectorAll('.tab-content');
+        for (let i = 0; i < contents.length; i++) {
+            contents[i].classList.remove('active-tab');
+        }
         
-        // Áp dụng class active vào đúng đối tượng click
+        // Bỏ màu sáng của các nút cũ
+        const buttons = document.querySelectorAll('.tab-btn');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('active');
+        }
+        
+        // Kích hoạt tab mới được ấn
         event.currentTarget.classList.add('active');
         document.getElementById(tabId).classList.add('active-tab');
     }
@@ -676,7 +683,7 @@ HTML
         let initE = parseInt(document.getElementById('endSlider').value);
         capNhatGiaoDienScrubber(initS, initE);
 
-        // Chu kỳ 60 giây chạy nền quét so khớp thời gian hiển thị thông báo thiết bị
+        // Tách biệt vòng lặp Notification ngầm, không để can thiệp vào tiến trình load dữ liệu của Firebase Realtime
         setInterval(() => { 
             kiemTraVaCapNhatNgayMoi(); 
             engineQuetThongBaoTrinhDuyetWeb(); 
