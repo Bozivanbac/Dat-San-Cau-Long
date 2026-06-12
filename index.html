@@ -70,11 +70,11 @@ HTML
         .box { background: rgba(255,255,255,0.01); border: 1px solid var(--border); padding: 20px; border-radius: 20px; margin-bottom: 25px; }
         .box h3 { font-size: 0.95em; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
         label { display: block; font-weight: 700; margin-bottom: 8px; color: #94a3b8; font-size: 0.85em; text-transform: uppercase; }
-        input, select { width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #070a12; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; color: var(--text-main); font-size: 1em; }
+        input { width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #070a12; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; color: var(--text-main); font-size: 1em; }
         input[type="date"] { padding: 16px; font-size: 1.1em; font-weight: 700; color: var(--highlight); border: 1px solid rgba(245, 158, 11, 0.3); background: #070a12; cursor: pointer; }
         .date-wrapper { position: relative; }
         
-        /* KHU VỰC CHỌN NHANH */
+        /* KHU VỰC CHỌN NHANH LỊCH TRỐNG */
         .time-wheel-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 25px 0; }
         .wheel-slot { background: #070a12; border: 1px solid var(--border); border-radius: 14px; padding: 12px 8px; text-align: center; cursor: pointer; }
         .wheel-slot .slot-time { font-size: 0.95em; font-weight: 700; color: #e2e8f0; }
@@ -83,6 +83,12 @@ HTML
         .court-status-item.active-live { color: var(--primary); font-weight: 800; }
         .wheel-slot.selected { border-color: var(--primary); background: rgba(6, 182, 212, 0.03); }
         .wheel-slot.all-locked { background: #111827; opacity: 0.35; cursor: not-allowed; }
+
+        /* GIAO DIỆN CHỌN SÂN Ô NÚT BẤM SONG SONG THAY THẾ SELECT */
+        .court-tabs-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 8px 0 16px 0; }
+        .court-tab-item { background: #070a12; border: 1px solid var(--border); padding: 15px; border-radius: 14px; text-align: center; font-weight: 800; font-size: 1em; color: var(--text-muted); cursor: pointer; transition: all 0.25s ease; user-select: none; }
+        .court-tab-item.active { border-color: var(--primary); background: rgba(6, 182, 212, 0.05); color: var(--primary); box-shadow: 0 0 12px rgba(6, 182, 212, 0.15); }
+        .court-tab-item.dimmed { opacity: 0.35; border-color: var(--border); background: #070a12; color: var(--text-muted); }
 
         /* KHU VỰC CHỌN GIỜ THEO NHU CẦU */
         .tech-picker-box { background: #070a12; border: 1px solid var(--border); border-radius: 20px; padding: 22px 18px; margin-bottom: 20px; position: relative; }
@@ -97,17 +103,20 @@ HTML
         .tech-picker-box.is-error .tech-hud-display { border-color: var(--accent); background: rgba(244, 63, 94, 0.05); }
         .tech-picker-box.is-error .hud-time { color: var(--accent); }
 
-        /* KHỐI KẸP THANH TRƯỢT GIỮA 2 TIMELINE SÂN */
+        /* KHỐI KẸP SANDWICH CẢI TIẾN CÓ HIỆU ỨNG MỜ ĐÈN REALTIME */
         .sandwich-container { background: #090d16; padding: 15px 10px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.02); margin-top: 10px; }
+        .sandwich-row-s1, .sandwich-row-s2 { transition: opacity 0.3s ease; }
+        .sandwich-row-s1.dimmed, .sandwich-row-s2.dimmed { opacity: 0.15; filter: blur(0.5px); }
+        
         .sandwich-label { font-size: 0.75em; font-weight: 800; color: #94a3b8; margin-bottom: 6px; display: flex; justify-content: space-between; text-transform: uppercase; }
         .sandwich-label span { font-weight: 900; }
         
-        .energy-bar { display: flex; height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+        .energy-bar { display: flex; height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; margin-bottom: 2px; }
         .energy-block { flex: 1; border-right: 1px solid rgba(0,0,0,0.2); background: var(--success); }
         .energy-block:last-child { border-right: none; }
         .energy-block.is-busy { background: var(--accent); }
 
-        .slider-container-wrapper { padding: 14px 4px; }
+        .slider-container-wrapper { padding: 14px 4px; position: relative; z-index: 10; }
         .noUi-target { background: #1e293b !important; border: none !important; border-radius: 50px !important; height: 10px !important; }
         .noUi-connect { background: var(--cyber-gradient) !important; }
         .tech-picker-box.is-error .noUi-connect { background: var(--error-gradient) !important; }
@@ -194,8 +203,13 @@ HTML
         <div id="timeWheel" class="time-wheel-container"></div>
         
         <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed var(--border);">
-            <label style="color: var(--primary); font-weight: 800;">📍 CHỌN SÂN MUỐN CHƠI:</label>
-            <select id="san" onchange="xuLyDoiNgaySan()"><option>Sân số 1</option><option>Sân số 2</option></select>
+            
+            <label style="color: var(--primary); font-weight: 800;">📍 BẮT BUỘC CHỌN SÂN MUỐN CHƠI:</label>
+            <div class="court-tabs-group">
+                <div id="btnCourt1" class="court-tab-item active" onclick="selectCourt('Sân số 1')">Sân số 1</div>
+                <div id="btnCourt2" class="court-tab-item" onclick="selectCourt('Sân số 2')">Sân số 2</div>
+            </div>
+            <input type="hidden" id="selectedCourtValue" value="Sân số 1">
 
             <label style="color: var(--highlight); margin-top: 10px;">🔄 TỰ CHỌN GIỜ THEO NHU CẦU (ĐOẠN <span style="color:var(--accent);">MÀU ĐỎ</span> LÀ ĐÃ FULL GIỜ):</label>
             <div id="techBoxUI" class="tech-picker-box">
@@ -212,15 +226,19 @@ HTML
                 </div>
                 
                 <div class="sandwich-container">
-                    <div class="sandwich-label">Sân số 1: <span id="s1Percent">100% Trống</span></div>
-                    <div id="energyBarS1" class="energy-bar"></div>
+                    <div id="wrapperTimelineS1" class="sandwich-row-s1">
+                        <div class="sandwich-label">Sân số 1: <span id="s1Percent">100% Trống</span></div>
+                        <div id="energyBarS1" class="energy-bar"></div>
+                    </div>
                     
                     <div class="slider-container-wrapper">
                         <div id="techTimeSlider"></div>
                     </div>
                     
-                    <div id="energyBarS2" class="energy-bar"></div>
-                    <div class="sandwich-label" style="margin-top: 6px; margin-bottom: 0;">Sân số 2: <span id="s2Percent">100% Trống</span></div>
+                    <div id="wrapperTimelineS2" class="sandwich-row-s2 dimmed">
+                        <div id="energyBarS2" class="energy-bar"></div>
+                        <div class="sandwich-label" style="margin-top: 6px; margin-bottom: 0;">Sân số 2: <span id="s2Percent">100% Trống</span></div>
+                    </div>
                     
                     <div class="energy-hours-label"><span>5h</span><span>9h</span><span>13h</span><span>17h</span><span>21h</span><span>23h</span></div>
                 </div>
@@ -326,7 +344,7 @@ HTML
         }).catch(err => console.error("Lỗi gửi Telegram:", err));
     }
 
-    /* ĐĂNG KÝ HỆ THỐNG SERVICE WORKER GỬI THÔNG BÁO CHẠY NGẦM KHÔNG CẦN BẤM NÚT XÁC NHẬN */
+    /* ĐĂNG KÝ SERVICE WORKER THÔNG BÁO PUSH NGẦM CHUẨN */
     if ('serviceWorker' in navigator) {
         const swCode = `
             self.addEventListener('push', function(event) {
@@ -417,8 +435,39 @@ HTML
         return h < 12 ? "sáng" : (h < 18 ? "chiều" : "tối");
     }
 
+    /* HÀM SỬ PHẦN CHỌN SÂN Ô NÚT BẤM VÀ MỜ ĐÈN TIMELINE REALTIME */
+    function selectCourt(courtName) {
+        document.getElementById('selectedCourtValue').value = courtName;
+        
+        const btn1 = document.getElementById('btnCourt1');
+        const btn2 = document.getElementById('btnCourt2');
+        const timelineS1 = document.getElementById('wrapperTimelineS1');
+        const timelineS2 = document.getElementById('wrapperTimelineS2');
+
+        if(courtName === 'Sân số 1') {
+            btn1.className = "court-tab-item active";
+            btn2.className = "court-tab-item dimmed";
+            timelineS1.className = "sandwich-row-s1";
+            timelineS2.className = "sandwich-row-s2 dimmed";
+        } else {
+            btn1.className = "court-tab-item dimmed";
+            btn2.className = "court-tab-item active";
+            timelineS1.className = "sandwich-row-s1 dimmed";
+            timelineS2.className = "sandwich-row-s2";
+        }
+
+        // Cập nhật dải đỏ báo full giờ trên Slider theo đúng sân vừa chọn
+        renderBusyTimeOnSlider();
+        
+        // Chạy lại khâu kiểm tra trùng lịch nếu handle slider đang nằm ở chỗ kín
+        if(techSliderInstance) {
+            let vals = techSliderInstance.get();
+            techSliderInstance.set(vals);
+        }
+    }
+
     function kiemTraTrungLich(sMin, eMin) {
-        const sanDangChon = document.getElementById('san').value;
+        const sanDangChon = document.getElementById('selectedCourtValue').value;
         const ngayDangChon = document.getElementById('ngay').value;
         let overlap = false;
 
@@ -442,7 +491,7 @@ HTML
         const endMin = 1380;   
         const totalMin = endMin - startMin; 
 
-        const sanDangChon = document.getElementById('san').value;
+        const sanDangChon = document.getElementById('selectedCourtValue').value;
         const ngayDangChon = document.getElementById('ngay').value;
 
         let busyIntervals = [];
@@ -614,7 +663,7 @@ HTML
     }
 
     function renderTimeWheel() {
-        const sanDangChon = document.getElementById('san').value;
+        const sanDangChon = document.getElementById('selectedCourtValue').value;
         const ngayDangChon = document.getElementById('ngay').value;
         const ngayHienTai = getVNDateString();
         const phutHienTaiSystem = (new Date().getHours() * 60) + new Date().getMinutes();
@@ -674,7 +723,7 @@ HTML
         kiemTraVaCapNhatNgayMoi(); 
         const user = JSON.parse(localStorage.getItem('user'));
         let thoiGianGoc = document.getElementById('thoiGian').value.trim();
-        const san = document.getElementById('san').value;
+        const san = document.getElementById('selectedCourtValue').value;
         const ngay = document.getElementById('ngay').value;
         const giaHienTaiTxt = document.getElementById('estimatedPrice').innerText;
 
@@ -849,6 +898,9 @@ HTML
         document.getElementById('ngay').value = currentLocalDateStr;
         
         initTechSlider();
+        
+        // Gọi kích hoạt hiệu ứng mờ mặc định ban đầu cho Sân 1
+        selectCourt('Sân số 1');
         loadLich();
         
         setInterval(() => { 
