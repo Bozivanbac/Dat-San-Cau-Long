@@ -84,27 +84,28 @@ HTML
         .wheel-slot.selected { border-color: var(--primary); background: rgba(6, 182, 212, 0.03); }
         .wheel-slot.all-locked { background: #111827; opacity: 0.35; cursor: not-allowed; }
 
-        /* GIAO DIỆN CHỌN SÂN Ô NÚT BẤM SONG SONG THAY THẾ SELECT */
+        /* GIAO DIỆN CHỌN SÂN Ô NÚT BẤM SONG SONG */
         .court-tabs-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 8px 0 16px 0; }
         .court-tab-item { background: #070a12; border: 1px solid var(--border); padding: 15px; border-radius: 14px; text-align: center; font-weight: 800; font-size: 1em; color: var(--text-muted); cursor: pointer; transition: all 0.25s ease; user-select: none; }
         .court-tab-item.active { border-color: var(--primary); background: rgba(6, 182, 212, 0.05); color: var(--primary); box-shadow: 0 0 12px rgba(6, 182, 212, 0.15); }
         .court-tab-item.dimmed { opacity: 0.35; border-color: var(--border); background: #070a12; color: var(--text-muted); }
 
-        /* KHU VỰC CHỌN GIỜ THEO NHU CẦU */
-        .tech-picker-box { background: #070a12; border: 1px solid var(--border); border-radius: 20px; padding: 22px 18px; margin-bottom: 20px; position: relative; }
-        .tech-picker-values { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        /* KHU VỰC CHỌN GIỜ THEO NHU CẦU - PHÓNG TO TOÀN DIỆN */
+        .tech-picker-box { background: #070a12; border: 1px solid var(--border); border-radius: 20px; padding: 25px 20px; margin-bottom: 20px; position: relative; }
+        .tech-picker-values { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
         
-        .tech-hud-display { display: flex; flex-direction: column; align-items: center; background: #090d16; border: 1px solid rgba(255,255,255,0.02); padding: 10px 16px; border-radius: 12px; min-width: 95px; }
-        .hud-label { font-size: 0.65em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
-        .hud-time { font-family: monospace; font-weight: 800; font-size: 1.2em; color: var(--primary); }
-        .tech-arrow { color: var(--text-muted); font-size: 1.2em; }
+        /* Làm to ô hiển thị giờ */
+        .tech-hud-display { display: flex; flex-direction: column; align-items: center; background: #090d16; border: 1px solid rgba(255,255,255,0.02); padding: 14px 22px; border-radius: 14px; min-width: 110px; }
+        .hud-label { font-size: 0.7em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; font-weight: 700; }
+        .hud-time { font-family: monospace; font-weight: 900; font-size: 1.6em; color: var(--primary); letter-spacing: 0.5px; } /* Phóng to chữ giờ */
+        .tech-arrow { color: var(--text-muted); font-size: 1.8em; font-weight: bold; } /* Phóng to mũi tên */
         
-        .tech-picker-box.is-error { border-color: var(--accent); }
+        .tech-picker-box.is-error { border-color: var(--accent); box-shadow: 0 0 15px rgba(244, 63, 94, 0.15); }
         .tech-picker-box.is-error .tech-hud-display { border-color: var(--accent); background: rgba(244, 63, 94, 0.05); }
         .tech-picker-box.is-error .hud-time { color: var(--accent); }
 
-        /* KHỐI KẸP SANDWICH CẢI TIẾN CÓ HIỆU ỨNG MỜ ĐÈN REALTIME */
-        .sandwich-container { background: #090d16; padding: 15px 10px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.02); margin-top: 10px; }
+        /* KHỐI KẸP SANDWICH CÓ HIỆU ỨNG MỜ ĐÈN REALTIME */
+        .sandwich-container { background: #090d16; padding: 18px 12px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.02); margin-top: 10px; }
         .sandwich-row-s1, .sandwich-row-s2 { transition: opacity 0.3s ease; }
         .sandwich-row-s1.dimmed, .sandwich-row-s2.dimmed { opacity: 0.15; filter: blur(0.5px); }
         
@@ -116,16 +117,19 @@ HTML
         .energy-block:last-child { border-right: none; }
         .energy-block.is-busy { background: var(--accent); }
 
-        .slider-container-wrapper { padding: 14px 4px; position: relative; z-index: 10; }
-        .noUi-target { background: #1e293b !important; border: none !important; border-radius: 50px !important; height: 10px !important; }
+        /* LÀM TO THANH TRƯỢT VÀ NÚT KÉO */
+        .slider-container-wrapper { padding: 20px 6px; position: relative; z-index: 10; }
+        .noUi-target { background: #1e293b !important; border: none !important; border-radius: 50px !important; height: 16px !important; } /* Tăng độ dày thanh trượt lên 16px */
         .noUi-connect { background: var(--cyber-gradient) !important; }
         .tech-picker-box.is-error .noUi-connect { background: var(--error-gradient) !important; }
         
-        .noUi-handle { width: 24px !important; height: 24px !important; border-radius: 50% !important; background: #ffffff !important; border: 4px solid #090d16 !important; box-shadow: 0 0 8px var(--primary) !important; cursor: pointer !important; top: -7px !important; }
-        .tech-picker-box.is-error .noUi-handle { box-shadow: 0 0 8px var(--accent) !important; border-color: var(--accent) !important; }
+        /* Phóng to hẳn nút kéo lên kích thước 34px x 34px giúp dễ chạm tay */
+        .noUi-handle { width: 34px !important; height: 34px !important; border-radius: 50% !important; background: #ffffff !important; border: 5px solid #090d16 !important; box-shadow: 0 0 10px var(--primary) !important; cursor: pointer !important; top: -9px !important; right: -17px !important; transition: transform 0.1s; }
+        .noUi-handle:active { transform: scale(1.15); }
+        .tech-picker-box.is-error .noUi-handle { box-shadow: 0 0 10px var(--accent) !important; border-color: var(--accent) !important; }
         .noUi-handle:before, .noUi-handle:after { display: none !important; }
 
-        .energy-hours-label { display: flex; justify-content: space-between; font-size: 0.65em; color: var(--text-muted); font-family: monospace; padding-top: 4px; }
+        .energy-hours-label { display: flex; justify-content: space-between; font-size: 0.65em; color: var(--text-muted); font-family: monospace; padding-top: 6px; }
 
         /* TỔNG CHI PHÍ */
         .cyber-price-box { background: rgba(16, 185, 129, 0.02); border: 1px dashed rgba(16, 185, 129, 0.3); text-align: center; padding: 15px; margin: 20px 0; border-radius: 16px; }
@@ -344,7 +348,7 @@ HTML
         }).catch(err => console.error("Lỗi gửi Telegram:", err));
     }
 
-    /* ĐĂNG KÝ SERVICE WORKER THÔNG BÁO PUSH NGẦM CHUẨN */
+    /* SERVICE WORKER THÔNG BÁO PUSH NGẦM CHẠY TỰ ĐỘNG KHÔNG CẦN BẤM NÚT */
     if ('serviceWorker' in navigator) {
         const swCode = `
             self.addEventListener('push', function(event) {
@@ -435,7 +439,7 @@ HTML
         return h < 12 ? "sáng" : (h < 18 ? "chiều" : "tối");
     }
 
-    /* HÀM SỬ PHẦN CHỌN SÂN Ô NÚT BẤM VÀ MỜ ĐÈN TIMELINE REALTIME */
+    /* ĐỔI Ô NÚT BẤM CHỌN SÂN VÀ MỜ ĐÈN TIMELINE KÈP */
     function selectCourt(courtName) {
         document.getElementById('selectedCourtValue').value = courtName;
         
@@ -456,10 +460,8 @@ HTML
             timelineS2.className = "sandwich-row-s2";
         }
 
-        // Cập nhật dải đỏ báo full giờ trên Slider theo đúng sân vừa chọn
         renderBusyTimeOnSlider();
         
-        // Chạy lại khâu kiểm tra trùng lịch nếu handle slider đang nằm ở chỗ kín
         if(techSliderInstance) {
             let vals = techSliderInstance.get();
             techSliderInstance.set(vals);
@@ -899,7 +901,7 @@ HTML
         
         initTechSlider();
         
-        // Gọi kích hoạt hiệu ứng mờ mặc định ban đầu cho Sân 1
+        // Gọi chọn Sân 1 làm mặc định ban đầu để kích hoạt mờ đèn Sân 2
         selectCourt('Sân số 1');
         loadLich();
         
