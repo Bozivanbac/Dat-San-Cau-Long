@@ -73,19 +73,6 @@ HTML
         input, select { width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #070a12; border: 1px solid var(--border); border-radius: 12px; box-sizing: border-box; color: var(--text-main); font-size: 1em; }
         input[type="date"] { padding: 16px; font-size: 1.1em; font-weight: 700; color: var(--highlight); border: 1px solid rgba(245, 158, 11, 0.3); background: #070a12; cursor: pointer; }
         .date-wrapper { position: relative; }
-
-        /* KHU VỰC 2 THANH TIMELINE QUÉT GIỜ TRỐNG/KÍN */
-        .energy-container { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin: 20px 0; }
-        .energy-title { font-size: 0.8em; font-weight: 800; color: #cbd5e1; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; display: flex; justify-content: space-between; }
-        .energy-title span { font-size: 0.9em; color: var(--text-muted); text-transform: none; }
-        .energy-row { margin-bottom: 12px; }
-        .energy-row:last-child { margin-bottom: 0; }
-        .energy-label { font-size: 0.8em; font-weight: 700; color: var(--primary); margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .energy-bar { display: flex; height: 12px; background: #1e293b; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.02); }
-        .energy-block { flex: 1; border-right: 1px solid rgba(0,0,0,0.3); background: var(--success); transition: background 0.3s; }
-        .energy-block:last-child { border-right: none; }
-        .energy-block.is-busy { background: var(--accent); box-shadow: inset 0 0 4px rgba(0,0,0,0.6); }
-        .energy-hours-label { display: flex; justify-content: space-between; font-size: 0.65em; color: var(--text-muted); font-family: monospace; padding-top: 3px; }
         
         /* KHU VỰC CHỌN NHANH */
         .time-wheel-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 25px 0; }
@@ -99,7 +86,7 @@ HTML
 
         /* KHU VỰC CHỌN GIỜ THEO NHU CẦU */
         .tech-picker-box { background: #070a12; border: 1px solid var(--border); border-radius: 20px; padding: 22px 18px; margin-bottom: 20px; position: relative; }
-        .tech-picker-values { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .tech-picker-values { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         
         .tech-hud-display { display: flex; flex-direction: column; align-items: center; background: #090d16; border: 1px solid rgba(255,255,255,0.02); padding: 10px 16px; border-radius: 12px; min-width: 95px; }
         .hud-label { font-size: 0.65em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2px; }
@@ -110,21 +97,35 @@ HTML
         .tech-picker-box.is-error .tech-hud-display { border-color: var(--accent); background: rgba(244, 63, 94, 0.05); }
         .tech-picker-box.is-error .hud-time { color: var(--accent); }
 
-        .slider-container-wrapper { padding: 10px 5px; }
-        .noUi-target { background: #1e293b !important; border: none !important; border-radius: 50px !important; height: 8px !important; }
+        /* KHỐI KẸP THANH TRƯỢT GIỮA 2 TIMELINE SÂN */
+        .sandwich-container { background: #090d16; padding: 15px 10px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.02); margin-top: 10px; }
+        .sandwich-label { font-size: 0.75em; font-weight: 800; color: #94a3b8; margin-bottom: 6px; display: flex; justify-content: space-between; text-transform: uppercase; }
+        .sandwich-label span { font-weight: 900; }
+        
+        .energy-bar { display: flex; height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; }
+        .energy-block { flex: 1; border-right: 1px solid rgba(0,0,0,0.2); background: var(--success); }
+        .energy-block:last-child { border-right: none; }
+        .energy-block.is-busy { background: var(--accent); }
+
+        .slider-container-wrapper { padding: 14px 4px; }
+        .noUi-target { background: #1e293b !important; border: none !important; border-radius: 50px !important; height: 10px !important; }
         .noUi-connect { background: var(--cyber-gradient) !important; }
         .tech-picker-box.is-error .noUi-connect { background: var(--error-gradient) !important; }
         
-        .noUi-handle { width: 24px !important; height: 24px !important; border-radius: 50% !important; background: #ffffff !important; border: 4px solid #090d16 !important; box-shadow: 0 0 8px var(--primary) !important; cursor: pointer !important; top: -8px !important; }
+        .noUi-handle { width: 24px !important; height: 24px !important; border-radius: 50% !important; background: #ffffff !important; border: 4px solid #090d16 !important; box-shadow: 0 0 8px var(--primary) !important; cursor: pointer !important; top: -7px !important; }
         .tech-picker-box.is-error .noUi-handle { box-shadow: 0 0 8px var(--accent) !important; border-color: var(--accent) !important; }
         .noUi-handle:before, .noUi-handle:after { display: none !important; }
+
+        .energy-hours-label { display: flex; justify-content: space-between; font-size: 0.65em; color: var(--text-muted); font-family: monospace; padding-top: 4px; }
 
         /* TỔNG CHI PHÍ */
         .cyber-price-box { background: rgba(16, 185, 129, 0.02); border: 1px dashed rgba(16, 185, 129, 0.3); text-align: center; padding: 15px; margin: 20px 0; border-radius: 16px; }
         .price-label { font-size: 0.8em; color: var(--text-muted); text-transform: uppercase; }
         .price-display { font-family: monospace; font-weight: 900; font-size: 1.8em; color: var(--success); margin-top: 4px; }
 
-        .noti-permission-btn { background: #1e293b; color: var(--highlight); border: 1px solid rgba(245, 158, 11, 0.3); width: 100%; padding: 14px; border-radius: 14px; font-weight: 800; cursor: pointer; margin-bottom: 20px; font-size: 0.85em; display: none; }
+        /* THÔNG TIN LIÊN HỆ ĐỔI HỦY */
+        .support-contact-box { text-align: center; font-size: 0.85em; color: var(--text-muted); margin-top: 10px; margin-bottom: 20px; font-weight: 600; }
+        .support-contact-box a { color: var(--highlight); text-decoration: none; font-weight: 800; border-bottom: 1px dashed var(--highlight); }
 
         .action-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); color: #05080f; border: none; border-radius: 14px; font-weight: 800; font-size: 1em; cursor: pointer; box-shadow: 0 8px 20px rgba(6, 182, 212, 0.25); }
         .action-btn.btn-error { background: var(--error-gradient); color: white; cursor: not-allowed; box-shadow: none; }
@@ -138,7 +139,7 @@ HTML
         .status-ending { background: rgba(249, 115, 22, 0.15); color: #f97316; }
         .status-done { background: rgba(16, 185, 129, 0.15); color: var(--success); }
 
-        /* BẢNG GIÁ & NỘI QUY BẢN GỐC CHUẨN ĐẦY ĐỦ */
+        /* BẢNG GIÁ & NỘI QUY */
         .rules-wrapper { display: flex; flex-direction: column; gap: 15px; }
         .rule-card { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
         .rule-card-header { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 0.95em; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; }
@@ -149,6 +150,7 @@ HTML
         .price-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border); }
         .price-row:last-child { border-bottom: none; }
         .price-tag { background: rgba(6, 182, 212, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.9em; }
+        .price-tag.student { background: rgba(245, 158, 11, 0.15); color: var(--highlight); border: 1px dashed rgba(245, 158, 11, 0.4); }
 
         .developer-footer { text-align: center; margin-top: 30px; font-size: 0.75em; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .developer-footer span { color: var(--primary); }
@@ -174,8 +176,6 @@ HTML
     </div>
 
     <div id="dat-san" class="tab-content active">
-        <button id="btnEnableNoti" class="noti-permission-btn" onclick="requestNotificationPermission()">⚡ BẬT NHẬN THÔNG BÁO NHẮC LỊCH CHƠI TỰ ĐỘNG</button>
-
         <div class="box">
             <h3 style="margin-top:0; color:var(--primary);">THÔNG TIN ĐẶT SÂN</h3>
             <label>Họ và tên</label>
@@ -197,7 +197,7 @@ HTML
             <label style="color: var(--primary); font-weight: 800;">📍 CHỌN SÂN MUỐN CHƠI:</label>
             <select id="san" onchange="xuLyDoiNgaySan()"><option>Sân số 1</option><option>Sân số 2</option></select>
 
-            <label style="color: var(--highlight); margin-top: 10px;">🔄 TỰ CHỌN GIỜ THEO NHU CẦU:</label>
+            <label style="color: var(--highlight); margin-top: 10px;">🔄 TỰ CHỌN GIỜ THEO NHU CẦU (ĐOẠN <span style="color:var(--accent);">MÀU ĐỎ</span> LÀ ĐÃ FULL GIỜ):</label>
             <div id="techBoxUI" class="tech-picker-box">
                 <div class="tech-picker-values">
                     <div class="tech-hud-display">
@@ -210,23 +210,20 @@ HTML
                         <span id="techEndOutput" class="hud-time">19h00</span>
                     </div>
                 </div>
-                <div class="slider-container-wrapper">
-                    <div id="techTimeSlider"></div>
+                
+                <div class="sandwich-container">
+                    <div class="sandwich-label">Sân số 1: <span id="s1Percent">100% Trống</span></div>
+                    <div id="energyBarS1" class="energy-bar"></div>
+                    
+                    <div class="slider-container-wrapper">
+                        <div id="techTimeSlider"></div>
+                    </div>
+                    
+                    <div id="energyBarS2" class="energy-bar"></div>
+                    <div class="sandwich-label" style="margin-top: 6px; margin-bottom: 0;">Sân số 2: <span id="s2Percent">100% Trống</span></div>
+                    
+                    <div class="energy-hours-label"><span>5h</span><span>9h</span><span>13h</span><span>17h</span><span>21h</span><span>23h</span></div>
                 </div>
-            </div>
-        </div>
-
-        <div class="energy-container">
-            <div class="energy-title">📊 TRẠNG THÁI SÂN TRỐNG / KÍN TRONG NGÀY <span>(🟢 Trống | 🔴 Kín)</span></div>
-            <div class="energy-row">
-                <div class="energy-label">Sân số 1 <span id="s1Percent">100% Trống</span></div>
-                <div id="energyBarS1" class="energy-bar"></div>
-                <div class="energy-hours-label"><span>5h</span><span>9h</span><span>13h</span><span>17h</span><span>21h</span><span>23h</span></div>
-            </div>
-            <div class="energy-row">
-                <div class="energy-label">Sân số 2 <span id="s2Percent">100% Trống</span></div>
-                <div id="energyBarS2" class="energy-bar"></div>
-                <div class="energy-hours-label"><span>5h</span><span>9h</span><span>13h</span><span>17h</span><span>21h</span><span>23h</span></div>
             </div>
         </div>
 
@@ -238,6 +235,10 @@ HTML
         </div>
         
         <button id="btnXacNhanDat" class="action-btn" onclick="datSan()">XÁC NHẬN ĐẶT SÂN</button>
+        
+        <div class="support-contact-box">
+            📞 Cần hỗ trợ hủy hoặc đổi sân? Liên hệ ngay Hotline/Zalo: <a href="tel:0395936865">0395936865</a>
+        </div>
 
         <div class="section-title">CHI TIẾT CÁC LỊCH ĐÃ ĐẶT TRONG NGÀY</div>
         <div id="tongHopDanhSach"></div>
@@ -245,13 +246,17 @@ HTML
 
     <div id="bang-gia" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">📆 TỪ THỨ 2 ĐẾN THỨ 6</h3>
+            <h3 style="color: var(--primary); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">TỪ THỨ 2 ĐẾN THỨ 6</h3>
+            <div class="price-row" style="background: rgba(245, 158, 11, 0.02); padding-left: 6px; padding-right: 6px; border-radius: 8px;">
+                <span style="color: var(--highlight); font-weight: 700;">🎓 Học sinh - Sinh viên (5h - 16h)</span>
+                <span class="price-tag student">39k / Giờ</span>
+            </div>
             <div class="price-row"><span>☀️ Ca sáng (5h - 9h)</span><span class="price-tag">70k / Giờ</span></div>
             <div class="price-row"><span>🔆 Ca trưa (9h - 16h)</span><span class="price-tag">60k / Giờ</span></div>
             <div class="price-row"><span>🌙 Ca tối (16h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
         <div class="box">
-            <h3 style="color: var(--highlight); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔥 THỨ 7 & CHỦ NHẬT</h3>
+            <h3 style="color: var(--highlight); margin-top: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">THỨ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ Toàn bộ khung giờ (5h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
     </div>
@@ -269,7 +274,7 @@ HTML
                 <div class="rule-card-header">⏰ 2. Quy định thời gian & Đặt lịch</div>
                 <div class="rule-card-body">
                     <div class="rule-line"><span class="rule-dot">▪</span><span>Quý khách vui lòng đến đúng khung giờ đã đăng ký hệ thống để được đảm bảo quyền lợi chơi tối đa.</span></div>
-                    <div class="rule-line"><span class="rule-dot">▪</span><span>Mọi sự cố muốn hủy ca hoặc đổi giờ chơi đột xuất phải thông báo qua đường dây nóng Hotline ban quản lý sân trước ít nhất 60 phút.</span></div>
+                    <div class="rule-line"><span class="rule-dot">▪</span><span>Mọi sự cố muốn hủy ca hoặc đổi giờ chơi đột xuất phải thông báo qua Hotline/Zalo số <a href="tel:0395936865" style="color: var(--primary); font-weight: 800; text-decoration: none;">0395936865</a> trước ít nhất 60 phút.</span></div>
                 </div>
             </div>
             <div class="rule-card">
@@ -321,6 +326,67 @@ HTML
         }).catch(err => console.error("Lỗi gửi Telegram:", err));
     }
 
+    /* ĐĂNG KÝ HỆ THỐNG SERVICE WORKER GỬI THÔNG BÁO CHẠY NGẦM KHÔNG CẦN BẤM NÚT XÁC NHẬN */
+    if ('serviceWorker' in navigator) {
+        const swCode = `
+            self.addEventListener('push', function(event) {
+                const data = event.data ? event.data.json() : { title: 'Phúc An Badminton', body: 'Bạn có lịch nhắc nhở từ hệ thống!' };
+                event.waitUntil(self.registration.showNotification(data.title, { 
+                    body: data.body, icon: '🏸', badge: '🏸', vibrate: [200, 100, 200]
+                }));
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob)).then(() => {
+            if ("Notification" in window && Notification.permission === "default") {
+                Notification.requestPermission();
+            }
+        });
+    }
+
+    function sendSystemNotification(title, message) {
+        if (!("Notification" in window) || Notification.permission !== "granted") return;
+        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification(title, { body: message, icon: '🏸' });
+            });
+        } else {
+            new Notification(title, { body: message });
+        }
+    }
+
+    function handleBackgroundNotificationFlow() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.hoTen) return;
+
+        const ngayHienTai = getVNDateString();
+        const bayGio = new Date();
+        const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
+        let notiHistory = JSON.parse(localStorage.getItem('notiHistory')) || {};
+
+        mangLichToanBoHienTai.forEach(l => {
+            if(l.ngay === ngayHienTai && (l.ten === user.hoTen || l.sdt === user.sdt)) {
+                let sMin = toMinutes(l.thoiGian);
+                let eMin = toMinutesEnd(l.thoiGian);
+
+                let keyTruoc = l.key + "_reminder_start";
+                if (sMin - phutHienTai <= 15 && sMin - phutHienTai > 0 && !notiHistory[keyTruoc]) {
+                    sendSystemNotification("🏸 Sắp đến giờ lên sân!", `Lịch đặt ca (${l.thoiGian}) tại ${l.san} sắp bắt đầu. Hãy chuẩn bị nhé anh/chị ${l.ten}!`);
+                    notiHistory[keyTruoc] = true;
+                    localStorage.setItem('notiHistory', JSON.stringify(notiHistory));
+                }
+
+                let keySau = l.key + "_thanks_end";
+                if (phutHienTai - eMin >= 2 && phutHienTai - eMin <= 10 && !notiHistory[keySau]) {
+                    sendSystemNotification("❤️ Cảm ơn quý khách!", `Cảm ơn anh/chị ${l.ten} đã tham gia ca chơi vừa qua tại Phúc An Badminton.`);
+                    notiHistory[keySau] = true;
+                    localStorage.setItem('notiHistory', JSON.stringify(notiHistory));
+                }
+            }
+        });
+    }
+
+    /* LOGIC THỜI GIAN */
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
@@ -366,6 +432,58 @@ HTML
             }
         });
         return overlap;
+    }
+
+    function renderBusyTimeOnSlider() {
+        const sliderElement = document.querySelector('#techTimeSlider');
+        if (!sliderElement) return;
+
+        const startMin = 300;  
+        const endMin = 1380;   
+        const totalMin = endMin - startMin; 
+
+        const sanDangChon = document.getElementById('san').value;
+        const ngayDangChon = document.getElementById('ngay').value;
+
+        let busyIntervals = [];
+        mangLichToanBoHienTai.forEach(l => {
+            if (l.san === sanDangChon && l.ngay === ngayDangChon) {
+                let s = Math.max(startMin, toMinutes(l.thoiGian));
+                let e = Math.min(endMin, toMinutesEnd(l.thoiGian));
+                if (s < e) busyIntervals.push({ start: s, end: e });
+            }
+        });
+
+        busyIntervals.sort((a, b) => a.start - b.start);
+
+        let gradientParts = [];
+        let currentPos = startMin;
+
+        busyIntervals.forEach(interval => {
+            if (interval.start > currentPos) {
+                let startPercent = ((currentPos - startMin) / totalMin) * 100;
+                let endPercent = ((interval.start - startMin) / totalMin) * 100;
+                gradientParts.push(`#1e293b ${startPercent}%`);
+                gradientParts.push(`#1e293b ${endPercent}%`);
+            }
+            let busyStartPercent = ((interval.start - startMin) / totalMin) * 100;
+            let busyEndPercent = ((interval.end - startMin) / totalMin) * 100;
+            gradientParts.push(`var(--accent) ${busyStartPercent}%`);
+            gradientParts.push(`var(--accent) ${busyEndPercent}%`);
+            currentPos = interval.end;
+        });
+
+        if (currentPos < endMin) {
+            let startPercent = ((currentPos - startMin) / totalMin) * 100;
+            gradientParts.push(`#1e293b ${startPercent}%`);
+            gradientParts.push(`#1e293b 100%`);
+        }
+
+        if (gradientParts.length > 0) {
+            sliderElement.style.background = `linear-gradient(to right, ${gradientParts.join(', ')})`;
+        } else {
+            sliderElement.style.background = '#1e293b';
+        }
     }
 
     function renderEnergyBars() {
@@ -608,6 +726,8 @@ HTML
             snap.forEach(c => { let item = c.val(); item.key = c.key; mangLichToanBoHienTai.push(item); });
             renderTimeWheel();
             renderEnergyBars(); 
+            renderBusyTimeOnSlider(); 
+            handleBackgroundNotificationFlow(); 
             
             if(techSliderInstance) {
                 let vals = techSliderInstance.get();
@@ -688,12 +808,12 @@ HTML
         if (checkPass === "PhucAn2026$") { db.ref('lichDatCauLong/' + id).remove(); }
     }
 
-    function switchTab(event, tabId) {
+    function switchTab(docEvent, tabId) {
         kiemTraVaCapNhatNgayMoi();
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        docEvent.currentTarget.classList.add('active');
     }
 
     function luuThongTin() {
@@ -734,7 +854,7 @@ HTML
         setInterval(() => { 
             kiemTraVaCapNhatNgayMoi(); 
             loadLich(); 
-        }, 30000);
+        }, 20000);
     };
 </script>
 </body>
