@@ -155,23 +155,21 @@ HTML
         .status-ending { background: rgba(249, 115, 22, 0.15); color: #f97316; }
         .status-done { background: rgba(16, 185, 129, 0.15); color: var(--success); }
 
-        /* KHUNG NHÓM ZALO ĐƯỢC PHÓNG TO HÌNH QR */
+        /* KHUNG NHÓM ZALO TỰ ĐỘNG TẠO QR */
         .zalo-group-box {
             background: var(--zalo-blue);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 25px 15px;
             text-align: center;
             margin-top: 30px;
             margin-bottom: 15px;
-            box-shadow: 0 12px 30px rgba(0, 104, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 15px 35px rgba(0, 104, 255, 0.35);
+            border: 1px solid rgba(255,255,255,0.15);
         }
         .zalo-title {
             color: white;
             font-weight: 900;
-            font-size: 1.2em;
+            font-size: 1.25em;
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -179,17 +177,16 @@ HTML
         .zalo-desc {
             color: rgba(255, 255, 255, 0.95);
             font-size: 0.85em;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             line-height: 1.5;
-            padding: 0 10px;
+            padding: 0 15px;
         }
-        /* PHÓNG TO ẢNH QR LÊN 280PX VÀ CĂN CHỈNH ĐẸP MẮT */
         .zalo-qr-img {
-            width: 280px;
-            height: 280px;
-            border-radius: 16px;
-            border: 6px solid white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+            width: 340px;
+            height: 340px;
+            border-radius: 20px;
+            border: 7px solid white;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
             object-fit: contain;
             background: white;
             display: block;
@@ -312,8 +309,9 @@ HTML
         <div class="zalo-group-box">
             <div class="zalo-title">Tham Gia Nhóm Zalo Phúc An</div>
             <div class="zalo-desc">Quét mã QR để tham gia nhóm "Sân cầu lông Phúc An Badminton" giao lưu, bắt kèo và nhận thông báo mới nhất!</div>
-            <img src="nhomzalo.jpg" alt="Mã QR Zalo Phúc An" class="zalo-qr-img">
-        </div>
+            
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=340x340&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" alt="Mã QR Zalo Phúc An" class="zalo-qr-img">
+            </div>
     </div>
 
     <div id="bang-gia" class="tab-content">
@@ -960,7 +958,7 @@ HTML
     function kiemTraVaCapNhatNgayMoi() {
         const ngayMoiNhat = getVNDateString();
         if (currentLocalDateStr !== ngayMoiNhat) {
-            currentLocalDateStr = ngayMoiMhat;
+            currentLocalDateStr = ngayMoiNhat;
             document.getElementById('ngay').value = ngayMoiNhat;
             loadLich();
         }
