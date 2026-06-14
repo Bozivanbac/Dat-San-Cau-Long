@@ -149,11 +149,33 @@ HTML
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #070a12; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; gap: 8px; }
         .list-item > span { flex: 1; word-break: break-word; }
         
-        .live-status-badge { font-size: 0.8em; font-weight: 800; padding: 3px 6px; border-radius: 6px; margin-left: 4px; display: inline-block; vertical-align: middle; }
-        .status-upcoming { background: rgba(245, 158, 11, 0.15); color: var(--highlight); }
+        /* TRẠNG THÁI HIỂN THỊ ĐƠN THEO ẢNH MẪU */
+        .live-status-badge { font-size: 0.85em; font-weight: 800; padding: 4px 8px; border-radius: 6px; margin-left: 6px; display: inline-block; vertical-align: middle; }
+        .status-upcoming { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .status-ready { background: rgba(245, 158, 11, 0.15); color: var(--highlight); }
         .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
-        .status-ending { background: rgba(249, 115, 22, 0.15); color: #f97316; }
-        .status-done { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .status-done { background: rgba(6, 182, 212, 0.15); color: var(--primary); font-weight: 900; }
+
+        /* THIẾT KẾ POPUP ĐẸP MẮT HIỆN GIỮA MÀN HÌNH CHẠM ĐÂU CŨNG TẮT */
+        .cyber-popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(8px);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+        }
+        .cyber-popup-overlay.show { opacity: 1; pointer-events: auto; }
+        .cyber-popup-box {
+            background: var(--card-bg); border: 2px solid var(--border);
+            max-width: 380px; width: 90%; padding: 25px 20px; border-radius: 20px;
+            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            position: relative; animation: popScale 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes popScale {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .cyber-popup-title { font-size: 1.15em; font-weight: 800; text-transform: uppercase; color: var(--highlight); margin-bottom: 12px; }
+        .cyber-popup-text { font-size: 0.95em; color: #cbd5e1; line-height: 1.6; font-weight: 600; word-break: break-word; }
 
         /* KHUNG NHÓM ZALO TỰ ĐỘNG TẠO QR */
         .zalo-group-box {
@@ -311,7 +333,7 @@ HTML
             <div class="zalo-desc">Quét mã QR để tham gia nhóm "Sân cầu lông Phúc An Badminton" giao lưu, bắt kèo và nhận thông báo mới nhất!</div>
             
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=340x340&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" alt="Mã QR Zalo Phúc An" class="zalo-qr-img">
-            </div>
+        </div>
     </div>
 
     <div id="bang-gia" class="tab-content">
@@ -360,6 +382,13 @@ HTML
     <div class="developer-footer">⚡ Hệ thống vận hành bởi <span>Văn Bắc</span></div>
 </div>
 
+<div id="cyberPopup" class="cyber-popup-overlay" onclick="tatPopup()">
+    <div class="cyber-popup-box">
+        <div id="popupTitle" class="cyber-popup-title">Trang này nói</div>
+        <div id="popupText" class="cyber-popup-text">Nội dung thông báo</div>
+    </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
@@ -386,6 +415,17 @@ HTML
 
     const TELEGRAM_BOT_TOKEN = "8696303368:AAGRsaclHC8BcpIsdXtZ1xGmXA6mRERJ7oQ";
     const TELEGRAM_CHAT_ID = "8349164896";
+
+    // HÀM HIỂN THỊ POPUP THAY THẾ ALERT GỐC
+    function hienThiPopup(noiDung, tieuDe = "HỆ THỐNG THÔNG BÁO") {
+        document.getElementById('popupTitle').innerText = tieuDe;
+        document.getElementById('popupText').innerText = noiDung;
+        document.getElementById('cyberPopup').classList.add('show');
+    }
+
+    function tatPopup() {
+        document.getElementById('cyberPopup').classList.remove('show');
+    }
 
     function guiThongBaoTelegram(noiDung) {
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
@@ -803,15 +843,16 @@ HTML
         const ngay = document.getElementById('ngay').value;
         const giaHienTaiTxt = document.getElementById('estimatedPrice').innerText;
 
-        if(!user || !user.hoTen || !user.sdt) return alert("Vui lòng nhập Họ tên, SĐT và bấm 'Lưu thông tin' trước khi đặt!");
-        if(!thoiGianGoc) return alert("Vui lòng chọn khung giờ trước!");
+        // ĐÃ THAY ALERT MẶC ĐỊNH BẰNG POPUP MỚI
+        if(!user || !user.hoTen || !user.sdt) return hienThiPopup("Vui lòng nhập Họ tên, SĐT và bấm 'Lưu thông tin' trước khi đặt!", "LỖI THÔNG TIN");
+        if(!thoiGianGoc) return hienThiPopup("Vui lòng chọn khung giờ trước!", "CHƯA CHỌN GIỜ");
 
         let sMin = toMinutes(thoiGianGoc); let eMin = toMinutesEnd(thoiGianGoc);
         const thoiGianDaChuanHoa = formatMinutesToText(sMin) + "-" + formatMinutesToText(eMin);
         const ngayHienTai = getVNDateString();
         
         if (ngay === ngayHienTai && sMin < ((new Date()).getHours() * 60 + (new Date()).getMinutes())) {
-            return alert("Không thể đặt khung giờ đã trôi qua!");
+            return hienThiPopup("Không thể đặt khung giờ đã trôi qua!", "SAI KHUNG GIỜ");
         }
 
         db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).once('value', (snap) => {
@@ -825,10 +866,10 @@ HTML
             });
 
             if(isOverlapping) {
-                alert("Khung giờ vừa bị trùng. Vui lòng chọn lại!");
+                hienThiPopup("Khung giờ vừa bị trùng. Vui lòng chọn lại!", "TRÙNG LỊCH CHƠI");
             } else {
                 db.ref('lichDatCauLong').push({ ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGianDaChuanHoa }).then(() => {
-                    alert("Đặt sân thành công!");
+                    hienThiPopup("Đặt sân thành công! Bạn hãy chuẩn bị thời gian ra sân đúng giờ nhé.", "ĐẶT SÂN THÀNH CÔNG");
                     
                     let textTelegram = `🏸 <b>ĐẶT SÂN MỚI</b> 🏸\n\n👤 <b>Khách hàng:</b> ${user.hoTen}\n📞 <b>SĐT:</b> ${user.sdt}\n🎯 <b>Sân đấu:</b> ${san}\n📆 <b>Ngày:</b> ${ngay}\n⏰ <b>Khung giờ:</b> ${thoiGianDaChuanHoa}\n💵 <b>Giá dự kiến:</b> ${giaHienTaiTxt}`;
                     guiThongBaoTelegram(textTelegram);
@@ -878,22 +919,22 @@ HTML
 
     function taoNhanTrangThaiLive(targetNgay, thoiGianStr) {
         const ngayHienTai = getVNDateString();
-        if (targetNgay !== ngayHienTai) return `<span class="live-status-badge status-upcoming"> Chờ lịch</span>`;
+        if (targetNgay !== ngayHienTai) return `<span class="live-status-badge status-upcoming">🟢 Chờ lịch</span>`;
         
         const phutHienTai = (new Date().getHours() * 60) + new Date().getMinutes();
         let sMin = toMinutes(thoiGianStr); 
         let eMin = toMinutesEnd(thoiGianStr);
 
         if (phutHienTai >= eMin) {
-            return `<span class="live-status-badge status-done"> Đã xong</span>`;
+            return `<span class="live-status-badge status-done">✔ Đã xong</span>`;
         } 
         else if (phutHienTai >= sMin && phutHienTai < eMin) {
-            if (eMin - phutHienTai <= 15) {
-                return `<span class="live-status-badge status-ending"><marquee scrollamount="2" width="80">⏳ Sắp hết giờ</marquee></span>`;
-            }
-            return `<span class="live-status-badge status-playing"><marquee scrollamount="2" width="70">🔥 Đang chơi</marquee></span>`;
+            return `<span class="live-status-badge status-playing">🔥 Đang chơi</span>`;
         } 
-        return `<span class="live-status-badge status-upcoming"> Chờ lịch</span>`;
+        else if (sMin - phutHienTai <= 15 && sMin - phutHienTai > 0) {
+            return `<span class="live-status-badge status-ready">⏳ Sắp chơi</span>`;
+        }
+        return `<span class="live-status-badge status-upcoming">🟢 Chờ lịch</span>`;
     }
 
     function updateLiveTicker(snap, targetNgay) {
@@ -944,10 +985,10 @@ HTML
     function luuThongTin() {
         const hoTen = document.getElementById('hoTen').value.trim();
         const sdt = document.getElementById('sdt').value.trim();
-        if (!hoTen || !sdt || !/^\d{10}$/.test(sdt)) return alert("Vui lòng nhập họ tên và chính xác 10 số ĐT.");
+        if (!hoTen || !sdt || !/^\d{10}$/.test(sdt)) return hienThiPopup("Vui lòng nhập họ tên và chính xác 10 số ĐT.", "LỖI NHẬP LIỆU");
         
         localStorage.setItem('user', JSON.stringify({hoTen: hoTen, sdt: sdt}));
-        alert("Đã lưu thông tin khách!");
+        hienThiPopup("Đã lưu thông tin khách thành công trên thiết bị!", "HỆ THỐNG GHI NHẬN");
     }
 
     function kichHoatAdmin() {
@@ -980,7 +1021,7 @@ HTML
         setInterval(() => { 
             kiemTraVaCapNhatNgayMoi(); 
             loadLich(); 
-        }, 20000);
+        }, 15000);
     };
 </script>
 </body>
