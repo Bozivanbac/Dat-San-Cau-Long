@@ -317,9 +317,9 @@ HTML
         </div>
     </div>
 
-    <!-- TAB 2: BẢNG TIN KHUYẾN MÃI (MỚI THÊM) -->
+    <!-- TAB 2: BẢNG TIN KHUYẾN MÃI -->
     <div id="bang-tin" class="tab-content">
-        <!-- Khu vực quản lý dành riêng cho Admin (Ẩn mặc định) -->
+        <!-- Khu vực quản lý dành riêng cho Admin -->
         <div id="adminPanelNews" class="admin-edit-panel">
             <h3 style="color: var(--highlight); margin-top: 0;">✍️ ĐĂNG THÔNG BÁO / KHUYẾN MÃI</h3>
             <label>Tiêu đề thông báo</label>
@@ -436,7 +436,7 @@ HTML
         }).catch(err => console.error("Lỗi gửi Telegram:", err));
     }
 
-    // SERVICE WORKER CHẠY NGẦM NHẮC LỊCH KHÁCH
+    // SERVICE WORKER CHẠY NGẦM NHẮC LỊCH KHÁCH KHÔNG CẦN TREO TAB
     if ('serviceWorker' in navigator) {
         const swCode = `
             let intervalId = null;
@@ -514,8 +514,7 @@ HTML
                 dataNews.push(item);
             });
             
-            // Sắp xếp bảng tin mới nhất lên đầu
-            dataNews.reverse();
+            dataNews.reverse(); // Mới nhất lên đầu
 
             dataNews.forEach(item => {
                 let nutXoaAdmin = (localStorage.getItem('isAdmin') === 'true') ? 
@@ -542,16 +541,25 @@ HTML
         if(!title || !content) return hienThiPopup("Vui lòng nhập đầy đủ tiêu đề và nội dung thông báo!", "THIẾU THÔNG TIN");
 
         let bayGio = new Date();
-        let chuoiNgay = bayGio.getDate() + "/" + (bayGio.getMonth()+1) + "/" + bayGio.getFullYear() + " " + bayGio.getHours() + "h" + (bayGio.getMinutes()<10?'0':'') + bayGio.getMinutes();
+        let ngay = String(bayGio.getDate()).padStart(2, '0');
+        let thang = String(bayGio.getMonth() + 1).padStart(2, '0');
+        let nam = bayGio.getFullYear();
+        let gio = String(bayGio.getHours()).padStart(2, '0');
+        let phut = String(bayGio.getMinutes()).padStart(2, '0');
+        let chuoiNgay = `${ngay}/${thang}/${nam} ${gio}h${phut}`;
 
         db.ref('bangTinPhucAn').push({
             tieuDe: title,
             noiDung: content,
             ngayDang: chuoiNgay
-        }).then(() => {
-            hienThiPopup("Đã cập nhật thông báo/khuyến mãi mới lên hệ thống thành công!", "ĐĂNG TIN THÀNH CÔNG");
-            document.getElementById('newsTitleInput').value = "";
-            document.getElementById('newsContentInput').value = "";
+        }, function(error) {
+            if (error) {
+                hienThiPopup("Lỗi lưu dữ liệu: " + error.message, "ĐĂNG TIN THẤT BẠI");
+            } else {
+                hienThiPopup("Đã cập nhật thông báo/khuyến mãi mới lên hệ thống thành công!", "ĐĂNG TIN THÀNH CÔNG");
+                document.getElementById('newsTitleInput').value = "";
+                document.getElementById('newsContentInput').value = "";
+            }
         });
     }
 
@@ -564,14 +572,10 @@ HTML
     function capNhatGiaoDienAdmin() {
         let panel = document.getElementById('adminPanelNews');
         if(!panel) return;
-        if(localStorage.getItem('isAdmin') === 'true') {
-            panel.style.display = 'block';
-        } else {
-            panel.style.display = 'none';
-        }
+        panel.style.display = (localStorage.getItem('isAdmin') === 'true') ? 'block' : 'none';
     }
 
-    // CÁC HÀM XỬ LÝ LỊCH SÂN KHÁC (GIỮ NGUYÊN GỐC CỦA BẠN)
+    // CÁC XỬ LÝ ĐẶT LỊCH GỐC
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
@@ -850,7 +854,7 @@ HTML
         if (pass === "PhucAn2026$") { 
             localStorage.setItem('isAdmin', 'true'); 
             loadLich(); 
-            capNhatGiaoDienAdmin(); // Cập nhật hiển thị panel đăng bài
+            capNhatGiaoDienAdmin();
             loadBangTin();
         }
     }
