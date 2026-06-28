@@ -324,7 +324,6 @@
                 <option value="Cả 2 sân">Cả 2 sân (Sân số 1 & Sân số 2)</option>
             </select>
 
-            <!-- BỘ CHỌN KHUNG GIỜ LINH HOẠT BƯỚC NHẢY 15 PHÚT CHO ADMIN -->
             <label>Khung giờ chơi cố định (Bước nhảy 15 phút linh hoạt)</label>
             <div style="display: flex; gap: 10px; margin-bottom: 16px;">
                 <div style="flex: 1;">
@@ -361,13 +360,13 @@
             <!-- Khung 2: Theo Số Tuần (Mặc định hiện) -->
             <div id="khungTheoTuan" style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
-                    <label>Chọn 1 ngày thuộc tuần đó</label>
+                    <label>Ngày áp dụng (Bắt đầu quét tiến từ ngày này)</label>
                     <input type="date" id="fixedNgayBatDau" style="margin-top:6px; margin-bottom:16px;">
                 </div>
                 <div style="flex: 1;">
                     <label>Số tuần mua gói</label>
                     <select id="fixedSoTuan" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
-                        <option value="1">Chỉ 1 tuần đó (Đặt nhanh nhiều ngày cùng lúc)</option>
+                        <option value="1">Chỉ trong 1 tuần đó (Đặt nhanh nhiều ngày)</option>
                         <option value="4">4 tuần (~1 tháng)</option>
                         <option value="8">8 tuần (~2 tháng)</option>
                         <option value="12">12 tuần (~3 tháng)</option>
@@ -581,7 +580,7 @@
         });
     }
 
-    // BẢNG TIN
+    // BẢNG TIN KHUYẾN MÃI
     function loadBangTin() {
         db.ref('bangTinPhucAn').on('value', snap => {
             let htmlNews = ""; let dataNews = [];
@@ -637,25 +636,20 @@
         select.value = new Date().getMonth() + 1;
     }
 
-    // TỰ ĐỘNG TẠO DANH SÁCH GIỜ BƯỚC 15 PHÚT CHO ADMIN CỐ ĐỊNH
     function initFixedTimeDropdowns() {
-        let vao = document.getElementById('fixedGioVao');
-        let ra = document.getElementById('fixedGioRa');
-        if(!vao || !ra) return;
-        vao.innerHTML = ""; ra.innerHTML = "";
+        let vao = document.getElementById('fixedGioVao'); let ra = document.getElementById('fixedGioRa');
+        if(!vao || !ra) return; vao.innerHTML = ""; ra.innerHTML = "";
         for(let min = 300; min <= 1380; min += 15) {
             let txt = formatMinutesToText(min);
-            let optVao = document.createElement('option'); optVao.value = txt; optVao.innerText = txt;
-            vao.appendChild(optVao);
-            
-            let optRa = document.createElement('option'); optRa.value = txt; optRa.innerText = txt;
-            ra.appendChild(optRa);
+            let optVao = document.createElement('option'); optVao.value = txt; optVao.innerText = txt; vao.appendChild(optVao);
+            let optRa = document.createElement('option'); optRa.value = txt; optRa.innerText = txt; ra.appendChild(optRa);
         }
-        vao.value = "17h00";
-        ra.value = "19h00";
+        vao.value = "17h00"; ra.value = "19h00";
     }
 
-    // THUẬT TOÁN ĐẶT HÀNG LOẠT SMART - BƯỚC NHẢY GIỜ LINH HOẠT
+    // ======================================================================
+    // THUẬT TOÁN RẢI LỊCH TIẾN THÔNG MINH + GỬI THÔNG BÁO REAL-TIME VỀ ADMIN
+    // ======================================================================
     function datLichCoDinhHangLoat() {
         let ten = document.getElementById('fixedHoTen').value.trim();
         let sdt = document.getElementById('fixedSdt').value.trim();
@@ -679,6 +673,7 @@
         let danhSachSanRai = (san === "Cả 2 sân") ? ["Sân số 1", "Sân số 2"] : [san];
 
         if (kieuRai === 'thang') {
+            // HÌNH THỨC 1: RẢI THEO THÁNG DƯƠNG LỊCH FULL
             let thang = parseInt(document.getElementById('fixedThang').value);
             let nam = parseInt(document.getElementById('fixedNam').value);
             let monthIndex = thang - 1; 
@@ -690,26 +685,25 @@
                     let chuoiNgay = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
                     
                     danhSachSanRai.forEach(s => {
-                        db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian });
+                        db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian }).then(() => {
+                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (THÁNG)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n📞 <b>SĐT:</b> ${sdt}\n🎯 <b>Sân đấu:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Khung giờ:</b> ${thoiGian}`;
+                            guiThongBaoTelegram(textTelegram);
+                        });
                         countBooked++;
                     });
                 }
             }
-            hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca chơi cố định cho Tháng ${thang}/${nam}!`, "RẢI LỊCH THÀNH CÔNG");
+            hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca chơi cố định cho Tháng ${thang}/${nam} và gửi thông báo Telegram về máy Admin!`, "RẢI LỊCH THÀNH CÔNG");
         } 
         else {
+            // HÌNH THỨC 2: QUÉT TIẾN THEO SỐ TUẦN (XỬ LÝ ĐÚNG Ý BẠN - KHÔNG TỰ ĐỘNG LÙI NGÀY)
             let ngayBDStr = document.getElementById('fixedNgayBatDau').value;
             let soTuan = parseInt(document.getElementById('fixedSoTuan').value);
-            if(!ngayBDStr) return hienThiPopup("Vui lòng chọn 1 Ngày để xác định tuần muốn rải lịch!", "THIẾU THÔNG TIN");
+            if(!ngayBDStr) return hienThiPopup("Vui lòng chọn Ngày áp dụng gói tuần!", "THIẾU THÔNG TIN");
 
-            let startDate = new Date(ngayBDStr);
-            
-            if (soTuan === 1) {
-                let day = startDate.getDay();
-                let diff = startDate.getDate() - day + (day === 0 ? -6 : 1); 
-                startDate.setDate(diff);
-            }
+            let startDate = new Date(ngayBDStr); // Lấy mốc chuẩn từ ngày Admin chọn (ví dụ CN ngày 28/6)
 
+            // Vòng lặp tính tiến từ ngày Admin chọn, không quay xe về thứ 2 nữa
             for (let i = 0; i < soTuan * 7; i++) {
                 let currentDate = new Date(startDate);
                 currentDate.setDate(startDate.getDate() + i);
@@ -718,21 +712,25 @@
                     let chuoiNgay = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
                     
                     danhSachSanRai.forEach(s => {
-                        db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian });
+                        db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian }).then(() => {
+                            // Cứ rải trúng ngày nào là lập tức bắn 1 tin nhắn thông báo về Telegram Admin ngày đó
+                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (GÓI TUẦN)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n📞 <b>SĐT:</b> ${sdt}\n🎯 <b>Sân đấu:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Khung giờ:</b> ${thoiGian}`;
+                            guiThongBaoTelegram(textTelegram);
+                        });
                         countBooked++;
                     });
                 }
             }
             
             if(soTuan === 1) {
-                hienThiPopup(`Đã rải lịch thành công ${countBooked} ca chơi bạn chọn trong tuần đó!`, "ĐẶT NHANH 1 TUẦN THÀNH CÔNG");
+                hienThiPopup(`Đã rải lịch thành công ${countBooked} ca chơi trong tuần đó tiến về tương lai! Thông báo đã gửi về Telegram Admin.`, "THÀNH CÔNG");
             } else {
                 hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca chơi cố định trong vòng ${soTuan} tuần liên tiếp!`, "RẢI LỊCH THÀNH CÔNG");
             }
         }
         
-        document.getElementById('fixedHoTen').value = "";
-        document.getElementById('fixedSdt').value = "";
+        // Reset form nhập liệu
+        document.getElementById('fixedHoTen').value = ""; document.getElementById('fixedSdt').value = "";
         checkboxes.forEach(cb => cb.checked = false);
         loadLich(); 
     }
