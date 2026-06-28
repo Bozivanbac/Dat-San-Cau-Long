@@ -324,16 +324,18 @@
                 <option value="Cả 2 sân">Cả 2 sân (Sân số 1 & Sân số 2)</option>
             </select>
 
-            <label>Khung giờ chơi cố định</label>
-            <select id="fixedKhungGio" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
-                <option value="05h00-07h00">05h00-07h00</option>
-                <option value="07h00-09h00">07h00-09h00</option>
-                <option value="09h00-11h00">09h00-11h00</option>
-                <option value="15h00-17h00">15h00-17h00</option>
-                <option value="17h00-19h00">17h00-19h00</option>
-                <option value="19h00-21h00">19h00-21h00</option>
-                <option value="21h00-23h00">21h00-23h00</option>
-            </select>
+            <!-- BỘ CHỌN KHUNG GIỜ LINH HOẠT BƯỚC NHẢY 15 PHÚT CHO ADMIN -->
+            <label>Khung giờ chơi cố định (Bước nhảy 15 phút linh hoạt)</label>
+            <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                    <label style="font-size: 0.8em; color: var(--text-muted); margin-bottom: 4px;">Giờ vào</label>
+                    <select id="fixedGioVao" style="margin: 0; width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main);"></select>
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 0.8em; color: var(--text-muted); margin-bottom: 4px;">Giờ ra</label>
+                    <select id="fixedGioRa" style="margin: 0; width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main);"></select>
+                </div>
+            </div>
 
             <label style="color: var(--highlight);">Chọn hình thức rải lịch</label>
             <select id="fixedKieuRai" onchange="doiKieuRaiLich()" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
@@ -426,7 +428,7 @@
             <div class="price-row"><span>🌙 Ca tối (16h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
         <div class="box">
-            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">THỦ 7 & CHỦ NHẬT</h3>
+            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">THỨ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ Toàn bộ khung giờ (5h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
     </div>
@@ -635,15 +637,37 @@
         select.value = new Date().getMonth() + 1;
     }
 
-    // THUẬT TOÁN ĐẶT SMART HÀNG LOẠT
+    // TỰ ĐỘNG TẠO DANH SÁCH GIỜ BƯỚC 15 PHÚT CHO ADMIN CỐ ĐỊNH
+    function initFixedTimeDropdowns() {
+        let vao = document.getElementById('fixedGioVao');
+        let ra = document.getElementById('fixedGioRa');
+        if(!vao || !ra) return;
+        vao.innerHTML = ""; ra.innerHTML = "";
+        for(let min = 300; min <= 1380; min += 15) {
+            let txt = formatMinutesToText(min);
+            let optVao = document.createElement('option'); optVao.value = txt; optVao.innerText = txt;
+            vao.appendChild(optVao);
+            
+            let optRa = document.createElement('option'); optRa.value = txt; optRa.innerText = txt;
+            ra.appendChild(optRa);
+        }
+        vao.value = "17h00";
+        ra.value = "19h00";
+    }
+
+    // THUẬT TOÁN ĐẶT HÀNG LOẠT SMART - BƯỚC NHẢY GIỜ LINH HOẠT
     function datLichCoDinhHangLoat() {
         let ten = document.getElementById('fixedHoTen').value.trim();
         let sdt = document.getElementById('fixedSdt').value.trim();
         let san = document.getElementById('fixedSan').value;
-        let thoiGian = document.getElementById('fixedKhungGio').value;
+        let gioVao = document.getElementById('fixedGioVao').value;
+        let gioRa = document.getElementById('fixedGioRa').value;
         let kieuRai = document.getElementById('fixedKieuRai').value;
 
         if(!ten || !sdt) return hienThiPopup("Vui lòng nhập đầy đủ Họ tên và SĐT khách hàng!", "THIẾU THÔNG TIN");
+        if(toMinutes(gioVao) >= toMinutes(gioRa)) return hienThiPopup("Giờ ra phải lớn hơn Giờ vào!", "SAI KHUNG GIỜ");
+
+        let thoiGian = gioVao + "-" + gioRa;
 
         let checkboxes = document.querySelectorAll('input[name="fixedThu"]:checked');
         if(checkboxes.length === 0) return hienThiPopup("Vui lòng tích chọn các Thứ trong tuần chơi cố định!", "CHƯA CHỌN THỨ");
@@ -1012,7 +1036,7 @@
         
         if(document.getElementById('fixedNgayBatDau')) document.getElementById('fixedNgayBatDau').value = currentLocalDateStr;
 
-        initMonthsDropdown(); initTechSlider(); selectCourt('Sân số 1'); loadLich(); loadBangTin(); capNhatGiaoDienAdmin();
+        initMonthsDropdown(); initFixedTimeDropdowns(); initTechSlider(); selectCourt('Sân số 1'); loadLich(); loadBangTin(); capNhatGiaoDienAdmin();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); }, 15000);
