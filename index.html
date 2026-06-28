@@ -73,7 +73,7 @@
         .box { background: rgba(255,255,255,0.01); border: 1px solid var(--border); padding: 15px; border-radius: 20px; margin-bottom: 20px; }
         .box h3 { font-size: 0.95em; font-weight: 800; margin-top: 0; margin-bottom: 15px; text-transform: uppercase; }
         label { display: block; font-weight: 700; margin-bottom: 8px; color: #94a3b8; font-size: 0.85em; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #070a12; border: 1px solid var(--border); border-radius: 12px; color: var(--text-main); font-size: 1em; }
+        input, textarea, select { width: 100%; padding: 14px; margin: 6px 0 16px 0; background: #070a12; border: 1px solid var(--border); border-radius: 12px; color: var(--text-main); font-size: 1em; }
         textarea { resize: vertical; min-height: 100px; font-family: inherit; }
         input[type="date"] { padding: 14px; font-size: 1.1em; font-weight: 700; color: var(--highlight); border: 1px solid rgba(245, 158, 11, 0.3); background: #070a12; cursor: pointer; }
         .date-wrapper { position: relative; }
@@ -184,11 +184,11 @@
         .cyber-popup-title { font-size: 1.15em; font-weight: 800; text-transform: uppercase; color: var(--highlight); margin-bottom: 12px; }
         .cyber-popup-text { font-size: 0.95em; color: #cbd5e1; line-height: 1.6; font-weight: 600; word-break: break-word; }
 
-        /* KHUNG NHÓM ZALO TỰ ĐỘNG TẠO QR */
+        /* KHUNG NHÓM ZALO THU NHỎ MÃ QR */
         .zalo-group-box {
             background: var(--zalo-blue);
             border-radius: 24px;
-            padding: 25px 15px;
+            padding: 20px 15px;
             text-align: center;
             margin-top: 30px;
             margin-bottom: 15px;
@@ -196,8 +196,8 @@
             border: 1px solid rgba(255,255,255,0.15);
         }
         .zalo-title { color: white; font-weight: 900; font-size: 1.25em; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .zalo-desc { color: rgba(255, 255, 255, 0.95); font-size: 0.85em; margin-bottom: 22px; line-height: 1.5; padding: 0 15px; }
-        .zalo-qr-img { width: 340px; height: 340px; border-radius: 20px; border: 7px solid white; box-shadow: 0 12px 30px rgba(0,0,0,0.4); object-fit: contain; background: white; display: block; margin: 0 auto; }
+        .zalo-desc { color: rgba(255, 255, 255, 0.95); font-size: 0.85em; margin-bottom: 16px; line-height: 1.5; padding: 0 15px; }
+        .zalo-qr-img { width: 180px; height: 180px; border-radius: 20px; border: 6px solid white; box-shadow: 0 12px 30px rgba(0,0,0,0.4); object-fit: contain; background: white; display: block; margin: 0 auto; }
 
         /* BẢNG GIÁ & NỘI QUY */
         .rules-wrapper { display: flex; flex-direction: column; gap: 15px; }
@@ -309,6 +309,85 @@
         <div class="section-title">CHI TIẾT CÁC LỊCH ĐÃ ĐẶT TRONG NGÀY</div>
         <div id="tongHopDanhSach"></div>
 
+        <!-- ================= KHU VỰC ĐẶT CỐ ĐỊNH TỰ ĐỘNG (CHỈ ADMIN THẤY) ================= -->
+        <div id="adminPanelFixed" class="admin-edit-panel">
+            <h3 style="color: var(--primary); margin-top: 0;">⚡ BỘ RẢI LỊCH CỐ ĐỊNH TỰ ĐỘNG</h3>
+            <label>Họ và tên khách cố định</label>
+            <input type="text" id="fixedHoTen" placeholder="Ví dụ: Đội Anh Hải">
+            <label>Số điện thoại</label>
+            <input type="tel" id="fixedSdt" placeholder="Nhập số điện thoại khách">
+            
+            <label>Sân đấu</label>
+            <select id="fixedSan" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
+                <option value="Sân số 1">Sân số 1</option>
+                <option value="Sân số 2">Sân số 2</option>
+            </select>
+
+            <label>Khung giờ chơi cố định</label>
+            <select id="fixedKhungGio" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
+                <option value="05h00-07h00">05h00-07h00</option>
+                <option value="07h00-09h00">07h00-09h00</option>
+                <option value="09h00-11h00">09h00-11h00</option>
+                <option value="15h00-17h00">15h00-17h00</option>
+                <option value="17h00-19h00">17h00-19h00</option>
+                <option value="19h00-21h00">19h00-21h00</option>
+                <option value="21h00-23h00">21h00-23h00</option>
+            </select>
+
+            <label style="color: var(--highlight);">Chọn hình thức rải lịch</label>
+            <select id="fixedKieuRai" onchange="doiKieuRaiLich()" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
+                <option value="tuan">Rải theo Số Tuần linh hoạt (1 tuần, 4 tuần...)</option>
+                <option value="thang">Rải trọn vẹn theo Tháng Dương Lịch</option>
+            </select>
+
+            <!-- Khung 1: Theo Tháng (Mặc định ẩn) -->
+            <div id="khungTheoThang" style="display: none; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Chọn Tháng</label>
+                    <select id="fixedThang" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;"></select>
+                </div>
+                <div style="flex: 1;">
+                    <label>Năm</label>
+                    <select id="fixedNam" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Khung 2: Theo Số Tuần (Mặc định hiện lên đầu) -->
+            <div id="khungTheoTuan" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Chọn 1 ngày thuộc tuần đó</label>
+                    <input type="date" id="fixedNgayBatDau" style="margin-top:6px; margin-bottom:16px;">
+                </div>
+                <div style="flex: 1;">
+                    <label>Số tuần mua gói</label>
+                    <select id="fixedSoTuan" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
+                        <option value="1">Chì 1 tuần đó (Đặt nhanh nhiều ngày cùng lúc)</option>
+                        <option value="4">4 tuần (~1 tháng)</option>
+                        <option value="8">8 tuần (~2 tháng)</option>
+                        <option value="12">12 tuần (~3 tháng)</option>
+                        <option value="16">16 tuần (~4 tháng)</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Chọn các Thứ lặp lại hàng tuần (Tích chọn nhiều ngày):</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0 20px 0;">
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="1" style="width:auto; margin:0;"> T2</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="3" style="width:auto; margin:0;"> T4</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="5" style="width:auto; margin:0;"> T6</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="2" style="width:auto; margin:0;"> T3</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="4" style="width:auto; margin:0;"> T5</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="6" style="width:auto; margin:0;"> T7</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="0" style="width:auto; margin:0;"> CN</label>
+            </div>
+
+            <button onclick="datLichCoDinhHangLoat()" class="action-btn" style="padding: 12px; font-size: 0.9em; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff;">XÁC NHẬN RẢI LỊCH HỆ THỐNG</button>
+        </div>
+        <!-- ====================================================================== -->
+
         <div class="zalo-group-box">
             <div class="zalo-title">Tham Gia Nhóm Zalo Phúc An</div>
             <div class="zalo-desc">Quét mã QR để tham gia nhóm "Sân cầu lông Phúc An Badminton" giao lưu, bắt kèo và nhận thông báo mới nhất!</div>
@@ -318,7 +397,6 @@
 
     <!-- TAB 2: BẢNG TIN KHUYẾN MÃI -->
     <div id="bang-tin" class="tab-content">
-        <!-- Khu vực quản lý dành riêng cho Admin -->
         <div id="adminPanelNews" class="admin-edit-panel">
             <h3 style="color: var(--highlight); margin-top: 0;">✍️ ĐĂNG THÔNG BÁO / KHUYẾN MÃI</h3>
             <label>Tiêu đề thông báo</label>
@@ -435,7 +513,7 @@
         }).catch(err => console.error("Lỗi gửi Telegram:", err));
     }
 
-    // SERVICE WORKER CHẠY NGẦM NHẮC LỊCH KHÁCH KHÔNG CẦN TREO TAB
+    // SERVICE WORKER CHẠY NGẦM NHẮC LỊCH
     if ('serviceWorker' in navigator) {
         const swCode = `
             let intervalId = null;
@@ -500,31 +578,18 @@
         });
     }
 
-    // ==========================================
-    // HÀM QUẢN LÝ BẢNG TIN KHUYẾN MÃI REALTIME
-    // ==========================================
+    // QUẢN LÝ BẢNG TIN KHUYẾN MÃI
     function loadBangTin() {
         db.ref('bangTinPhucAn').on('value', snap => {
-            let htmlNews = "";
-            let dataNews = [];
-            snap.forEach(child => {
-                let item = child.val();
-                item.key = child.key;
-                dataNews.push(item);
-            });
-            
-            dataNews.reverse(); // Mới nhất lên đầu
-
+            let htmlNews = ""; let dataNews = [];
+            snap.forEach(child => { let item = child.val(); item.key = child.key; dataNews.push(item); });
+            dataNews.reverse();
             dataNews.forEach(item => {
                 let nutXoaAdmin = (localStorage.getItem('isAdmin') === 'true') ? 
                     `<button onclick="xoaBangTin('${item.key}')" style="background: var(--accent); color: white; border: none; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.75em; cursor: pointer;">Xóa</button>` : "";
-                
                 htmlNews += `
                     <div class="promo-card">
-                        <div class="promo-header">
-                            <span>🔥 ${item.tieuDe}</span>
-                            ${nutXoaAdmin}
-                        </div>
+                        <div class="promo-header"><span>🔥 ${item.tieuDe}</span>${nutXoaAdmin}</div>
                         <div class="promo-time">📅 Đăng ngày: ${item.ngayDang}</div>
                         <p class="promo-body">${item.noiDung}</p>
                     </div>
@@ -538,43 +603,121 @@
         let title = document.getElementById('newsTitleInput').value.trim();
         let content = document.getElementById('newsContentInput').value.trim();
         if(!title || !content) return hienThiPopup("Vui lòng nhập đầy đủ tiêu đề và nội dung thông báo!", "THIẾU THÔNG TIN");
-
         let bayGio = new Date();
-        let ngay = String(bayGio.getDate()).padStart(2, '0');
-        let thang = String(bayGio.getMonth() + 1).padStart(2, '0');
-        let nam = bayGio.getFullYear();
-        let gio = String(bayGio.getHours()).padStart(2, '0');
-        let phut = String(bayGio.getMinutes()).padStart(2, '0');
-        let chuoiNgay = `${ngay}/${thang}/${nam} ${gio}h${phut}`;
-
-        db.ref('bangTinPhucAn').push({
-            tieuDe: title,
-            noiDung: content,
-            ngayDang: chuoiNgay
-        }, function(error) {
-            if (error) {
-                hienThiPopup("Lỗi lưu dữ liệu: " + error.message, "ĐĂNG TIN THẤT BẠI");
-            } else {
+        let chuoiNgay = `${String(bayGio.getDate()).padStart(2, '0')}/${String(bayGio.getMonth() + 1).padStart(2, '0')}/${bayGio.getFullYear()} ${String(bayGio.getHours()).padStart(2, '0')}h${String(bayGio.getMinutes()).padStart(2, '0')}`;
+        db.ref('bangTinPhucAn').push({ tieuDe: title, noiDung: content, ngayDang: chuoiNgay }, function(error) {
+            if (error) hienThiPopup("Lỗi lưu dữ liệu: " + error.message, "ĐĂNG TIN THẤT BẠI");
+            else {
                 hienThiPopup("Đã cập nhật thông báo/khuyến mãi mới lên hệ thống thành công!", "ĐĂNG TIN THÀNH CÔNG");
-                document.getElementById('newsTitleInput').value = "";
-                document.getElementById('newsContentInput').value = "";
+                document.getElementById('newsTitleInput').value = ""; document.getElementById('newsContentInput').value = "";
             }
         });
     }
 
     function xoaBangTin(id) {
-        if(confirm("Xác nhận xóa bài viết thông báo này khỏi hệ thống bảng tin?")) {
-            db.ref('bangTinPhucAn/' + id).remove();
+        if(confirm("Xác nhận xóa bài viết thông báo này khỏi hệ thống bảng tin?")) db.ref('bangTinPhucAn/' + id).remove();
+    }
+
+    // XỬ LÝ CHUYỂN ĐỔI FORM ĐẶT CỐ ĐỊNH
+    function doiKieuRaiLich() {
+        let kieu = document.getElementById('fixedKieuRai').value;
+        document.getElementById('khungTheoThang').style.display = (kieu === 'thang') ? 'flex' : 'none';
+        document.getElementById('khungTheoTuan').style.display = (kieu === 'tuan') ? 'flex' : 'none';
+    }
+
+    function initMonthsDropdown() {
+        let select = document.getElementById('fixedThang');
+        if(!select) return; select.innerHTML = "";
+        for(let i = 1; i <= 12; i++) {
+            let opt = document.createElement('option'); opt.value = i; opt.innerText = "Tháng " + i;
+            select.appendChild(opt);
         }
+        select.value = new Date().getMonth() + 1;
+    }
+
+    // ======================================================================
+    // THUẬT TOÁN ĐẶT NHIỀU NGÀY / NHIỀU TUẦN THÔNG MINH CHO ADMIN
+    // ======================================================================
+    function datLichCoDinhHangLoat() {
+        let ten = document.getElementById('fixedHoTen').value.trim();
+        let sdt = document.getElementById('fixedSdt').value.trim();
+        let san = document.getElementById('fixedSan').value;
+        let thoiGian = document.getElementById('fixedKhungGio').value;
+        let kieuRai = document.getElementById('fixedKieuRai').value;
+
+        if(!ten || !sdt) return hienThiPopup("Vui lòng nhập đầy đủ Họ tên và SĐT khách hàng!", "THIẾU THÔNG TIN");
+
+        let checkboxes = document.querySelectorAll('input[name="fixedThu"]:checked');
+        if(checkboxes.length === 0) return hienThiPopup("Vui lòng tích chọn các Thứ trong tuần chơi cố định!", "CHƯA CHỌN THỨ");
+
+        let cacThu = [];
+        checkboxes.forEach(cb => cacThu.push(parseInt(cb.value)));
+        let countBooked = 0;
+
+        if (kieuRai === 'thang') {
+            // HÌNH THỨC 1: RẢI TRỌN VẸN THEO THÁNG
+            let thang = parseInt(document.getElementById('fixedThang').value);
+            let nam = parseInt(document.getElementById('fixedNam').value);
+            let monthIndex = thang - 1; 
+            let daysInMonth = new Date(nam, thang, 0).getDate();
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                let dateObj = new Date(nam, monthIndex, d);
+                if (cacThu.includes(dateObj.getDay())) {
+                    let chuoiNgay = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
+                    db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: san, ngay: chuoiNgay, thoiGian: thoiGian });
+                    countBooked++;
+                }
+            }
+            hienThiPopup(`Hệ thống đã tự động rải lịch thành công ${countBooked} buổi cố định cho Tháng ${thang}/${nam}!`, "RẢI LỊCH THÀNH CÔNG");
+        } 
+        else {
+            // HÌNH THỨC 2: RẢI THEO SỐ TUẦN (CÓ CHẾ ĐỘ ĐẶT NHANH 1 TUẦN ĐA NGÀY)
+            let ngayBDStr = document.getElementById('fixedNgayBatDau').value;
+            let soTuan = parseInt(document.getElementById('fixedSoTuan').value);
+            if(!ngayBDStr) return hienThiPopup("Vui lòng chọn 1 Ngày để xác định tuần muốn rải lịch!", "THIẾU THÔNG TIN");
+
+            let startDate = new Date(ngayBDStr);
+            
+            // THUẬT TOÁN ĐỊNH VỊ TUẦN THÔNG MINH: Nếu chọn mốc đặt nhanh 1 tuần, tự lùi mốc thời gian về Thứ 2 của tuần đó
+            if (soTuan === 1) {
+                let day = startDate.getDay();
+                let diff = startDate.getDate() - day + (day === 0 ? -6 : 1); // Đưa về ngày Thứ 2 đầu tuần
+                startDate.setDate(diff);
+            }
+
+            for (let i = 0; i < soTuan * 7; i++) {
+                let currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + i);
+                
+                if (cacThu.includes(currentDate.getDay())) {
+                    let chuoiNgay = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+                    db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: san, ngay: chuoiNgay, thoiGian: thoiGian });
+                    countBooked++;
+                }
+            }
+            
+            if(soTuan === 1) {
+                hienThiPopup(`Đã rải lịch thành công ${countBooked} ngày bạn đã chọn trong tuần đó!`, "ĐẶT NHANH 1 TUẦN THÀNH CÔNG");
+            } else {
+                hienThiPopup(`Hệ thống đã tự động rải lịch thành công ${countBooked} buổi cố định trong vòng ${soTuan} tuần liên tiếp!`, "RẢI LỊCH THÀNH CÔNG");
+            }
+        }
+        
+        // Reset form nhập liệu cố định
+        document.getElementById('fixedHoTen').value = "";
+        document.getElementById('fixedSdt').value = "";
+        checkboxes.forEach(cb => cb.checked = false);
+        loadLich(); 
     }
 
     function capNhatGiaoDienAdmin() {
-        let panel = document.getElementById('adminPanelNews');
-        if(!panel) return;
-        panel.style.display = (localStorage.getItem('isAdmin') === 'true') ? 'block' : 'none';
+        let isAd = localStorage.getItem('isAdmin') === 'true';
+        if(document.getElementById('adminPanelNews')) document.getElementById('adminPanelNews').style.display = isAd ? 'block' : 'none';
+        if(document.getElementById('adminPanelFixed')) document.getElementById('adminPanelFixed').style.display = isAd ? 'block' : 'none';
     }
 
-    // CÁC XỬ LÝ ĐẶT LỊCH GỐC
+    // CÁC XỬ LÝ GỐC KHÁC
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
@@ -852,9 +995,7 @@
         let pass = prompt("Nhập mã Admin:");
         if (pass === "PhucAn2026$") { 
             localStorage.setItem('isAdmin', 'true'); 
-            loadLich(); 
-            capNhatGiaoDienAdmin();
-            loadBangTin();
+            loadLich(); capNhatGiaoDienAdmin(); loadBangTin();
         }
     }
 
@@ -868,7 +1009,9 @@
         }
         currentLocalDateStr = getVNDateString(); document.getElementById('ngay').value = currentLocalDateStr;
         
-        initTechSlider(); selectCourt('Sân số 1'); loadLich(); loadBangTin(); capNhatGiaoDienAdmin();
+        if(document.getElementById('fixedNgayBatDau')) document.getElementById('fixedNgayBatDau').value = currentLocalDateStr;
+
+        initMonthsDropdown(); initTechSlider(); selectCourt('Sân số 1'); loadLich(); loadBangTin(); capNhatGiaoDienAdmin();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); }, 15000);
