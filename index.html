@@ -374,13 +374,13 @@
                 </div>
             </div>
 
-            <label>Chọn các Thứ lặp lại hàng tuần (Tích chọn nhiều ngày):</label>
+            <label>Chọn các Thứ lặp lại hàng tuần (Xếp chuẩn Thứ tự):</label>
             <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0 20px 0;">
                 <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="1" style="width:auto; margin:0;"> T2</label>
-                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="3" style="width:auto; margin:0;"> T4</label>
-                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="5" style="width:auto; margin:0;"> T6</label>
                 <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="2" style="width:auto; margin:0;"> T3</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="3" style="width:auto; margin:0;"> T4</label>
                 <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="4" style="width:auto; margin:0;"> T5</label>
+                <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="5" style="width:auto; margin:0;"> T6</label>
                 <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="6" style="width:auto; margin:0;"> T7</label>
                 <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="0" style="width:auto; margin:0;"> CN</label>
             </div>
@@ -426,7 +426,7 @@
             <div class="price-row"><span>🌙 Ca tối (16h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
         <div class="box">
-            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">THỨ 7 & CHỦ NHẬT</h3>
+            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">THỦ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ Toàn bộ khung giờ (5h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
     </div>
@@ -579,7 +579,7 @@
         });
     }
 
-    // QUẢN LÝ BẢNG TIN KHUYẾN MÃI
+    // BẢNG TIN
     function loadBangTin() {
         db.ref('bangTinPhucAn').on('value', snap => {
             let htmlNews = ""; let dataNews = [];
@@ -619,7 +619,6 @@
         if(confirm("Xác nhận xóa bài viết thông báo này khỏi hệ thống bảng tin?")) db.ref('bangTinPhucAn/' + id).remove();
     }
 
-    // XỬ LÝ CHUYỂN ĐỔI FORM ĐẶT CỐ ĐỊNH
     function doiKieuRaiLich() {
         let kieu = document.getElementById('fixedKieuRai').value;
         document.getElementById('khungTheoThang').style.display = (kieu === 'thang') ? 'flex' : 'none';
@@ -636,9 +635,7 @@
         select.value = new Date().getMonth() + 1;
     }
 
-    // ======================================================================
-    // THUẬT TOÁN ĐẶT HÀNG LOẠT SMART - HỖ TRỢ ĐẶT 2 SÂN CÙNG LÚC
-    // ======================================================================
+    // THUẬT TOÁN ĐẶT SMART HÀNG LOẠT
     function datLichCoDinhHangLoat() {
         let ten = document.getElementById('fixedHoTen').value.trim();
         let sdt = document.getElementById('fixedSdt').value.trim();
@@ -655,11 +652,9 @@
         checkboxes.forEach(cb => cacThu.push(parseInt(cb.value)));
         let countBooked = 0;
 
-        // XỬ LÝ CHỌN ĐỒNG THỜI CẢ 2 SÂN: Nếu chọn 'Cả 2 sân', mảng sẽ gồm cả Sân 1 và Sân 2
         let danhSachSanRai = (san === "Cả 2 sân") ? ["Sân số 1", "Sân số 2"] : [san];
 
         if (kieuRai === 'thang') {
-            // HÌNH THỨC 1: RẢI THEO THÁNG DƯƠNG LỊCH
             let thang = parseInt(document.getElementById('fixedThang').value);
             let nam = parseInt(document.getElementById('fixedNam').value);
             let monthIndex = thang - 1; 
@@ -670,7 +665,6 @@
                 if (cacThu.includes(dateObj.getDay())) {
                     let chuoiNgay = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
                     
-                    // Lặp rải lịch theo danh sách sân cấu hình
                     danhSachSanRai.forEach(s => {
                         db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian });
                         countBooked++;
@@ -680,7 +674,6 @@
             hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca chơi cố định cho Tháng ${thang}/${nam}!`, "RẢI LỊCH THÀNH CÔNG");
         } 
         else {
-            // HÌNH THỨC 2: RẢI THEO TUẦN LINH HOẠT
             let ngayBDStr = document.getElementById('fixedNgayBatDau').value;
             let soTuan = parseInt(document.getElementById('fixedSoTuan').value);
             if(!ngayBDStr) return hienThiPopup("Vui lòng chọn 1 Ngày để xác định tuần muốn rải lịch!", "THIẾU THÔNG TIN");
@@ -700,7 +693,6 @@
                 if (cacThu.includes(currentDate.getDay())) {
                     let chuoiNgay = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
                     
-                    // Lặp rải lịch theo danh sách sân cấu hình
                     danhSachSanRai.forEach(s => {
                         db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian });
                         countBooked++;
@@ -715,7 +707,6 @@
             }
         }
         
-        // Reset form nhập liệu cố định
         document.getElementById('fixedHoTen').value = "";
         document.getElementById('fixedSdt').value = "";
         checkboxes.forEach(cb => cb.checked = false);
@@ -728,7 +719,6 @@
         if(document.getElementById('adminPanelFixed')) document.getElementById('adminPanelFixed').style.display = isAd ? 'block' : 'none';
     }
 
-    // CÁC XỬ LÝ GỐC KHÁC
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
