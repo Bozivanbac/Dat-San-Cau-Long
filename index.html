@@ -63,7 +63,7 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* MENU TÁP LƯỚI GRID GỌN GÀNG */
+        /* MENU TÁP LƯỚI GRID */
         .tab-navigation { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -128,51 +128,37 @@
         .court-tab-item.active { border-color: var(--primary); background: rgba(6, 182, 212, 0.05); color: var(--primary); box-shadow: 0 0 12px rgba(6, 182, 212, 0.15); }
         .court-tab-item.dimmed { opacity: 0.35; border-color: var(--border); background: #070a12; color: var(--text-muted); }
 
-        /* KHU VỰC CHỌN GIỜ THEO NHU CẦU */
+        /* TIMELINE KẸP & THANH TRƯỢT */
         .tech-picker-box { background: #070a12; border: 1px solid var(--border); border-radius: 20px; padding: 20px 15px; margin-bottom: 20px; position: relative; }
         .tech-picker-values { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        
         .tech-hud-display { display: flex; flex-direction: column; align-items: center; background: #090d16; border: 1px solid rgba(255,255,255,0.02); padding: 12px 15px; border-radius: 14px; min-width: 95px; flex: 1; text-align: center; }
         .hud-label { font-size: 0.7em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; font-weight: 700; }
         .hud-time { font-family: monospace; font-weight: 900; font-size: 1.4em; color: var(--primary); letter-spacing: 0.5px; }
         .tech-arrow { color: var(--text-muted); font-size: 1.5em; font-weight: bold; padding: 0 8px; }
-        
         .tech-picker-box.is-error { border-color: var(--accent); box-shadow: 0 0 15px rgba(244, 63, 94, 0.15); }
         .tech-picker-box.is-error .tech-hud-display { border-color: var(--accent); background: rgba(244, 63, 94, 0.05); }
         .tech-picker-box.is-error .hud-time { color: var(--accent); }
-
-        /* TIMELINE KẸP */
         .sandwich-container { background: #090d16; padding: 15px 10px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.02); margin-top: 10px; }
         .sandwich-row-s1, .sandwich-row-s2 { transition: opacity 0.3s ease; }
         .sandwich-row-s1.dimmed, .sandwich-row-s2.dimmed { opacity: 0.15; filter: blur(0.5px); }
-        
         .sandwich-label { font-size: 0.75em; font-weight: 800; color: #94a3b8; margin-bottom: 6px; display: flex; justify-content: space-between; text-transform: uppercase; }
         .sandwich-label span { font-weight: 900; }
-        
         .energy-bar { display: flex; height: 8px; background: #1e293b; border-radius: 4px; overflow: hidden; margin-bottom: 2px; }
         .energy-block { flex: 1; border-right: 1px solid rgba(0,0,0,0.2); background: var(--success); }
         .energy-block:last-child { border-right: none; }
         .energy-block.is-busy { background: var(--accent); }
-
-        /* THANH TRƯỢT SLIDER */
         .slider-container-wrapper { padding: 20px 6px; position: relative; z-index: 10; }
         .noUi-target { background: #1e293b !important; border: none !important; border-radius: 50px !important; height: 16px !important; }
         .noUi-connect { background: var(--cyber-gradient) !important; }
         .tech-picker-box.is-error .noUi-connect { background: var(--error-gradient) !important; }
-        
         .noUi-handle { width: 34px !important; height: 34px !important; border-radius: 50% !important; background: #ffffff !important; border: 5px solid #090d16 !important; box-shadow: 0 0 10px var(--primary) !important; cursor: pointer !important; top: -9px !important; right: -17px !important; transition: transform 0.1s; }
-        .noUi-handle:active { transform: scale(1.15); }
-        .tech-picker-box.is-error .noUi-handle { box-shadow: 0 0 10px var(--accent) !important; border-color: var(--accent) !important; }
         .noUi-handle:before, .noUi-handle:after { display: none !important; }
-
         .energy-hours-label { display: flex; justify-content: space-between; font-size: 0.65em; color: var(--text-muted); font-family: monospace; padding-top: 6px; }
 
         /* TỔNG CHI PHÍ */
         .cyber-price-box { background: rgba(16, 185, 129, 0.02); border: 1px dashed rgba(16, 185, 129, 0.3); text-align: center; padding: 15px; margin: 20px 0; border-radius: 16px; }
         .price-label { font-size: 0.8em; color: var(--text-muted); text-transform: uppercase; }
         .price-display { font-family: monospace; font-weight: 900; font-size: 1.8em; color: var(--success); margin-top: 4px; }
-
-        /* LIÊN HỆ ĐỔI HỦY */
         .support-contact-box { text-align: center; font-size: 0.85em; color: var(--text-muted); margin-top: 10px; margin-bottom: 20px; font-weight: 600; }
         .support-contact-box a { color: var(--highlight); text-decoration: none; font-weight: 800; border-bottom: 1px dashed var(--highlight); }
 
@@ -183,20 +169,18 @@
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #070a12; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; gap: 8px; }
         .list-item > span { flex: 1; word-break: break-word; }
         
-        /* TRẠNG THÁI HIỂN THỊ ĐƠN */
         .live-status-badge { font-size: 0.85em; font-weight: 800; padding: 4px 8px; border-radius: 6px; margin-left: 6px; display: inline-block; vertical-align: middle; }
         .status-upcoming { background: rgba(16, 185, 129, 0.1); color: var(--success); }
         .status-ready { background: rgba(245, 158, 11, 0.15); color: var(--highlight); }
         .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
         .status-done { background: rgba(6, 182, 212, 0.15); color: var(--primary); font-weight: 900; }
 
-        /* THIẾT KẾ THANH BÁO CÔNG SUẤT LỊCH TRỰC QUAN & ĐÈN LIVE SYNC */
+        /* THIẾT KẾ PHÂN KHÚC TUẦN - MỚI */
         .fixed-capacity-box { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 20px; }
         .fixed-progress-text { font-size: 0.85em; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.3px; align-items: center; }
         .fixed-progress-container { background: #1e293b; border-radius: 10px; height: 16px; width: 100%; overflow: hidden; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.03); }
         .fixed-progress-bar { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
 
-        /* ĐÈN NHẤP NHÁY BÁO ĐỒNG BỘ TỰ ĐỘNG THỜI GIAN THỰC */
         .live-sync-indicator { display: flex; align-items: center; font-size: 0.75em; font-weight: 800; color: var(--success); letter-spacing: 1px; margin-bottom: 15px; text-transform: uppercase; gap: 6px; }
         .live-dot-sync { width: 8px; height: 8px; background: var(--success); border-radius: 50%; display: inline-block; animation: pulseBall 1.5s infinite; }
         @keyframes pulseBall {
@@ -204,6 +188,15 @@
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
             100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
+
+        /* GIỎ CHỨA KHỐI TUẦN THEO THÁNG */
+        .week-block-box { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 14px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .week-block-title { font-size: 0.9em; font-weight: 800; color: var(--highlight); margin-bottom: 12px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.04); padding-bottom: 6px; display: flex; justify-content: space-between; }
+        .day-timeline-row { padding: 10px 4px; border-bottom: 1px dashed rgba(255,255,255,0.02); }
+        .day-timeline-row:last-child { border-bottom: none; }
+        .day-headline-title { font-size: 0.85em; font-weight: 700; color: #cbd5e1; display: flex; align-items: center; gap: 6px; }
+        .day-inside-appointments { margin-top: 6px; padding-left: 12px; font-size: 0.8em; }
+        .compact-ticket { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.01); padding: 6px 10px; border-radius: 8px; margin-top: 4px; border: 1px solid rgba(255,255,255,0.02); gap: 6px; }
 
         /* TAB BẢNG TIN */
         .promo-card { background: rgba(6, 182, 212, 0.02); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--highlight); }
@@ -226,24 +219,12 @@
             text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             position: relative; animation: popScale 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        @keyframes popScale {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        @keyframes popScale { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .cyber-popup-title { font-size: 1.15em; font-weight: 800; text-transform: uppercase; color: var(--highlight); margin-bottom: 12px; }
         .cyber-popup-text { font-size: 0.95em; color: #cbd5e1; line-height: 1.6; font-weight: 600; word-break: break-word; }
 
-        /* KHUNG NHÓM ZALO THU NHỎ MÃ QR */
-        .zalo-group-box {
-            background: var(--zalo-blue);
-            border-radius: 24px;
-            padding: 20px 15px;
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            box-shadow: 0 15px 35px rgba(0, 104, 255, 0.35);
-            border: 1px solid rgba(255,255,255,0.15);
-        }
+        /* KHUNG QR NHÓM ZALO */
+        .zalo-group-box { background: var(--zalo-blue); border-radius: 24px; padding: 20px 15px; text-align: center; margin-top: 30px; margin-bottom: 15px; box-shadow: 0 15px 35px rgba(0, 104, 255, 0.35); border: 1px solid rgba(255,255,255,0.15); }
         .zalo-title { color: white; font-weight: 900; font-size: 1.25em; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .zalo-desc { color: rgba(255, 255, 255, 0.95); font-size: 0.85em; margin-bottom: 16px; line-height: 1.5; padding: 0 15px; }
         .zalo-qr-img { width: 180px; height: 180px; border-radius: 20px; border: 6px solid white; box-shadow: 0 12px 30px rgba(0,0,0,0.4); object-fit: contain; background: white; display: block; margin: 0 auto; }
@@ -374,7 +355,7 @@
                 <option value="Cả 2 sân">Cả 2 sân (Sân số 1 & Sân số 2)</option>
             </select>
 
-            <label>Khung giờ chơi cố định (Bước nhảy 15 phút linh hoạt)</label>
+            <label>Khung giờ chơi cố định</label>
             <div style="display: flex; gap: 10px; margin-bottom: 16px;">
                 <div style="flex: 1;">
                     <label style="font-size: 0.8em; color: var(--text-muted); margin-bottom: 4px;">Giờ vào</label>
@@ -416,7 +397,7 @@
                 <div style="flex: 1;">
                     <label>Số tuần mua gói</label>
                     <select id="fixedSoTuan" onchange="tinhGiaCoDinhDuKien()" style="width:100%; padding:14px; background:#070a12; border:1px solid var(--border); border-radius:12px; color:var(--text-main); margin-bottom:16px;">
-                        <option value="1">Chỉ trong 1 tuần đó (Đặt nhanh nhiều ngày)</option>
+                        <option value="1">Chỉ trong 1 tuần đó</option>
                         <option value="4">4 tuần (~1 tháng)</option>
                         <option value="8">8 tuần (~2 tháng)</option>
                         <option value="12">12 tuần (~3 tháng)</option>
@@ -425,7 +406,7 @@
                 </div>
             </div>
 
-            <label>Chọn các Thứ lặp lại hàng tuần (Xếp chuẩn Thứ tự):</label>
+            <label>Chọn các Thứ lặp lại hàng tuần:</label>
             <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 0 20px 0;">
                 <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="1" onclick="tinhGiaCoDinhDuKien()" style="width:auto; margin:0;"> T2</label>
                 <label style="display:flex; align-items:center; gap:4px; text-transform:none; color:var(--text-main); font-size:0.9em;"><input type="checkbox" name="fixedThu" value="2" onclick="tinhGiaCoDinhDuKien()" style="width:auto; margin:0;"> T3</label>
@@ -447,12 +428,12 @@
 
         <div class="zalo-group-box">
             <div class="zalo-title">Tham Gia Nhóm Zalo Phúc An</div>
-            <div class="zalo-desc">Quét mã QR để tham gia nhóm "Sân cầu lông Phúc An Badminton" giao lưu, bắt kèo và nhận thông báo mới nhất!</div>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=340x340&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" alt="Mã QR Zalo Phúc An" class="zalo-qr-img">
+            <div class="zalo-desc">Quét mã QR để tham gia nhóm giao lưu nhen!</div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=340x340&data=https://zalo.me/g/xfpsrdyei8f0nnhza8tu" alt="Mã QR Zalo" class="zalo-qr-img">
         </div>
     </div>
 
-    <!-- TAB 2: THANH BÁO CÔNG SUẤT ĐÃ KHÓA (TỰ ĐỘNG ĐỒNG BỘ CẢ KHÁCH LẺ VÀ CỐ ĐỊNH REAL-TIME) -->
+    <!-- TAB 2: QUẢN LÝ LỊCH TRÌNH THEO KHỐI TUẦN THÔNG MINH -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
             <div class="live-sync-indicator">
@@ -460,32 +441,37 @@
             </div>
             
             <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 5px;">📊 ĐỘ PHỦ KÍN LỊCH ĐÃ ĐẶT</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 20px; line-height:1.4;">Thanh bar tự động tổng hợp toàn bộ các ca khách đặt trong tuần (bao gồm cả lịch lẻ và lịch cố định) để hiển thị công suất thực tế.</p>
             
             <!-- Khu vực Thanh tiến trình trực quan -->
             <div class="fixed-capacity-box">
-                <div id="progressTextS1" class="fixed-progress-text">
-                    <span>📋 Sân số 1: Đang quét dữ liệu...</span>
-                    <span>0%</span>
-                </div>
-                <div class="fixed-progress-container">
-                    <div id="progressBarS1" class="fixed-progress-bar"></div>
-                </div>
+                <div id="progressTextS1" class="fixed-progress-text"><span>📋 Sân số 1: Đang quét...</span><span>0%</span></div>
+                <div class="fixed-progress-container"><div id="progressBarS1" class="fixed-progress-bar"></div></div>
+                <div id="progressTextS2" class="fixed-progress-text"><span>📋 Sân số 2: Đang quét...</span><span>0%</span></div>
+                <div class="fixed-progress-container" style="margin-bottom: 5px;"><div id="progressBarS2" class="fixed-progress-bar" style="background: linear-gradient(90deg, #f59e0b 0%, #06b6d4 100%);"></div></div>
+            </div>
 
-                <div id="progressTextS2" class="fixed-progress-text">
-                    <span>📋 Sân số 2: Đang quét dữ liệu...</span>
-                    <span>0%</span>
-                </div>
-                <div class="fixed-progress-container" style="margin-bottom: 5px;">
-                    <div id="progressBarS2" class="fixed-progress-bar" style="background: linear-gradient(90deg, #f59e0b 0%, #06b6d4 100%); box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);"></div>
+            <!-- BỘ BẢNG LỌC ĐỂ XEM LỊCH THEO TUẦN TRỰC QUAN -->
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 12px; border-radius: 14px; margin-bottom: 20px; margin-top: 10px;">
+                <h4 style="margin: 0 0 10px 0; font-size: 0.8em; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🔍 Bộ lọc lịch biểu tuần nâng cao</h4>
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label style="font-size: 0.7em; color: var(--text-muted); margin-bottom: 4px;">Chọn Sân</label>
+                        <select id="trackerCourt" onchange="loadLichCoDinhTongHop()" style="margin:0; padding:10px; font-size:0.85em; background: #070a12; border: 1px solid var(--border); border-radius: 8px;">
+                            <option value="Sân số 1">Sân số 1</option>
+                            <option value="Sân số 2">Sân số 2</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="font-size: 0.7em; color: var(--text-muted); margin-bottom: 4px;">Chọn Tháng Kiểm Tra</label>
+                        <select id="trackerMonth" onchange="loadLichCoDinhTongHop()" style="margin:0; padding:10px; font-size:0.85em; color: var(--highlight); border-color: rgba(245, 158, 11, 0.3); background: #070a12; border-radius: 8px; font-weight: 700;"></select>
+                    </div>
                 </div>
             </div>
 
-            <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ CHI TIẾT LỊCH HẸN SÂN SỐ 1</h4>
-            <div id="danhSachCoDinhS1"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang quét cơ sở dữ liệu...</p></div>
-            
-            <h4 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ CHI TIẾT LỊCH HẸN SÂN SỐ 2</h4>
-            <div id="danhSachCoDinhS2"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang quét cơ sở dữ liệu...</p></div>
+            <!-- Nơi hiển thị các khối tuần động từ Firebase -->
+            <div id="weeklyTrackerDashboard">
+                <p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang phân bổ dữ liệu tuần...</p>
+            </div>
         </div>
     </div>
 
@@ -496,30 +482,28 @@
             <label>Tiêu đề thông báo</label>
             <input type="text" id="newsTitleInput" placeholder="Ví dụ: KHUYẾN MÃI HÈ GIẢM GIÁ 20%">
             <label>Nội dung chi tiết</label>
-            <textarea id="newsContentInput" placeholder="Nhập nội dung khuyến mãi hoặc thông báo bảo trì sân..."></textarea>
+            <textarea id="newsContentInput" placeholder="Nhập nội dung..."></textarea>
             <button onclick="dangThongBaoMoi()" class="action-btn" style="padding: 12px; font-size: 0.9em; margin-top: 5px;">ĐĂNG BẢNG TIN</button>
         </div>
-
         <div class="box">
             <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">📢 THÔNG BÁO & ƯU ĐÃI MỚI NHẤT</h3>
-            <div id="danhSachBangTin"><p style="text-align: center; color: var(--text-muted); font-size: 0.9em;">Đang tải thông báo từ hệ thống...</p></div>
+            <div id="danhSachBangTin"><p style="text-align: center; color: var(--text-muted); font-size: 0.9em;">Đang tải thông báo...</p></div>
         </div>
     </div>
 
     <!-- TAB 4: BẢNG GIÁ -->
     <div id="bang-gia" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">TỪ THỨ 2 ĐẾN THỨ 6</h3>
-            <div class="price-row" style="background: rgba(245, 158, 11, 0.02); padding-left: 6px; padding-right: 6px; border-radius: 8px;">
-                <span style="color: var(--highlight); font-weight: 700;">🎓 Học sinh - SV (5h - 16h)</span>
-                <span class="price-tag student">39k / Giờ</span>
+            <h3>TỪ THỨ 2 ĐẾN THỨ 6</h3>
+            <div class="price-row" style="background: rgba(245, 158, 11, 0.02); border-radius: 8px; padding: 10px 6px;">
+                <span style="color: var(--highlight); font-weight: 700;">🎓 Học sinh - SV (5h - 16h)</span><span class="price-tag student">39k / Giờ</span>
             </div>
             <div class="price-row"><span>☀️ Ca sáng (5h - 9h)</span><span class="price-tag">70k / Giờ</span></div>
             <div class="price-row"><span>🔆 Ca trưa (9h - 16h)</span><span class="price-tag">60k / Giờ</span></div>
             <div class="price-row"><span>🌙 Ca tối (16h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
         <div class="box">
-            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">THỨ 7 & CHỦ NHẬT</h3>
+            <h3 style="color: var(--highlight);">THỨ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ Toàn bộ khung giờ (5h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
     </div>
@@ -529,24 +513,11 @@
         <div class="rules-wrapper">
             <div class="rule-card">
                 <div class="rule-card-header">👟 1. Trang phục & Giày đấu</div>
-                <div class="rule-card-body">
-                    <div class="rule-line"><span class="rule-dot">▪</span><span>Nghiêm cấm tuyệt đối đi giày đế cứng, giày Tây hoặc các loại giày có đế màu đen làm bẩn/trầy xước mặt thảm sân sàn chuyên dụng.</span></div>
-                    <div class="rule-line"><span class="rule-dot">▪</span><span>Khuyến khích sử dụng trang phục thể thao gọn gàng, thấm hút mồ hôi tốt khi vào khu vực thi đấu.</span></div>
-                </div>
+                <div class="rule-card-body">Nghiêm cấm giày đế cứng, giày Tây làm bẩn/trầy xước mặt thảm sàn chuyên dụng.</div>
             </div>
             <div class="rule-card">
                 <div class="rule-card-header">⏰ 2. Quy định thời gian & Đặt lịch</div>
-                <div class="rule-card-body">
-                    <div class="rule-line"><span class="rule-dot">▪</span><span>Quý khách vui lòng đến đúng khung giờ đã đăng ký hệ thống để được đảm bảo quyền lợi chơi tối đa.</span></div>
-                    <div class="rule-line"><span class="rule-dot">▪</span><span>Mọi sự cố muốn hủy ca hoặc đổi giờ chơi đột xuất phải thông báo qua Hotline/Zalo số <a href="tel:0395936865" style="color: var(--primary); font-weight: 800; text-decoration: none;">0395936865</a> trước ít nhất 60 phút.</span></div>
-                </div>
-            </div>
-            <div class="rule-card">
-                <div class="rule-card-header">🧼 3. Vệ sinh & An toàn chung</div>
-                <div class="rule-card-body">
-                    <div class="rule-line"><span class="rule-dot">▪</span><span>Không vứt rác bừa bãi, vỏ chai nước, băng quấn cán vợt cũ ra khu vực thảm đấu hoặc hàng ghế chờ. Vui lòng bỏ đúng nơi quy định.</span></div>
-                    <div class="rule-line"><span class="rule-dot">▪</span><span>Nghiêm cấm hành vi hút thuốc lá, sử dụng chất kích thích hoặc gây mất trật tự công cộng bên trong câu lạc bộ Phúc An.</span></div>
-                </div>
+                <div class="rule-card-body">Mọi sự cố muốn hủy ca hoặc đổi giờ chơi phải báo trước ít nhất 60 phút qua Hotline.</div>
             </div>
         </div>
     </div>
@@ -556,8 +527,8 @@
 
 <div id="cyberPopup" class="cyber-popup-overlay" onclick="tatPopup()">
     <div class="cyber-popup-box">
-        <div id="popupTitle" class="cyber-popup-title">Trang này nói</div>
-        <div id="popupText" class="cyber-popup-text">Nội dung thông báo</div>
+        <div id="popupTitle" class="cyber-popup-title">THÔNG BÁO</div>
+        <div id="popupText" class="cyber-popup-text">Nội dung</div>
     </div>
 </div>
 
@@ -594,10 +565,7 @@
         document.getElementById('popupText').innerText = noiDung;
         document.getElementById('cyberPopup').classList.add('show');
     }
-
-    function tatPopup() {
-        document.getElementById('cyberPopup').classList.remove('show');
-    }
+    function tatPopup() { document.getElementById('cyberPopup').classList.remove('show'); }
 
     function guiThongBaoTelegram(noiDung) {
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
@@ -690,7 +658,7 @@
                     </div>
                 `;
             });
-            document.getElementById('danhSachBangTin').innerHTML = htmlNews || "<p style='text-align: center; color: var(--text-muted); font-size: 0.9em; padding: 15px 0;'>Sân hiện chưa có thông báo hay ưu đãi mới.</p>";
+            document.getElementById('danhSachBangTin').innerHTML = htmlNews || "<p style='text-align: center; color: var(--text-muted); font-size: 0.9em; padding: 15px 0;'>Sân hiện chưa có thông báo mới.</p>";
         });
     }
 
@@ -708,10 +676,7 @@
             }
         });
     }
-
-    function xoaBangTin(id) {
-        if(confirm("Xác nhận xóa bài viết thông báo này khỏi hệ thống bảng tin?")) db.ref('bangTinPhucAn/' + id).remove();
-    }
+    function xoaBangTin(id) { if(confirm("Xác nhận xóa bài viết thông báo này?")) db.ref('bangTinPhucAn/' + id).remove(); }
 
     function doiKieuRaiLich() {
         let kieu = document.getElementById('fixedKieuRai').value;
@@ -721,13 +686,24 @@
     }
 
     function initMonthsDropdown() {
-        let select = document.getElementById('fixedThang');
-        if(!select) return; select.innerHTML = "";
+        let select = document.getElementById('fixedThang'); if(!select) return; select.innerHTML = "";
         for(let i = 1; i <= 12; i++) {
-            let opt = document.createElement('option'); opt.value = i; opt.innerText = "Tháng " + i;
-            select.appendChild(opt);
+            let opt = document.createElement('option'); opt.value = i; opt.innerText = "Tháng " + i; select.appendChild(opt);
         }
         select.value = new Date().getMonth() + 1;
+    }
+
+    function initTrackerMonthDropdown() {
+        let select = document.getElementById('trackerMonth'); if(!select) return; select.innerHTML = "";
+        let now = new Date();
+        for(let i = 0; i < 4; i++) {
+            let d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+            let m = d.getMonth() + 1; let y = d.getFullYear();
+            let opt = document.createElement('option');
+            opt.value = `${y}-${m}`; opt.innerText = `Tháng ${m}/${y}`;
+            select.appendChild(opt);
+        }
+        select.value = `${now.getFullYear()}-${now.getMonth() + 1}`;
     }
 
     function initFixedTimeDropdowns() {
@@ -748,22 +724,13 @@
         let gioRa = document.getElementById('fixedGioRa').value;
         let kieuRai = document.getElementById('fixedKieuRai').value;
 
-        let sMin = toMinutes(gioVao);
-        let eMin = toMinutes(gioRa);
-        if (sMin >= eMin) {
-            document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Giờ vào >= Giờ ra)";
-            return;
-        }
+        let sMin = toMinutes(gioVao); let eMin = toMinutesEnd(gioRa);
+        if (sMin >= eMin) { document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Giờ vào >= Giờ ra)"; return; }
         let soGioMoiCa = (eMin - sMin) / 60;
 
         let checkboxes = document.querySelectorAll('input[name="fixedThu"]:checked');
-        let cacThu = [];
-        checkboxes.forEach(cb => cacThu.push(parseInt(cb.value)));
-
-        if (cacThu.length === 0) {
-            document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Chưa chọn Thứ)";
-            return;
-        }
+        let cacThu = []; checkboxes.forEach(cb => cacThu.push(parseInt(cb.value)));
+        if (cacThu.length === 0) { document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Chưa chọn Thứ)"; return; }
 
         let tongSoCaChơi = 0;
         let danhSachSanRai = (san === "Cả 2 sân") ? ["Sân số 1", "Sân số 2"] : [san];
@@ -772,32 +739,22 @@
         if (kieuRai === 'thang') {
             let thang = parseInt(document.getElementById('fixedThang').value);
             let nam = parseInt(document.getElementById('fixedNam').value);
-            let monthIndex = thang - 1; 
             let daysInMonth = new Date(nam, thang, 0).getDate();
             for (let d = 1; d <= daysInMonth; d++) {
-                let dateObj = new Date(nam, monthIndex, d);
+                let dateObj = new Date(nam, thang - 1, d);
                 if (cacThu.includes(dateObj.getDay())) { tongSoCaChơi += soLuongSan; }
             }
         } else {
             let ngayBDStr = document.getElementById('fixedNgayBatDau').value;
             let soTuan = parseInt(document.getElementById('fixedSoTuan').value);
-            if (!ngayBDStr) {
-                document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Chưa chọn ngày)";
-                return;
-            }
+            if (!ngayBDStr) { document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Chưa chọn ngày)"; return; }
             let startDate = new Date(ngayBDStr);
             for (let i = 0; i < soTuan * 7; i++) {
-                let currentDate = new Date(startDate);
-                currentDate.setDate(startDate.getDate() + i);
+                let currentDate = new Date(startDate); currentDate.setDate(startDate.getDate() + i);
                 if (cacThu.includes(currentDate.getDay())) { tongSoCaChơi += soLuongSan; }
             }
         }
-
-        let giaMoiTieng = 70;
-        if (cacThu.length >= 3) {
-            giaMoiTieng = 60;
-        }
-
+        let giaMoiTieng = cacThu.length >= 3 ? 60 : 70;
         let thanhTienKhauHao = soGioMoiCa * tongSoCaChơi * giaMoiTieng * 1000;
         document.getElementById('fixedEstimatedPrice').innerText = Math.round(thanhTienKhauHao).toLocaleString('vi-VN') + " đ (" + tongSoCaChơi + " ca)";
     }
@@ -824,23 +781,22 @@
         if (kieuRai === 'thang') {
             let thang = parseInt(document.getElementById('fixedThang').value);
             let nam = parseInt(document.getElementById('fixedNam').value);
-            let monthIndex = thang - 1; 
             let daysInMonth = new Date(nam, thang, 0).getDate();
 
             for (let d = 1; d <= daysInMonth; d++) {
-                let dateObj = new Date(nam, monthIndex, d);
+                let dateObj = new Date(nam, thang - 1, d);
                 if (cacThu.includes(dateObj.getDay())) {
                     let chuoiNgay = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
                     danhSachSanRai.forEach(s => {
                         db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian, isFixed: true }).then(() => {
-                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (THÁNG)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n📞 <b>SĐT:</b> ${sdt}\n🎯 <b>Sân đấu:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Khung giờ:</b> ${thoiGian}`;
+                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (THÁNG)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n🎯 <b>Sân:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Giờ:</b> ${thoiGian}`;
                             guiThongBaoTelegram(textTelegram);
                         });
                         countBooked++;
                     });
                 }
             }
-            hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca chơi cố định cho Tháng ${thang}/${nam}!`, "RẢI LỊCH THÀNH CÔNG");
+            hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca cố định cho Tháng ${thang}/${nam}!`, "RẢI LỊCH THÀNH CÔNG");
         } 
         else {
             let ngayBDStr = document.getElementById('fixedNgayBatDau').value;
@@ -849,20 +805,19 @@
 
             let startDate = new Date(ngayBDStr);
             for (let i = 0; i < soTuan * 7; i++) {
-                let currentDate = new Date(startDate);
-                currentDate.setDate(startDate.getDate() + i);
+                let currentDate = new Date(startDate); currentDate.setDate(startDate.getDate() + i);
                 if (cacThu.includes(currentDate.getDay())) {
                     let chuoiNgay = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
                     danhSachSanRai.forEach(s => {
                         db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian, isFixed: true }).then(() => {
-                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (GÓI TUẦN)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n📞 <b>SĐT:</b> ${sdt}\n🎯 <b>Sân đấu:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Khung giờ:</b> ${thoiGian}`;
+                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (GÓI TUẦN)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n🎯 <b>Sân:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Giờ:</b> ${thoiGian}`;
                             guiThongBaoTelegram(textTelegram);
                         });
                         countBooked++;
                     });
                 }
             }
-            hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca chơi cố định trong vòng ${soTuan} tuần liên tiếp!`, "RẢI LỊCH THÀNH CÔNG");
+            hienThiPopup(`Hệ thống đã rải lịch thành công ${countBooked} ca chơi cố định trong vòng ${soTuan} tuần!`, "RẢI LỊCH THÀNH CÔNG");
         }
         
         document.getElementById('fixedHoTen').value = ""; document.getElementById('fixedSdt').value = "";
@@ -870,149 +825,151 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
-    // THUẬT TOÁN TỰ ĐỘNG XÓA LỊCH SỬ ĐÃ CHƠI QUA 15 NGÀY ĐỂ GIẢI PHÓNG HỆ THỐNG
     function xoaLichQuaHan15Ngay() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         let limitDate = new Date(Date.now() - tzoffset - (15 * 24 * 60 * 60 * 1000));
         let limitStr = limitDate.toISOString().slice(0, 10);
-        
         db.ref('lichDatCauLong').orderByChild('ngay').endAt(limitStr).once('value', snap => {
-            snap.forEach(child => {
-                if (child.val().ngay <= limitStr) {
-                    db.ref('lichDatCauLong/' + child.key).remove();
-                }
-            });
+            snap.forEach(child => { if (child.val().ngay <= limitStr) db.ref('lichDatCauLong/' + child.key).remove(); });
         });
     }
 
-    // TAB 2: ĐỒNG BỘ LIÊN TỤC CẢ LỊCH LẺ VÀ LỊCH CỐ ĐỊNH LÊN THANH ĐO CÔNG SUẤT VÀ DANH SÁCH CHI TIẾT
+    // THUẬT TOÁN TỰ ĐỘNG CHIA TUẦN CHO THÁNG DƯƠNG LỊCH ĐỂ KIỂM TRA SÂN TRỐNG / SÂN KÍN
+    function getWeeksOfMonth(month, year) {
+        let weeks = []; let lastDay = new Date(year, month, 0).getDate(); let currentWeek = [];
+        for (let d = 1; d <= lastDay; d++) {
+            let dateObj = new Date(year, month - 1, d); currentWeek.push(dateObj);
+            if (dateObj.getDay() === 0 || d === lastDay) { weeks.push(currentWeek); currentWeek = []; }
+        }
+        return weeks;
+    }
+
+    // TAB 2: ĐỒNG BỘ REAL-TIME PHÂN KHÚC TUẦN & TỰ ĐỘNG DỌN SÂN
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
-            let htmlS1 = ""; 
-            let htmlS2 = ""; 
-            let mangCoDinhS1 = [];
-            let mangCoDinhS2 = [];
-            let s1FixedMinutes = 0;
-            let s2FixedMinutes = 0;
+            let allDatabaseItems = [];
+            let s1FixedMinutes = 0; let s2FixedMinutes = 0;
             let isAdmin = localStorage.getItem('isAdmin') === 'true';
 
             const ngayHienTai = getVNDateString();
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
-            // Thiết lập danh sách 7 ngày tới để đo lường công suất tuần cuốn chiếu tự động
+            // 1. Quét dọn các ca cũ đã đánh xong theo chu trình thời gian thực
+            snap.forEach(c => {
+                let item = c.val(); item.key = c.key;
+                let laCaDaXong = (item.ngay < ngayHienTai) || (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian));
+
+                if (laCaDaXong) {
+                    if (item.isFixed === true) { db.ref('lichDatCauLong/' + item.key).remove(); return; } 
+                    else { return; }
+                }
+                allDatabaseItems.push(item);
+            });
+
+            // 2. Tính toán thanh phần trăm (%) công suất cuốn chiếu 7 ngày tới
             let futureDates = [];
             for(let i = 0; i < 7; i++) {
-                let d = new Date();
-                d.setDate(d.getDate() + i);
-                let y = d.getFullYear();
-                let m = String(d.getMonth() + 1).padStart(2, '0');
-                let day = String(d.getDate()).padStart(2, '0');
-                futureDates.push(`${y}-${m}-${day}`);
+                let d = new Date(); d.setDate(d.getDate() + i);
+                futureDates.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`);
             }
-
-            snap.forEach(c => {
-                let item = c.val();
-                item.key = c.key;
-
-                let laCaDaXong = false;
-                if (item.ngay < ngayHienTai) {
-                    laCaDaXong = true;
-                } else if (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian)) {
-                    laCaDaXong = true;
-                }
-
-                // CHẾ ĐỘ XÓA THÔNG MINH HỆ THỐNG
-                if (laCaDaXong) {
-                    if (item.isFixed === true) {
-                        // Gói cố định dài hạn: Chơi xong xóa luôn ngày hôm đó để trống lịch
-                        db.ref('lichDatCauLong/' + item.key).remove();
-                        return; 
-                    } else {
-                        // Lịch khách đặt lẻ vãng lai: Ẩn khỏi danh sách chưa chơi, chờ bộ quét 15 ngày dọn sạch sau
-                        return; 
-                    }
-                }
-
-                // Tính toán số phút để tự động co giãn Thanh tiến trình 7 ngày cuốn chiếu (Tính gộp cả khách lẻ + cố định)
+            allDatabaseItems.forEach(item => {
                 let duration = toMinutesEnd(item.thoiGian) - toMinutes(item.thoiGian);
                 if (duration > 0 && futureDates.includes(item.ngay)) {
                     if (item.san === "Sân số 1") s1FixedMinutes += duration;
                     if (item.san === "Sân số 2") s2FixedMinutes += duration;
                 }
-
-                // Gom nhóm để hiển thị lên bảng tiến trình chi tiết bên dưới
-                if (item.san === "Sân số 1") {
-                    mangCoDinhS1.push(item);
-                } else if (item.san === "Sân số 2") {
-                    mangCoDinhS2.push(item);
-                }
             });
-
-            // TÍNH TOÁN % ĐỂ TỰ ĐỘNG VẼ THANH TIẾN TRÌNH TRỰC QUAN (1 sân hoạt động 18 tiếng * 60p * 7 ngày = 7560 phút)
             const maxMinutesWeek = 7560;
             let percentS1 = Math.min(100, Math.round((s1FixedMinutes / maxMinutesWeek) * 100));
             let percentS2 = Math.min(100, Math.round((s2FixedMinutes / maxMinutesWeek) * 100));
-
-            // Đưa dữ liệu lên thanh bar Sân 1
             document.getElementById('progressBarS1').style.width = percentS1 + '%';
-            document.getElementById('progressTextS1').innerHTML = `<span>📋 Sân số 1: Đã đặt ${percentS1}% công suất tuần</span> <span>(${Math.round(s1FixedMinutes/60)} giờ/tuần)</span>`;
-
-            // Đưa dữ liệu lên thanh bar Sân 2
+            document.getElementById('progressTextS1').innerHTML = `<span>📋 Sân số 1: Đã đặt ${percentS1}% tuần tới</span> <span>(${Math.round(s1FixedMinutes/60)} giờ)</span>`;
             document.getElementById('progressBarS2').style.width = percentS2 + '%';
-            document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã đặt ${percentS2}% công suất tuần</span> <span>(${Math.round(s2FixedMinutes/60)} giờ/tuần)</span>`;
+            document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã đặt ${percentS2}% tuần tới</span> <span>(${Math.round(s2FixedMinutes/60)} giờ)</span>`;
 
-            // Sắp xếp danh sách lịch hiển thị lũy tiến
-            const sapXepLich = (mang) => {
-                mang.sort((a, b) => {
-                    if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
-                    return toMinutes(a.thoiGian) - toMinutes(b.thoiGian);
-                });
-            };
-            sapXepLich(mangCoDinhS1);
-            sapXepLich(mangCoDinhS2);
+            // 3. XỬ LÝ CHIA LỊCH THEO TUẦN ĐỂ THEO DÕI NGÀY TRỐNG / NGÀY KÍN
+            const selectedCourt = document.getElementById('trackerCourt').value;
+            const selectFilterVal = document.getElementById('trackerMonth').value;
+            if(!selectFilterVal) return;
+            const [filterYear, filterMonth] = selectFilterVal.split('-').map(Number);
 
-            const buildHtmlLichTrangThai = (l) => {
-                let info = isAdmin ? `| 📞 ${l.sdt}` : "";
-                let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>` : "";
-                let buoi = getBuoi(l.thoiGian);
-                let parts = l.ngay.split('-');
-                let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
+            let listWeeks = getWeeksOfMonth(filterMonth, filterYear);
+            let finalHtmlDashboard = "";
+            let thuTextArray = ["Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+
+            listWeeks.forEach((week, index) => {
+                let startDayText = String(week[0].getDate()).padStart(2, '0') + "/" + String(week[0].getMonth() + 1).padStart(2, '0');
+                let endDayText = String(week[week.length - 1].getDate()).padStart(2, '0') + "/" + String(week[week.length - 1].getMonth() + 1).padStart(2, '0');
                 
-                let liveBadge = "";
-                let sMin = toMinutes(l.thoiGian);
-                let eMin = toMinutesEnd(l.thoiGian);
+                let htmlDaysInsideWeek = "";
 
-                if (l.ngay === ngayHienTai && phutHienTai >= sMin && phutHienTai < eMin) {
-                    liveBadge = `<span class="live-status-badge status-playing">🏸 ĐANG CHƠI</span>`;
-                } else if (l.ngay === ngayHienTai && sMin - phutHienTai <= 15 && sMin - phutHienTai > 0) {
-                    liveBadge = `<span class="live-status-badge status-ready">⏳ SẮP ĐẾN GIỜ</span>`;
-                } else {
-                    liveBadge = `<span class="live-status-badge status-upcoming">🟢 ĐÃ GIỮ CHỖ</span>`;
-                }
+                week.forEach(dayObj => {
+                    let yyyy = dayObj.getFullYear();
+                    let mm = String(dayObj.getMonth() + 1).padStart(2, '0');
+                    let dd = String(dayObj.getDate()).padStart(2, '0');
+                    let loopDateStr = `${yyyy}-${mm}-${dd}`;
+                    let displayDayStr = `${dd}/${mm}`;
+                    let nameThu = thuTextArray[dayObj.getDay()];
 
-                // Nhãn phân loại hình thức đặt thảm trực quan
-                let loaiLichBadge = l.isFixed === true ? 
-                    `<span class="live-status-badge" style="background: rgba(6, 182, 212, 0.15); color: var(--primary); font-size:0.75em; padding:2px 6px;">🔒 CỐ ĐỊNH</span>` : 
-                    `<span class="live-status-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--highlight); font-size:0.75em; padding:2px 6px;">👤 KHÁCH LẺ</span>`;
+                    // Lọc tìm toàn bộ lịch trùng khớp ngày và sân này trong bộ nhớ
+                    let matchedApps = allDatabaseItems.filter(item => item.ngay === loopDateStr && item.san === selectedCourt);
+                    matchedApps.sort((a, b) => toMinutes(a.thoiGian) - toMinutes(b.thoiGian));
 
-                return `
-                    <div class="list-item" style="border-left: 3px solid ${l.isFixed === true ? 'var(--primary)' : 'var(--highlight)'}; padding: 11px 12px; margin-bottom: 8px;">
-                        <span style="font-size: 0.88em; line-height: 1.4;">
-                            📅 Ngày chơi: <b>${dinhDangNgay}</b> | Giờ: <b style="color:var(--highlight);">${l.thoiGian}</b> ${loaiLichBadge} ${liveBadge}<br>
-                            👥 Tên khách: <b style="color:var(--text-main); font-weight:800;">${l.ten}</b> ${info}
-                        </span>
-                        ${buttonHuy}
+                    if (matchedApps.length === 0) {
+                        // Trạng thái Trống thảm
+                        htmlDaysInsideWeek += `
+                            <div class="day-timeline-row">
+                                <div class="day-headline-title">
+                                    <span style="color: var(--success);">🟢</span> 
+                                    <span>${nameThu} (${displayDayStr}):</span>
+                                    <span style="color: var(--text-muted); font-weight:normal; font-size:0.95em;">Sân trống hoàn toàn</span>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Trạng thái đã giữ thảm
+                        let htmlAppDetail = "";
+                        matchedApps.forEach(ap => {
+                            let tagBadge = ap.isFixed === true ? 
+                                `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CỐ ĐỊNH]</span>` : 
+                                `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤LẺ]</span>`;
+                            let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer;" onclick="huy('${ap.key}')">Xóa</button>` : "";
+                            
+                            htmlAppDetail += `
+                                <div class="compact-ticket">
+                                    <span>⏱ <b>${ap.thoiGian}</b>: ${ap.ten} ${tagBadge}</span>
+                                    ${delBtn}
+                                </div>
+                            `;
+                        });
+
+                        htmlDaysInsideWeek += `
+                            <div class="day-timeline-row">
+                                <div class="day-headline-title">
+                                    <span style="color: var(--accent);">🔴</span> 
+                                    <span>${nameThu} (${displayDayStr}):</span>
+                                    <span style="color: var(--accent); font-weight:800;">Đã đặt ${matchedApps.length} ca</span>
+                                </div>
+                                <div class="day-inside-appointments">${htmlAppDetail}</div>
+                            </div>
+                        `;
+                    }
+                });
+
+                finalHtmlDashboard += `
+                    <div class="week-block-box">
+                        <div class="week-block-title">
+                            <span>📅 TUẦN ${index + 1}</span>
+                            <span style="font-size:0.85em; color:var(--text-muted); font-weight:600;">(${startDayText} ➔ ${endDayText})</span>
+                        </div>
+                        <div>${htmlDaysInsideWeek}</div>
                     </div>
                 `;
-            };
+            });
 
-            mangCoDinhS1.forEach(l => { htmlS1 += buildHtmlLichTrangThai(l); });
-            mangCoDinhS2.forEach(l => { htmlS2 += buildHtmlLichTrangThai(l); });
-
-            document.getElementById('danhSachCoDinhS1').innerHTML = htmlS1 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 1 đang trống lịch trong tuần này.</p>";
-            document.getElementById('danhSachCoDinhS2').innerHTML = htmlS2 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 2 đang trống lịch trong tuần này.</p>";
+            document.getElementById('weeklyTrackerDashboard').innerHTML = finalHtmlDashboard;
         });
     }
 
@@ -1030,8 +987,7 @@
         if (!piece) return { hour: 0, minute: 0 };
         let clean = piece.toLowerCase().trim().replace(/g/g, ':').replace(/h/g, ':').replace(/p/g, '').replace(/\s+/g, '');
         if (!clean.includes(':')) return { hour: parseInt(clean, 10) || 0, minute: 0 };
-        let parts = clean.split(':');
-        return { hour: parseInt(parts[0], 10) || 0, minute: parseInt(parts[1], 10) || 0 };
+        let parts = clean.split(':'); return { hour: parseInt(parts[0], 10) || 0, minute: parseInt(parts[1], 10) || 0 };
     }
     function toMinutes(timeStr) {
         if(!timeStr) return 0; let pieces = timeStr.split('-');
@@ -1042,12 +998,10 @@
         return pieces.length > 1 ? (parseSmartTimePiece(pieces[1]).hour * 60) + parseSmartTimePiece(pieces[1]).minute : 0;
     }
     function formatMinutesToText(totalMinutes) {
-        let h = Math.floor(totalMinutes / 60); let m = totalMinutes % 60;
-        return `${h < 10 ? '0' + h : h}h${m < 10 ? '0' + m : m}`;
+        let h = Math.floor(totalMinutes / 60); let m = totalMinutes % 60; return `${h < 10 ? '0' + h : h}h${m < 10 ? '0' + m : m}`;
     }
     function getBuoi(timeStr) {
-        let h = Math.floor(toMinutes(timeStr.split('-')[0]) / 60);
-        return h < 12 ? "sáng" : (h < 18 ? "chiều" : "tối");
+        let h = Math.floor(toMinutes(timeStr.split('-')[0]) / 60); return h < 12 ? "sáng" : (h < 18 ? "chiều" : "tối");
     }
 
     function selectCourt(courtName) {
@@ -1101,10 +1055,7 @@
             gradientParts.push(`var(--accent) ${busyStartPercent}%`); gradientParts.push(`var(--accent) ${busyEndPercent}%`);
             currentPos = interval.end;
         });
-        if (currentPos < endMin) {
-            let startPercent = ((currentPos - startMin) / totalMin) * 100;
-            gradientParts.push(`#1e293b ${startPercent}%`); gradientParts.push(`#1e293b 100%`);
-        }
+        if (currentPos < endMin) { gradientParts.push(`#1e293b ${((currentPos - startMin) / totalMin) * 100}%`); gradientParts.push(`#1e293b 100%`); }
         sliderElement.style.background = gradientParts.length > 0 ? `linear-gradient(to right, ${gradientParts.join(', ')})` : '#1e293b';
     }
 
@@ -1135,8 +1086,7 @@
         techSliderInstance = noUiSlider.create(slider, { start: [1020, 1140], connect: true, step: 15, range: { 'min': 300, 'max': 1380 } });
         const techBox = document.getElementById('techBoxUI'); const btnXacNhan = document.getElementById('btnXacNhanDat');
         techSliderInstance.on('update', function (values, handle) {
-            let startMin = Math.round(values[0]); let endMin = Math.round(values[1]);
-            if (startMin >= endMin) { endMin = startMin + 15; }
+            let startMin = Math.round(values[0]); let endMin = Math.round(values[1]); if (startMin >= endMin) { endMin = startMin + 15; }
             let startTimeText = formatMinutesToText(startMin); let endTimeText = formatMinutesToText(endMin);
             document.getElementById('techStartOutput').innerText = startTimeText; document.getElementById('techEndOutput').innerText = endTimeText;
             document.getElementById('thoiGian').value = startTimeText + "-" + endTimeText;
@@ -1150,18 +1100,17 @@
         });
     }
 
-    // ĐỒNG BỘ ĐẾN SLIDER CHỌN GIỜ THEO NHU CẦU
     function syncToTechSlider(startMin, endMin) { if(techSliderInstance) techSliderInstance.set([startMin, endMin]); }
     function xuLyDoiNgaySan() { loadLich(); if(techSliderInstance) { let vals = techSliderInstance.get(); techSliderInstance.set(vals); } }
 
     function tinhGiaDuKien() {
         if (!isSliderValid) return; const ngay = document.getElementById('ngay').value; if (!ngay || !techSliderInstance) return;
         let values = techSliderInstance.get(); let startMin = Math.round(parseFloat(values[0])); let endMin = Math.round(parseFloat(values[1]));
-        let dateObj = new Date(ngay); let day = dateObj.getDay(); let isWeekend = (day === 0 || day === 6);
+        let dateObj = new Date(ngay); let isWeekend = (dateObj.getDay() === 0 || dateObj.getDay() === 6);
         let totalThanhTien = 0;
         for (let min = startMin; min < endMin; min += 15) {
             let hour = min / 60; let giaMoiGio = 70;
-            if (!isWeekend) { if (hour >= 9 && hour < 16) { giaMoiGio = 60; } }
+            if (!isWeekend) { if (hour >= 9 && hour < 16) giaMoiGio = 60; }
             totalThanhTien += (giaMoiGio / 60) * 15;
         }
         document.getElementById('estimatedPrice').innerText = Math.round(totalThanhTien * 1000).toLocaleString('vi-VN') + " đ";
@@ -1178,9 +1127,7 @@
             mangLichToanBoHienTai.forEach(l => {
                 if (l.ngay === ngayDangChon) {
                     let lsMin = toMinutes(l.thoiGian); let leMin = toMinutesEnd(l.thoiGian);
-                    if (phutBatDauCa < leMin && phutKetThucCa > lsMin) {
-                        if(l.san === "Sân số 1") s1Locked = true; if(l.san === "Sân số 2") s2Locked = true;
-                    }
+                    if (phutBatDauCa < leMin && phutKetThucCa > lsMin) { if(l.san === "Sân số 1") s1Locked = true; if(l.san === "Sân số 2") s2Locked = true; }
                 }
             });
             let displayCa = ca.split('-').map(time => time.replace('00','')).join('-');
@@ -1210,11 +1157,11 @@
         if (!isSliderValid) return; kiemTraVaCapNhatNgayMoi(); 
         const user = JSON.parse(localStorage.getItem('user')); let thoiGianGoc = document.getElementById('thoiGian').value.trim();
         const san = document.getElementById('selectedCourtValue').value; const ngay = document.getElementById('ngay').value; const giaHienTaiTxt = document.getElementById('estimatedPrice').innerText;
-        if(!user || !user.hoTen || !user.sdt) return hienThiPopup("Vui lòng nhập Họ tên, SĐT và bấm 'Lưu thông tin' trước khi đặt!", "LỖI THÔNG TIN");
+        if(!user || !user.hoTen || !user.sdt) return hienThiPopup("Vui lòng nhập Họ tên và SĐT rồi bấm 'Lưu thông tin' trước!", "LỖI THÔNG TIN");
         if(!thoiGianGoc) return hienThiPopup("Vui lòng chọn khung giờ trước!", "CHƯA CHỌN GIỜ");
         let sMin = toMinutes(thoiGianGoc); let eMin = toMinutesEnd(thoiGianGoc);
         const thoiGianDaChuanHoa = formatMinutesToText(sMin) + "-" + formatMinutesToText(eMin); const ngayHienTai = getVNDateString();
-        if (ngay === ngayHienTai && sMin < ((new Date()).getHours() * 60 + (new Date()).getMinutes())) { return hienThiPopup("Không thể đặt khung giờ đã trôi qua!", "SAI KHUNG GIỜ"); }
+        if (ngay === ngayHienTai && sMin < ((new Date()).getHours() * 60 + (new Date()).getMinutes())) return hienThiPopup("Không thể đặt giờ đã trôi qua!", "SAI KHUNG GIỜ");
 
         db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).once('value', (snap) => {
             let isOverlapping = false;
@@ -1222,8 +1169,8 @@
             if(isOverlapping) { hienThiPopup("Khung giờ vừa bị trùng. Vui lòng chọn lại!", "TRÙNG LỊCH CHƠI"); } 
             else {
                 db.ref('lichDatCauLong').push({ ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGianDaChuanHoa }).then(() => {
-                    hienThiPopup("Đặt sân thành công! Bạn hãy chuẩn bị thời gian ra sân đúng giờ nhé.", "ĐẶT SÂN THÀNH CÔNG");
-                    let textTelegram = `🏸 <b>ĐẶT SÂN MỚI</b> 🏸\n\n👤 <b>Khách hàng:</b> ${user.hoTen}\n📞 <b>SĐT:</b> ${user.sdt}\n🎯 <b>Sân đấu:</b> ${san}\n📆 <b>Ngày:</b> ${ngay}\n⏰ <b>Khung giờ:</b> ${thoiGianDaChuanHoa}\n💵 <b>Giá dự kiến:</b> ${giaHienTaiTxt}`;
+                    hienThiPopup("Đặt sân thành công!", "ĐẶT SÂN THÀNH CÔNG");
+                    let textTelegram = `🏸 <b>ĐẶT SÂN MỚI</b> 🏸\n\n👤 <b>Khách:</b> ${user.hoTen}\n🎯 <b>Sân:</b> ${san}\n📆 <b>Ngày:</b> ${ngay}\n⏰ <b>Giờ:</b> ${thoiGianDaChuanHoa}\n💵 <b>Giá:</b> ${giaHienTaiTxt}`;
                     guiThongBaoTelegram(textTelegram); document.getElementById('thoiGian').value = '';
                 });
             }
@@ -1285,22 +1232,20 @@
         kiemTraVaCapNhatNgayMoi();
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        docEvent.currentTarget.classList.add('active');
+        document.getElementById(tabId).classList.add('active'); docEvent.currentTarget.classList.add('active');
     }
 
     function luuThongTin() {
         const hoTen = document.getElementById('hoTen').value.trim(); const sdt = document.getElementById('sdt').value.trim();
         if (!hoTen || !sdt || !/^\d{10}$/.test(sdt)) return hienThiPopup("Vui lòng nhập họ tên và chính xác 10 số ĐT.", "LỖI NHẬP LIỆU");
         localStorage.setItem('user', JSON.stringify({hoTen: hoTen, sdt: sdt}));
-        hienThiPopup("Đã lưu thông tin khách thành công trên thiết bị!", "HỆ THỐNG GHI NHẬN"); dongBoDuLieuVaoServiceWorker();
+        hienThiPopup("Đã lưu thông tin khách thành công!", "HỆ THỐNG GHI NHẬN"); dongBoDuLieuVaoServiceWorker();
     }
 
     function kichHoatAdmin() {
         let pass = prompt("Nhập mã Admin:");
         if (pass === "PhucAn2026$") { 
-            localStorage.setItem('isAdmin', 'true'); 
-            loadLich(); capNhatGiaoDienAdmin(); loadBangTin(); loadLichCoDinhTongHop();
+            localStorage.setItem('isAdmin', 'true'); loadLich(); capNhatGiaoDienAdmin(); loadBangTin(); loadLichCoDinhTongHop();
         }
     }
 
@@ -1315,11 +1260,11 @@
         currentLocalDateStr = getVNDateString(); document.getElementById('ngay').value = currentLocalDateStr;
         if(document.getElementById('fixedNgayBatDau')) document.getElementById('fixedNgayBatDau').value = currentLocalDateStr;
 
-        initMonthsDropdown(); initFixedTimeDropdowns(); initTechSlider(); selectCourt('Sân số 1'); 
+        initMonthsDropdown(); initTrackerMonthDropdown(); initFixedTimeDropdowns(); initTechSlider(); selectCourt('Sân số 1'); 
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Vòng lặp quét đồng bộ Real-time mỗi 15 giây
+        // Vòng lặp quét Real-time đồng bộ 15 giây tự động cập nhật
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
     };
 </script>
