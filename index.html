@@ -388,7 +388,7 @@
             </div>
 
             <div class="cyber-price-box" style="border-color: var(--highlight); background: rgba(245, 158, 11, 0.02);">
-                <div class="price-label" style="color: #94a3b8;">💰 Tổng chi phí gói cố định dự kiến (Tuần $\ge$ 3 ngày tính 60k/h)</div>
+                <div class="price-label" style="color: #94a3b8;">💰 Tổng chi phí gói cố định dự kiến (Chọn từ 3 ngày trở lên tính 60k/h)</div>
                 <div id="fixedEstimatedPrice" class="price-display" style="color: var(--highlight);">0đ</div>
             </div>
 
@@ -407,7 +407,7 @@
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
             <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔒 TỔNG HỢP KHUNG GIỜ CỐ ĐỊNH DÀI HẠN</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Danh sách hiển thị toàn bộ các ca chơi cố định cố định tuần/tháng của các CLB để người đặt tự do chủ động tránh trùng giờ.</p>
+            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Danh sách hiển thị toàn bộ các ca chơi cố định tuần/tháng của các CLB để người đặt tự do chủ động tránh trùng giờ.</p>
             <div id="danhSachCoDinh"><p style="text-align: center; color: var(--text-muted); font-size: 0.9em;">Đang tải lịch cố định...</p></div>
         </div>
     </div>
@@ -591,7 +591,7 @@
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || !user.hoTen || !navigator.serviceWorker || !navigator.serviceWorker.controller) return;
         navigator.serviceWorker.controller.postMessage({
-            type: 'SYNC_DATA', user: user, mangLich: mangLichToanBoHienTai, ngayHienTai: getVNDateString()
+            type: 'SYNC_DATA', user: user, mangLich: mangLichToToanBoHienTai, ngayHienTai: getVNDateString()
         });
     }
 
@@ -676,7 +676,7 @@
         let sMin = toMinutes(gioVao);
         let eMin = toMinutes(gioRa);
         if (sMin >= eMin) {
-            document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Giờ vào $\ge$ Giờ ra)";
+            document.getElementById('fixedEstimatedPrice').innerText = "0 đ (Giờ vào >= Giờ ra)";
             return;
         }
         let soGioMoiCa = (eMin - sMin) / 60;
@@ -718,14 +718,14 @@
             }
         }
 
-        // LUẬT GIÁ: Cố định gói tuần $\ge$ 3 ngày tính 60k/h. Ngược lại tính 70k/h.
+        // LUẬT GIÁ: Cố định chọn chơi từ 3 ngày trở lên trong tuần tính 60k/h. Ít hơn tính 70k/h.
         let giaMoiTieng = 70;
-        if (kieuRai === 'tuan' && cacThu.length >= 3) {
+        if (cacThu.length >= 3) {
             giaMoiTieng = 60;
         }
 
-        let thanhTienKhấuHao = soGioMoiCa * tongSoCaChơi * giaMoiTieng * 1000;
-        document.getElementById('fixedEstimatedPrice').innerText = Math.round(thanhTienKhấuHao).toLocaleString('vi-VN') + " đ (" + tongSoCaChơi + " ca)";
+        let thanhTienKhauHao = soGioMoiCa * tongSoCaChơi * giaMoiTieng * 1000;
+        document.getElementById('fixedEstimatedPrice').innerText = Math.round(thanhTienKhauHao).toLocaleString('vi-VN') + " đ (" + tongSoCaChơi + " ca)";
     }
 
     // ======================================================================
@@ -800,7 +800,7 @@
     }
 
     // ======================================================================
-    // LOAD TOÀN BỘ DANH SÁCH LỊCH CỐ ĐỊNH HIỂN THỊ RIÊNG BIỆT Ở TAB 2
+    // LOAD TOÀN BỘ DANH SÁCH LỊCH CỐ ĐỊNH TỰ ĐỘNG CẬP NHẬT Ở TAB 2 (REAL-TIME)
     // ======================================================================
     function loadLichCoDinhTongHop() {
         db.ref('lichDatCauLong').on('value', snap => {
@@ -825,7 +825,7 @@
                 let parts = l.ngay.split('-');
                 let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
 
-                htmlAllSan = htmlAllCoDinh += `
+                htmlAllCoDinh += `
                     <div class="list-item" style="border-left: 4px solid var(--highlight);">
                         <span>
                             <b style="color:var(--highlight);">${l.san}</b> | <b style="color:var(--primary);">${l.thoiGian} ${buoi}</b><br>
