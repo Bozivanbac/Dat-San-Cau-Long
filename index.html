@@ -63,7 +63,7 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* MENU TÁP NÂNG CẤP DẠNG LƯỚI GRID KHÔNG CẦN CUỘN TRƯỢT - THẤY HẾT TOÀN BỘ 100% */
+        /* MENU TÁP DẠNG LƯỚI GRID KHÔNG CẦN CUỘN TRƯỢT - CO GIÃN THẤY HẾT 100% */
         .tab-navigation { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -91,7 +91,6 @@
             gap: 4px;
             transition: all 0.2s ease;
         }
-        /* Cho nút Đặt Sân chiếm trọn hàng đầu tiên cho đẹp và thoáng mắt */
         .tab-btn:first-child {
             grid-column: span 2;
             font-size: 0.9em;
@@ -271,7 +270,6 @@
         <button class="tab-btn" onclick="switchTab(event, 'noi-quy')">📋 NỘI QUY</button>
     </div>
 
-    <!-- TAB 1: ĐẶT SÂN -->
     <div id="dat-san" class="tab-content active">
         <div class="box">
             <h3 style="color:var(--primary);">THÔNG TIN ĐẶT SÂN</h3>
@@ -345,7 +343,6 @@
         <div class="section-title">CHI TIẾT CÁC LỊCH ĐÃ ĐẶT TRONG NGÀY</div>
         <div id="tongHopDanhSach"></div>
 
-        <!-- ================= KHU VỰC ĐẶT CỐ ĐỊNH TỰ ĐỘNG (CHỈ ADMIN THẤY) ================= -->
         <div id="adminPanelFixed" class="admin-edit-panel">
             <h3 style="color: var(--primary); margin-top: 0;">⚡ BỘ RẢI LỊCH CỐ ĐỊNH TỰ ĐỘNG</h3>
             <label>Họ và tên khách cố định</label>
@@ -378,7 +375,6 @@
                 <option value="thang">Rải trọn vẹn theo Tháng Dương Lịch</option>
             </select>
 
-            <!-- Khung 1: Theo Tháng -->
             <div id="khungTheoThang" style="display: none; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Chọn Tháng</label>
@@ -393,7 +389,6 @@
                 </div>
             </div>
 
-            <!-- Khung 2: Theo Số Tuần -->
             <div id="khungTheoTuan" style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Ngày áp dụng (Bắt đầu quét tiến từ ngày này)</label>
@@ -429,8 +424,6 @@
 
             <button onclick="datLichCoDinhHangLoat()" class="action-btn" style="padding: 12px; font-size: 0.9em; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff;">XÁC NHẬN RẢI LỊCH HỆ THỐNG</button>
         </div>
-        <!-- ====================================================================== -->
-
         <div class="zalo-group-box">
             <div class="zalo-title">Tham Gia Nhóm Zalo Phúc An</div>
             <div class="zalo-desc">Quét mã QR để tham gia nhóm "Sân cầu lông Phúc An Badminton" giao lưu, bắt kèo và nhận thông báo mới nhất!</div>
@@ -438,16 +431,19 @@
         </div>
     </div>
 
-    <!-- TAB 2: DANH SÁCH LỊCH CỐ ĐỊNH -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔒 TỔNG HỢP KHUNG GIỜ CỐ ĐỊNH THEO ĐỘI</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Danh sách đã được gộp nhóm tự động theo từng Đội/Khách chơi để khách dễ theo dõi và tránh trùng ca.</p>
-            <div id="danhSachCoDinh"><p style="text-align: center; color: var(--text-muted); font-size: 0.9em;">Đang tải lịch cố định...</p></div>
+            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔒 KHUNG GIỜ CỐ ĐỊNH ĐƯỢC CHIA THEO SÂN</h3>
+            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Các ca đã kết thúc trong quá khứ sẽ hiển thị nhãn <b style="color:var(--text-muted);">✔ Đã xong</b>. Hệ thống tự động xóa sạch hoàn toàn sau 30 ngày để tối ưu dung lượng.</p>
+            
+            <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.95em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ Lịch cố định - Sân số 1</h4>
+            <div id="danhSachCoDinhS1"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang tải lịch Sân 1...</p></div>
+            
+            <h4 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.95em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ Lịch cố định - Sân số 2</h4>
+            <div id="danhSachCoDinhS2"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang tải lịch Sân 2...</p></div>
         </div>
     </div>
 
-    <!-- TAB 3: BẢNG TIN KHUYẾN MÃI -->
     <div id="bang-tin" class="tab-content">
         <div id="adminPanelNews" class="admin-edit-panel">
             <h3 style="color: var(--highlight); margin-top: 0;">✍️ ĐĂNG THÔNG BÁO / KHUYẾN MÃI</h3>
@@ -464,7 +460,6 @@
         </div>
     </div>
 
-    <!-- TAB 4: BẢNG GIÁ -->
     <div id="bang-gia" class="tab-content">
         <div class="box">
             <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">TỪ THỨ 2 ĐẾN THỨ 6</h3>
@@ -482,7 +477,6 @@
         </div>
     </div>
 
-    <!-- TAB 5: NỘI QUY -->
     <div id="noi-quy" class="tab-content">
         <div class="rules-wrapper">
             <div class="rule-card">
@@ -828,10 +822,29 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
+    // THUẬT TOÁN TỰ ĐỘNG XÓA LỊCH QUÁ HẠN 30 NGÀY KHỎI FIREBASE CHO NHẸ DUNG LƯỢNG HỆ THỐNG
+    function xoaLichQuaHan30Ngay() {
+        const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+        // Tính mốc thời gian cách đây đúng 30 ngày
+        let limitDate = new Date(Date.now() - tzoffset - (30 * 24 * 60 * 60 * 1000));
+        let limitStr = limitDate.toISOString().slice(0, 10); // Định dạng chuẩn YYYY-MM-DD
+        
+        // Quét lọc nhanh trên Firebase để xóa các ca có ngày nhỏ hơn hoặc bằng mốc 30 ngày trước
+        db.ref('lichDatCauLong').orderByChild('ngay').endAt(limitStr).once('value', snap => {
+            snap.forEach(child => {
+                if (child.val().ngay <= limitStr) {
+                    db.ref('lichDatCauLong/' + child.key).remove();
+                }
+            });
+        });
+    }
+
+    // LOAD DANH SÁCH LỊCH CỐ ĐỊNH - NÂNG CẤP CHIA THEO 2 SÂN & GẮN TÍCH "ĐÃ XONG" CHO NGÀY CŨ (REAL-TIME)
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
-            let htmlAllCoDinh = ""; 
+            let htmlS1 = ""; 
+            let htmlS2 = ""; 
             let mangToanBo = [];
             let bieuDoDem = {}; 
             let isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -840,6 +853,7 @@
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
+            // Bước 1: Quét toàn bộ để lập biểu đồ tần suất đếm số ca
             snap.forEach(c => {
                 let item = c.val();
                 item.key = c.key;
@@ -850,60 +864,80 @@
                 bieuDoDem[dinhDanh]++;
             });
 
-            let nhomTheoKhach = {};
+            // Bước 2: Phân chia lịch cố định vào mảng của Sân số 1 và Sân số 2
+            let mangCoDinhS1 = [];
+            let mangCoDinhS2 = [];
+
             mangToanBo.forEach(item => {
                 let dinhDanh = (item.sdt && item.sdt.trim().length === 10) ? item.sdt.trim() : item.ten.trim();
                 
                 if (item.isFixed === true || bieuDoDem[dinhDanh] >= 3) {
-                    if (item.ngay > ngayHienTai || (item.ngay === ngayHienTai && phutHienTai < toMinutesEnd(item.thoiGian))) {
-                        let tenKey = item.ten.trim();
-                        if (!nhomTheoKhach[tenKey]) {
-                            nhomTheoKhach[tenKey] = [];
-                        }
-                        nhomTheoKhach[tenKey].push(item);
+                    if (item.san === "Sân số 1") {
+                        mangCoDinhS1.push(item);
+                    } else if (item.san === "Sân số 2") {
+                        mangCoDinhS2.push(item);
                     }
                 }
             });
 
-            for (let tenKhach in nhomTheoKhach) {
-                let danhSachCa = nhomTheoKhach[tenKhach];
-                
-                danhSachCa.sort((a, b) => {
+            // Sắp xếp các ca của từng sân theo trình tự thời gian tịnh tiến
+            const thongKeSapXep = (mang) => {
+                mang.sort((a, b) => {
                     if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
                     return toMinutes(a.thoiGian) - toMinutes(b.thoiGian);
                 });
+            };
+            thongKeSapXep(mangCoDinhS1);
+            thongKeSapXep(mangCoDinhS2);
 
-                let sdtKhach = danhSachCa[0].sdt || "";
-                let infoSdtHeader = isAdmin && sdtKhach ? ` - 📞 ${sdtKhach}` : "";
+            // Hàm dựng khung HTML cho từng hàng lịch
+            const buildHtmlLich = (l) => {
+                let info = isAdmin ? `| 📞 ${l.sdt}` : "";
+                let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>` : "";
+                let buoi = getBuoi(l.thoiGian);
+                let parts = l.ngay.split('-');
+                let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
+                
+                // Thuật toán kiểm soát nhãn trạng thái trực tiếp
+                let liveBadge = "";
+                let laNgayCu = false;
 
-                htmlAllCoDinh += `
-                    <div class="box" style="border-left: 4px solid var(--primary); background: rgba(6, 182, 212, 0.01); margin-bottom: 16px; padding: 12px 15px;">
-                        <div style="font-weight: 900; color: var(--primary); font-size: 1em; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border); padding-bottom: 8px; text-transform: uppercase;">
-                            <span>👥 Đội: ${tenKhach}${infoSdtHeader}</span>
-                            <span style="font-size: 0.75em; background: rgba(6, 182, 212, 0.1); color: var(--primary); padding: 2px 8px; border-radius: 6px;">${danhSachCa.length} ca</span>
-                        </div>
+                if (l.ngay < ngayHienTai) {
+                    laNgayCu = true;
+                    liveBadge = `<span class="live-status-badge" style="background: rgba(100, 116, 139, 0.15); color: var(--text-muted);">✔ Đã xong</span>`;
+                } else if (l.ngay === ngayHienTai) {
+                    let eMin = toMinutesEnd(l.thoiGian);
+                    let sMin = toMinutes(l.thoiGian);
+                    if (phutHienTai >= eMin) {
+                        laNgayCu = true;
+                        liveBadge = `<span class="live-status-badge" style="background: rgba(100, 116, 139, 0.15); color: var(--text-muted);">✔ Đã xong</span>`;
+                    } else if (phutHienTai >= sMin && phutHienTai < eMin) {
+                        liveBadge = `<span class="live-status-badge status-playing">🔥 Đang chơi</span>`;
+                    } else if (sMin - phutHienTai <= 15 && sMin - phutHienTai > 0) {
+                        liveBadge = `<span class="live-status-badge status-ready">⏳ Sắp chơi</span>`;
+                    } else {
+                        liveBadge = `<span class="live-status-badge status-upcoming">🟢 Chờ lịch</span>`;
+                    }
+                } else {
+                    liveBadge = `<span class="live-status-badge status-upcoming">🟢 Chờ lịch</span>`;
+                }
+
+                return `
+                    <div class="list-item" style="border-left: 3px solid ${laNgayCu ? 'var(--text-muted)' : 'var(--primary)'}; padding: 10px 12px; margin-bottom: 8px;">
+                        <span style="font-size: 0.88em; line-height: 1.4; color: ${laNgayCu ? 'var(--text-muted)' : 'var(--text-main)'};">
+                            📅 <b>${dinhDangNgay}</b> | ⏰ <b style="color:${laNgayCu ? 'var(--text-muted)' : 'var(--highlight)'};">${l.thoiGian}</b> ${liveBadge}<br>
+                            👥 Đội: <b>${l.ten}</b> ${info}
+                        </span>
+                        ${buttonHuy}
+                    </div>
                 `;
+            };
 
-                danhSachCa.forEach(l => {
-                    let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>` : "";
-                    let buoi = getBuoi(l.thoiGian);
-                    let parts = l.ngay.split('-');
-                    let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
+            mangCoDinhS1.forEach(l => { htmlS1 += buildHtmlLich(l); });
+            mangCoDinhS2.forEach(l => { htmlS2 += buildHtmlLich(l); });
 
-                    htmlAllCoDinh += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); gap: 10px;">
-                            <span style="font-size: 0.9em; line-height: 1.4;">
-                                🎯 <b style="color:var(--highlight);">${l.san}</b> | <b style="color:var(--text-main);">${l.thoiGian} ${buoi}</b> | 📅 ${dinhDangNgay}
-                            </span>
-                            ${buttonHuy}
-                        </div>
-                    `;
-                });
-
-                htmlAllCoDinh += `</div>`;
-            }
-
-            document.getElementById('danhSachCoDinh').innerHTML = htmlAllCoDinh || "<p style='text-align:center; color:var(--text-muted); padding: 15px 0;'>Hệ thống không ghi nhận ca cố định dài hạn nào sắp diễn ra.</p>";
+            document.getElementById('danhSachCoDinhS1').innerHTML = htmlS1 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>Sân số 1 hiện chưa có lịch cố định diễn ra.</p>";
+            document.getElementById('danhSachCoDinhS2').innerHTML = htmlS2 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>Sân số 2 hiện chưa có lịch cố định diễn ra.</p>";
         });
     }
 
@@ -977,7 +1011,7 @@
         let busyIntervals = [];
         mangLichToanBoHienTai.forEach(l => {
             if (l.san === sanDangChon && l.ngay === ngayDangChon) {
-                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian));
+                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian);
                 if (s < e) busyIntervals.push({ start: s, end: e });
             }
         });
@@ -1206,10 +1240,11 @@
         if(document.getElementById('fixedNgayBatDau')) document.getElementById('fixedNgayBatDau').value = currentLocalDateStr;
 
         initMonthsDropdown(); initFixedTimeDropdowns(); initTechSlider(); selectCourt('Sân số 1'); 
-        loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin();
+        loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan30Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); }, 15000);
+        // Quét định kỳ mỗi 15 giây: Cập nhật giao diện và dọn sạch lịch cũ quá 30 ngày tự động
+        setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan30Ngay(); }, 15000);
     };
 </script>
 </body>
