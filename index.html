@@ -175,7 +175,7 @@
         .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
         .status-done { background: rgba(6, 182, 212, 0.15); color: var(--primary); font-weight: 900; }
 
-        /* THIẾT KẾ PHÂN KHÚC TUẦN - MỚI */
+        /* THIẾT KẾ PHÂN KHÚC TUẦN */
         .fixed-capacity-box { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 20px; }
         .fixed-progress-text { font-size: 0.85em; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.3px; align-items: center; }
         .fixed-progress-container { background: #1e293b; border-radius: 10px; height: 16px; width: 100%; overflow: hidden; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.03); }
@@ -195,8 +195,8 @@
         .day-timeline-row { padding: 10px 4px; border-bottom: 1px dashed rgba(255,255,255,0.02); }
         .day-timeline-row:last-child { border-bottom: none; }
         .day-headline-title { font-size: 0.85em; font-weight: 700; color: #cbd5e1; display: flex; align-items: center; gap: 6px; }
-        .day-inside-appointments { margin-top: 6px; padding-left: 12px; font-size: 0.8em; }
-        .compact-ticket { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.01); padding: 6px 10px; border-radius: 8px; margin-top: 4px; border: 1px solid rgba(255,255,255,0.02); gap: 6px; }
+        .day-inside-appointments { margin-top: 6px; padding-left: 6px; font-size: 0.8em; width: 100%; }
+        .compact-ticket { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); padding: 6px 10px; border-radius: 8px; margin-top: 4px; border: 1px solid rgba(255,255,255,0.02); gap: 6px; }
 
         /* TAB BẢNG TIN */
         .promo-card { background: rgba(6, 182, 212, 0.02); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--highlight); }
@@ -433,7 +433,7 @@
         </div>
     </div>
 
-    <!-- TAB 2: QUẢN LÝ LỊCH TRÌNH THEO KHỐI TUẦN THÔNG MINH -->
+    <!-- TAB 2: QUẢN LÝ LỊCH TRÌNH 2 SÂN SONG HÀNH THEO KHỐI TUẦN -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
             <div class="live-sync-indicator">
@@ -455,15 +455,8 @@
                 <h4 style="margin: 0 0 10px 0; font-size: 0.8em; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🔍 Bộ lọc lịch biểu tuần nâng cao</h4>
                 <div style="display: flex; gap: 10px;">
                     <div style="flex: 1;">
-                        <label style="font-size: 0.7em; color: var(--text-muted); margin-bottom: 4px;">Chọn Sân</label>
-                        <select id="trackerCourt" onchange="loadLichCoDinhTongHop()" style="margin:0; padding:10px; font-size:0.85em; background: #070a12; border: 1px solid var(--border); border-radius: 8px;">
-                            <option value="Sân số 1">Sân số 1</option>
-                            <option value="Sân số 2">Sân số 2</option>
-                        </select>
-                    </div>
-                    <div style="flex: 1;">
                         <label style="font-size: 0.7em; color: var(--text-muted); margin-bottom: 4px;">Chọn Tháng Kiểm Tra</label>
-                        <select id="trackerMonth" onchange="loadLichCoDinhTongHop()" style="margin:0; padding:10px; font-size:0.85em; color: var(--highlight); border-color: rgba(245, 158, 11, 0.3); background: #070a12; border-radius: 8px; font-weight: 700;"></select>
+                        <select id="trackerMonth" onchange="loadLichCoDinhTongHop()" style="margin:0; padding:14px; font-size:0.95em; color: var(--highlight); border-color: rgba(245, 158, 11, 0.3); background: #070a12; border-radius: 12px; font-weight: 700;"></select>
                     </div>
                 </div>
             </div>
@@ -700,8 +693,7 @@
             let d = new Date(now.getFullYear(), now.getMonth() + i, 1);
             let m = d.getMonth() + 1; let y = d.getFullYear();
             let opt = document.createElement('option');
-            opt.value = `${y}-${m}`; opt.innerText = `Tháng ${m}/${y}`;
-            select.appendChild(opt);
+            opt.value = `${y}-${m}`; opt.innerText = `Tháng ${m}/${y}`; select.appendChild(opt);
         }
         select.value = `${now.getFullYear()}-${now.getMonth() + 1}`;
     }
@@ -834,7 +826,7 @@
         });
     }
 
-    // THUẬT TOÁN TỰ ĐỘNG CHIA TUẦN CHO THÁNG DƯƠNG LỊCH ĐỂ KIỂM TRA SÂN TRỐNG / SÂN KÍN
+    // THUẬT TOÁN TỰ ĐỘNG CHIA TUẦN CHO THÁNG DƯƠNG LỊCH
     function getWeeksOfMonth(month, year) {
         let weeks = []; let lastDay = new Date(year, month, 0).getDate(); let currentWeek = [];
         for (let d = 1; d <= lastDay; d++) {
@@ -844,7 +836,7 @@
         return weeks;
     }
 
-    // TAB 2: ĐỒNG BỘ REAL-TIME PHÂN KHÚC TUẦN & TỰ ĐỘNG DỌN SÂN
+    // TAB 2: ĐỒNG BỘ REAL-TIME ĐỒNG THỜI CẢ 2 SÂN PHÂN THEO TUẦN TRỰC QUAN
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
@@ -856,7 +848,7 @@
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
-            // 1. Quét dọn các ca cũ đã đánh xong theo chu trình thời gian thực
+            // 1. Quét dọn các ca cũ đã đánh xong theo chu trình hệ thống thời gian thực
             snap.forEach(c => {
                 let item = c.val(); item.key = c.key;
                 let laCaDaXong = (item.ngay < ngayHienTai) || (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian));
@@ -889,8 +881,7 @@
             document.getElementById('progressBarS2').style.width = percentS2 + '%';
             document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã đặt ${percentS2}% tuần tới</span> <span>(${Math.round(s2FixedMinutes/60)} giờ)</span>`;
 
-            // 3. XỬ LÝ CHIA LỊCH THEO TUẦN ĐỂ THEO DÕI NGÀY TRỐNG / NGÀY KÍN
-            const selectedCourt = document.getElementById('trackerCourt').value;
+            // 3. XỬ LÝ CHIA LỊCH TUẦN - ĐỒNG THỜI HIỂN THỊ CẢ SÂN 1 VÀ SÂN 2 CÙNG LÚC
             const selectFilterVal = document.getElementById('trackerMonth').value;
             if(!selectFilterVal) return;
             const [filterYear, filterMonth] = selectFilterVal.split('-').map(Number);
@@ -913,49 +904,48 @@
                     let displayDayStr = `${dd}/${mm}`;
                     let nameThu = thuTextArray[dayObj.getDay()];
 
-                    // Lọc tìm toàn bộ lịch trùng khớp ngày và sân này trong bộ nhớ
-                    let matchedApps = allDatabaseItems.filter(item => item.ngay === loopDateStr && item.san === selectedCourt);
-                    matchedApps.sort((a, b) => toMinutes(a.thoiGian) - toMinutes(b.thoiGian));
+                    // Lọc tìm lịch của từng sân đấu riêng lẻ trong ngày
+                    let appsS1 = allDatabaseItems.filter(item => item.ngay === loopDateStr && item.san === "Sân số 1");
+                    let appsS2 = allDatabaseItems.filter(item => item.ngay === loopDateStr && item.san === "Sân số 2");
+                    appsS1.sort((a, b) => toMinutes(a.thoiGian) - toMinutes(b.thoiGian));
+                    appsS2.sort((a, b) => toMinutes(a.thoiGian) - toMinutes(b.thoiGian));
 
-                    if (matchedApps.length === 0) {
-                        // Trạng thái Trống thảm
-                        htmlDaysInsideWeek += `
-                            <div class="day-timeline-row">
-                                <div class="day-headline-title">
-                                    <span style="color: var(--success);">🟢</span> 
-                                    <span>${nameThu} (${displayDayStr}):</span>
-                                    <span style="color: var(--text-muted); font-weight:normal; font-size:0.95em;">Sân trống hoàn toàn</span>
-                                </div>
-                            </div>
-                        `;
+                    // Xử lý khối giao diện Sân số 1
+                    let htmlS1 = "";
+                    if (appsS1.length === 0) {
+                        htmlS1 = `<div><span style="color: var(--success); font-weight:700; font-size:0.88em;">🏟️ Sân 1:</span> <span style="color: var(--text-muted); font-size:0.85em;">🟢 Trống hoàn toàn</span></div>`;
                     } else {
-                        // Trạng thái đã giữ thảm
-                        let htmlAppDetail = "";
-                        matchedApps.forEach(ap => {
-                            let tagBadge = ap.isFixed === true ? 
-                                `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CỐ ĐỊNH]</span>` : 
-                                `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤LẺ]</span>`;
-                            let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer;" onclick="huy('${ap.key}')">Xóa</button>` : "";
-                            
-                            htmlAppDetail += `
-                                <div class="compact-ticket">
-                                    <span>⏱ <b>${ap.thoiGian}</b>: ${ap.ten} ${tagBadge}</span>
-                                    ${delBtn}
-                                </div>
-                            `;
-                        });
-
-                        htmlDaysInsideWeek += `
-                            <div class="day-timeline-row">
-                                <div class="day-headline-title">
-                                    <span style="color: var(--accent);">🔴</span> 
-                                    <span>${nameThu} (${displayDayStr}):</span>
-                                    <span style="color: var(--accent); font-weight:800;">Đã đặt ${matchedApps.length} ca</span>
-                                </div>
-                                <div class="day-inside-appointments">${htmlAppDetail}</div>
-                            </div>
-                        `;
+                        let detailsS1 = appsS1.map(ap => {
+                            let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
+                            let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
+                            return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span>${delBtn}</div>`;
+                        }).join("");
+                        htmlS1 = `<div><span style="color: var(--accent); font-weight:800; font-size:0.88em;">🏟️ Sân 1:</span> <span style="color: var(--accent); font-weight:700; font-size:0.85em;">🔴 Đã kín ${appsS1.length} ca</span><div class="day-inside-appointments">${detailsS1}</div></div>`;
                     }
+
+                    // Xử lý khối giao diện Sân số 2
+                    let htmlS2 = "";
+                    if (appsS2.length === 0) {
+                        htmlS2 = `<div style="margin-top:8px; border-top:1px dashed rgba(255,255,255,0.03); padding-top:6px;"><span style="color: var(--success); font-weight:700; font-size:0.88em;">🏟️ Sân 2:</span> <span style="color: var(--text-muted); font-size:0.85em;">🟢 Trống hoàn toàn</span></div>`;
+                    } else {
+                        let detailsS2 = appsS2.map(ap => {
+                            let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
+                            let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
+                            return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span>${delBtn}</div>`;
+                        }).join("");
+                        htmlS2 = `<div style="margin-top:8px; border-top:1px dashed rgba(255,255,255,0.03); padding-top:6px;"><span style="color: var(--highlight); font-weight:800; font-size:0.88em;">🏟️ Sân 2:</span> <span style="color: var(--highlight); font-weight:700; font-size:0.85em;">🔴 Đã kín ${appsS2.length} ca</span><div class="day-inside-appointments">${detailsS2}</div></div>`;
+                    }
+
+                    // Đóng gói 2 sân vào cùng 1 ngày lịch biểu
+                    htmlDaysInsideWeek += `
+                        <div class="day-timeline-row" style="background: rgba(255,255,255,0.01); margin-bottom: 8px; padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.02);">
+                            <div class="day-headline-title" style="font-size:0.9em; font-weight:800; color:#e2e8f0; margin-bottom: 8px;">📅 ${nameThu} (${displayDayStr})</div>
+                            <div>
+                                ${htmlS1}
+                                ${htmlS2}
+                            </div>
+                        </div>
+                    `;
                 });
 
                 finalHtmlDashboard += `
@@ -1264,7 +1254,7 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Vòng lặp quét Real-time đồng bộ 15 giây tự động cập nhật
+        // Vòng lặp quét Real-time đồng bộ 15 giây
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
     };
 </script>
