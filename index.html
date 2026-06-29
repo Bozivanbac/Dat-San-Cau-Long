@@ -406,8 +406,8 @@
     <!-- TAB 2: DANH SÁCH LỊCH CỐ ĐỊNH -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔒 TỔNG HỢP KHUNG GIỜ CỐ ĐỊNH DÀI HẠN</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Danh sách tự động gom và hiển thị toàn bộ lịch đã đặt có tần suất từ 3 buổi trở lên trong hệ thống để tránh trùng ca.</p>
+            <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔒 TỔNG HỢP KHUNG GIỜ CỐ ĐỊNH HÔM NAY & TƯƠNG LAI</h3>
+            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Danh sách chỉ hiển thị lịch cố định từ hôm nay trở đi. Các ca chơi đã trôi qua hoặc vừa kết thúc sẽ tự động biến mất thời gian thực.</p>
             <div id="danhSachCoDinh"><p style="text-align: center; color: var(--text-muted); font-size: 0.9em;">Đang tải lịch cố định...</p></div>
         </div>
     </div>
@@ -499,6 +499,7 @@
 
     let currentLocalDateStr = "";
     let firebaseListener = null;
+    let fixedFirebaseListener = null;
     let mangLichToanBoHienTai = []; 
     let techSliderInstance = null;
     let isSliderValid = true;
@@ -794,15 +795,21 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
-    // LOAD TOÀN BỘ DANH SÁCH LỊCH CỐ ĐỊNH - TỰ ĐỘNG NHẬN DIỆN 3 BUỔI TRỞ LÊN (REAL-TIME)
+    // LOAD DANH SÁCH LỊCH CỐ ĐỊNH TỰ ĐỘNG KHÔNG HIỂN THỊ QUÁ KHỨ VÀ TỰ ĐỘNG XÓA KHI KẾT THÚC
     function loadLichCoDinhTongHop() {
-        db.ref('lichDatCauLong').on('value', snap => {
+        if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
+        fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
             let htmlAllCoDinh = ""; 
             let mangToanBo = [];
             let bieuDoDem = {}; 
             let isAdmin = localStorage.getItem('isAdmin') === 'true';
 
-            // Bước 1: Quét toàn bộ để đếm tần suất ca chơi của từng khách
+            // Lấy thời gian hiện tại của hệ thống để so sánh đối chiếu định kỳ
+            const ngayHienTai = getVNDateString();
+            const bayGio = new Date();
+            const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
+
+            // Bước 1: Quét toàn bộ để tính tần suất đặt ca của từng số điện thoại/khách
             snap.forEach(c => {
                 let item = c.val();
                 item.key = c.key;
@@ -813,16 +820,27 @@
                 bieuDoDem[dinhDanh]++;
             });
 
-            // Bước 2: Lọc ra các ca có isFixed=true HOẶC tổng số buổi đặt của người đó >= 3 ca
+            // Bước 2: Lọc các ca thỏa mãn: Là cố định (isFixed hoặc >= 3 ca) VÀ CHƯA KẾT THÚC
             let mangCoDinh = [];
             mangToanBo.forEach(item => {
                 let dinhDanh = (item.sdt && item.sdt.trim().length === 10) ? item.sdt.trim() : item.ten.trim();
+                
                 if (item.isFixed === true || bieuDoDem[dinhDanh] >= 3) {
-                    mangCoDinh.push(item);
+                    // Kiểm tra điều kiện thời gian: Ngày tương lai -> Giữ lại
+                    if (item.ngay > ngayHienTai) {
+                        mangCoDinh.push(item);
+                    } 
+                    // Nếu là ngày hôm nay -> Kiểm tra giờ ra, nếu chưa tới giờ ra -> Giữ lại, ngược lại tự động xóa/ẩn đi
+                    else if (item.ngay === ngayHienTai) {
+                        let eMin = toMinutesEnd(item.thoiGian);
+                        if (phutHienTai < eMin) {
+                            mangCoDinh.push(item);
+                        }
+                    }
                 }
             });
 
-            // Bước 3: Sắp xếp danh sách cố định theo thời gian tăng dần
+            // Bước 3: Sắp xếp danh sách cố định tịnh tiến tăng dần
             mangCoDinh.sort((a, b) => {
                 if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
                 return toMinutes(a.thoiGian) - toMinutes(b.thoiGian);
@@ -846,7 +864,7 @@
                     </div>
                 `;
             });
-            document.getElementById('danhSachCoDinh').innerHTML = htmlAllCoDinh || "<p style='text-align:center; color:var(--text-muted); padding: 15px 0;'>Hệ thống hiện tại chưa ghi nhận ca cố định dài hạn nào.</p>";
+            document.getElementById('danhSachCoDinh').innerHTML = htmlAllCoDinh || "<p style='text-align:center; color:var(--text-muted); padding: 15px 0;'>Hệ thống không ghi nhận ca cố định dài hạn nào sắp diễn ra.</p>";
         });
     }
 
@@ -1152,7 +1170,7 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); }, 15000);
+        setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); }, 15000);
     };
 </script>
 </body>
