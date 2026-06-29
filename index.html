@@ -63,7 +63,7 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* MENU TÁP DẠNG LƯỚI GRID KHÔNG CẦN CUỘN TRƯỢT */
+        /* MENU TÁP LƯỚI GRID GỌN GÀNG */
         .tab-navigation { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -154,7 +154,7 @@
         .energy-block:last-child { border-right: none; }
         .energy-block.is-busy { background: var(--accent); }
 
-        /* THANH TRƯỢT */
+        /* THANH TRƯỢT SLIDER */
         .slider-container-wrapper { padding: 20px 6px; position: relative; z-index: 10; }
         .noUi-target { background: #1e293b !important; border: none !important; border-radius: 50px !important; height: 16px !important; }
         .noUi-connect { background: var(--cyber-gradient) !important; }
@@ -183,28 +183,27 @@
         .list-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: #070a12; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; gap: 8px; }
         .list-item > span { flex: 1; word-break: break-word; }
         
-        /* TRẠNG THÁI HIỂN THỊ ĐƠN THẾ HỆ MỚI */
+        /* TRẠNG THÁI HIỂN THỊ ĐƠN */
         .live-status-badge { font-size: 0.85em; font-weight: 800; padding: 4px 8px; border-radius: 6px; margin-left: 6px; display: inline-block; vertical-align: middle; }
         .status-upcoming { background: rgba(16, 185, 129, 0.1); color: var(--success); }
         .status-ready { background: rgba(245, 158, 11, 0.15); color: var(--highlight); }
         .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
         .status-done { background: rgba(6, 182, 212, 0.15); color: var(--primary); font-weight: 900; }
 
-        /* CẤU HÌNH THÀNH PHẦN BÁO CÁO PHÁT TRIỂN / TĂNG TRƯỞNG KINH TẾ CHO TAB 2 */
-        .eco-dashboard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-        .eco-index-card { background: #070a12; border: 1px solid var(--border); padding: 12px; border-radius: 14px; border-top: 3px solid var(--success); }
-        .eco-index-num { font-size: 1.4em; font-weight: 900; color: var(--success); font-family: monospace; margin-top: 2px; }
-        .eco-index-label { font-size: 0.7em; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
-        .eco-index-trend { font-size: 0.72em; color: var(--success); font-weight: 700; margin-top: 5px; display: flex; align-items: center; gap: 3px; }
+        /* THIẾT KẾ THANH BÁO CÔNG SUẤT LỊCH CỐ ĐỊNH TRỰC QUAN SIÊU DỄ HIỂU */
+        .fixed-capacity-box { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 20px; }
+        .fixed-progress-text { font-size: 0.85em; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.3px; }
+        .fixed-progress-container { background: #1e293b; border-radius: 10px; height: 16px; width: 100%; overflow: hidden; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.03); }
+        .fixed-progress-bar { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
 
-        /* TAB BẢNG TIN KHUYẾN MÃI */
+        /* TAB BẢNG TIN */
         .promo-card { background: rgba(6, 182, 212, 0.02); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--highlight); }
         .promo-header { display: flex; justify-content: space-between; align-items: center; font-weight: 800; color: var(--highlight); margin-bottom: 8px; font-size: 1em; text-transform: uppercase; }
         .promo-time { font-size: 0.75em; color: var(--text-muted); font-weight: 600; }
         .promo-body { color: #cbd5e1; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; }
         .admin-edit-panel { display: none; background: rgba(245, 158, 11, 0.03); border: 1px dashed var(--highlight); padding: 15px; border-radius: 16px; margin-bottom: 25px; }
 
-        /* POPUP ĐẸP MẮT */
+        /* POPUP */
         .cyber-popup-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(8px);
@@ -277,7 +276,7 @@
         <button class="tab-btn" onclick="switchTab(event, 'noi-quy')">📋 NỘI QUY</button>
     </div>
 
-    <!-- TAB 1: ĐẶT SÂN & XEM LỊCH SỬ SÂN (TỰ ĐỘNG KHẤU HAO 15 NGÀY) -->
+    <!-- TAB 1: ĐẶT SÂN & DANH SÁCH LỊCH SỬ TRONG NGÀY (KHẤU HAO TỰ ĐỘNG 15 NGÀY) -->
     <div id="dat-san" class="tab-content active">
         <div class="box">
             <h3 style="color:var(--primary);">THÔNG TIN ĐẶT SÂN</h3>
@@ -444,31 +443,36 @@
         </div>
     </div>
 
-    <!-- TAB 2: ĐỔI MỚI CẤU HÌNH BÁO CÁO CHỈ SỐ TĂNG TRƯỞNG KINH TẾ (THUẦN CỐ ĐỊNH & AUTO-DELETE) -->
+    <!-- TAB 2: THANH BÁO CÔNG SUẤT ĐÃ KHÓA CỐ ĐỊNH (TỰ ĐỘNG CẬP NHẬT & TỰ XÓA CA XONG NGAY) -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">📊 BÁO CÁO KẾT QUẢ VẬN HÀNH VĨ MÔ</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Chỉ thống kê các chỉ số Hợp đồng dài hạn (`isFixed`). Các phiên giao dịch đã thực hiện xong sẽ được hệ thống xóa bỏ ngay để tối ưu hóa tài nguyên nền kinh tế.</p>
+            <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">📊 ĐỘ PHỦ KÍN LỊCH CỐ ĐỊNH</h3>
+            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 20px; line-height:1.4;">Thanh bar tự động đo lường công suất đã khóa của các gói cố định tuần/tháng. Khi ca chơi kết thúc, hệ thống sẽ tự động giải phóng thảm đấu ngay lập tức.</p>
             
-            <!-- Bảng chỉ số vĩ mô tăng trưởng kinh tế -->
-            <div class="eco-dashboard">
-                <div class="eco-index-card" style="border-top-color: var(--primary);">
-                    <div class="eco-index-label">Hệ số lấp đầy S1</div>
-                    <div id="ecoCountS1" class="eco-index-num">0 Ca</div>
-                    <div class="eco-index-trend" style="color: var(--primary)">📈 ▲ Ổn định bền vững</div>
+            <!-- Khu vực Thanh tiến trình trực quan -->
+            <div class="fixed-capacity-box">
+                <div id="progressTextS1" class="fixed-progress-text">
+                    <span>📊 Sân số 1: Đang quét dữ liệu...</span>
+                    <span>0%</span>
                 </div>
-                <div class="eco-index-card" style="border-top-color: var(--highlight);">
-                    <div class="eco-index-label">Hệ số lấp đầy S2</div>
-                    <div id="ecoCountS2" class="eco-index-num">0 Ca</div>
-                    <div class="eco-index-trend" style="color: var(--highlight)">📊 ▲ Đang tăng trưởng</div>
+                <div class="fixed-progress-container">
+                    <div id="progressBarS1" class="fixed-progress-bar"></div>
+                </div>
+
+                <div id="progressTextS2" class="fixed-progress-text">
+                    <span>📊 Sân số 2: Đang quét dữ liệu...</span>
+                    <span>0%</span>
+                </div>
+                <div class="fixed-progress-container" style="margin-bottom: 5px;">
+                    <div id="progressBarS2" class="fixed-progress-bar" style="background: linear-gradient(90deg, #f59e0b 0%, #06b6d4 100%); box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);"></div>
                 </div>
             </div>
 
-            <h4 style="color: var(--success); margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--success); padding-left: 6px;">📈 PHIÊN KHỚP LỆNH SÂN SỐ 1</h4>
-            <div id="danhSachCoDinhS1"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Hệ số trống...</p></div>
+            <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ DANH SÁCH LỊCH SÂN 1 (TUẦN & THÁNG)</h4>
+            <div id="danhSachCoDinhS1"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang tải danh sách...</p></div>
             
-            <h4 style="color: var(--success); margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--success); padding-left: 6px;">📈 PHIÊN KHỚP LỆNH SÂN SỐ 2</h4>
-            <div id="danhSachCoDinhS2"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Hệ số trống...</p></div>
+            <h4 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ DANH SÁCH LỊCH SÂN 2 (TUẦN & THÁNG)</h4>
+            <div id="danhSachCoDinhS2"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang tải danh sách...</p></div>
         </div>
     </div>
 
@@ -591,7 +595,7 @@
         }).catch(err => console.error("Lỗi gửi Telegram:", err));
     }
 
-    // SERVICE WORKER CHẠY NGẦM
+    // SERVICE WORKER CHẠY NGẦM REMINDER
     if ('serviceWorker' in navigator) {
         const swCode = `
             let intervalId = null;
@@ -853,7 +857,7 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
-    // THUẬT TOÁN TỰ ĐỘNG XÓA LỊCH QUÁ HẠN 15 NGÀY KHỎI FIREBASE ĐỂ KHẨU HAO DUNG LƯỢNG
+    // THUẬT TOÁN TỰ ĐỘNG XÓA LỊCH SỬ ĐÃ CHƠI QUA 15 NGÀY ĐỂ GIẢI PHÓNG HỆ THỐNG
     function xoaLichQuaHan15Ngay() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         let limitDate = new Date(Date.now() - tzoffset - (15 * 24 * 60 * 60 * 1000));
@@ -868,7 +872,7 @@
         });
     }
 
-    // TAB 2: CHỈ HIỂN THỊ THUẦN LỊCH CỐ ĐỊNH & TỰ ĐỘNG XÓA KHI CHƠI XONG NGAY TRONG NGÀY
+    // TAB 2: TỰ ĐỘNG CẬP NHẬT LỊCH CỐ ĐỊNH - VẼ THANH TIẾN TRÌNH CÔNG SUẤT VÀ TỰ XÓA CA KHI CHƠI XONG
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
@@ -876,17 +880,30 @@
             let htmlS2 = ""; 
             let mangCoDinhS1 = [];
             let mangCoDinhS2 = [];
+            let s1FixedMinutes = 0;
+            let s2FixedMinutes = 0;
             let isAdmin = localStorage.getItem('isAdmin') === 'true';
 
             const ngayHienTai = getVNDateString();
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
+            // Thiết lập danh sách 7 ngày tới để đo lường công suất tuần
+            let futureDates = [];
+            for(let i = 0; i < 7; i++) {
+                let d = new Date();
+                d.setDate(d.getDate() + i);
+                let y = d.getFullYear();
+                let m = String(d.getMonth() + 1).padStart(2, '0');
+                let day = String(d.getDate()).padStart(2, '0');
+                futureDates.push(`${y}-${m}-${day}`);
+            }
+
             snap.forEach(c => {
                 let item = c.val();
                 item.key = c.key;
 
-                // CHỈ lọc duy nhất các lịch cố định hệ thống (isFixed === true)
+                // LỌC THUẦN: Chỉ xử lý các lịch có cấu hình cố định isFixed === true
                 if (item.isFixed === true) {
                     let laCaDaXong = false;
                     if (item.ngay < ngayHienTai) {
@@ -895,13 +912,20 @@
                         laCaDaXong = true;
                     }
 
-                    // NẾU CHƠI XONG: Hệ thống kích hoạt lệnh xóa bản ghi ngày đó ngay lập tức để giải phóng tài nguyên
+                    // TỰ ĐỘNG XÓA NGÀY ĐÓ KHI CHƠI XONG: Giải phóng dung lượng ngay
                     if (laCaDaXong) {
                         db.ref('lichDatCauLong/' + item.key).remove();
                         return; 
                     }
 
-                    // Nếu chưa chơi xong, phân bổ vào danh mục thị trường các sân đấu tương ứng
+                    // Tính toán số phút để cộng dồn vào thanh báo công suất tuần
+                    let duration = toMinutesEnd(item.thoiGian) - toMinutes(item.thoiGian);
+                    if (duration > 0 && futureDates.includes(item.ngay)) {
+                        if (item.san === "Sân số 1") s1FixedMinutes += duration;
+                        if (item.san === "Sân số 2") s2FixedMinutes += duration;
+                    }
+
+                    // Đẩy dữ liệu vào mảng hiển thị danh sách phía dưới
                     if (item.san === "Sân số 1") {
                         mangCoDinhS1.push(item);
                     } else if (item.san === "Sân số 2") {
@@ -910,22 +934,32 @@
                 }
             });
 
-            // Cập nhật bảng chỉ số sản lượng khai thác (Economic Index Metrics)
-            document.getElementById('ecoCountS1').innerText = mangCoDinhS1.length + " Phiên";
-            document.getElementById('ecoCountS2').innerText = mangCoDinhS2.length + " Phiên";
+            // TÍNH TOÁN % ĐỂ VẼ THANH TIẾN TRÌNH (Thời gian hoạt động tối đa 1 sân 1 tuần = 18 tiếng * 60 phút * 7 ngày = 7560 phút)
+            const maxMinutesWeek = 7560;
+            let percentS1 = Math.min(100, Math.round((s1FixedMinutes / maxMinutesWeek) * 100));
+            let percentS2 = Math.min(100, Math.round((s2FixedMinutes / maxMinutesWeek) * 100));
 
-            const thongKeSapXep = (mang) => {
+            // Cập nhật giao diện thanh bar Sân 1
+            document.getElementById('progressBarS1').style.width = percentS1 + '%';
+            document.getElementById('progressTextS1').innerHTML = `<span>📋 Sân số 1: Đã khóa ${percentS1}% công suất tuần</span> <span>(${Math.round(s1FixedMinutes/60)} giờ/tuần)</span>`;
+
+            // Cập nhật giao diện thanh bar Sân 2
+            document.getElementById('progressBarS2').style.width = percentS2 + '%';
+            document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã khóa ${percentS2}% công suất tuần</span> <span>(${Math.round(s2FixedMinutes/60)} giờ/tuần)</span>`;
+
+            // Sắp xếp lịch theo thứ tự ngày và giờ tăng dần
+            const sapXepLich = (mang) => {
                 mang.sort((a, b) => {
                     if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
                     return toMinutes(a.thoiGian) - toMinutes(b.thoiGian);
                 });
             };
-            thongKeSapXep(mangCoDinhS1);
-            thongKeSapXep(mangCoDinhS2);
+            sapXepLich(mangCoDinhS1);
+            sapXepLich(mangCoDinhS2);
 
-            const buildHtmlLichEco = (l) => {
+            const buildHtmlLichTrangThai = (l) => {
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
-                let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:6px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Hủy lệnh</button>` : "";
+                let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa lịch</button>` : "";
                 let buoi = getBuoi(l.thoiGian);
                 let parts = l.ngay.split('-');
                 let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
@@ -935,29 +969,29 @@
                 let eMin = toMinutesEnd(l.thoiGian);
 
                 if (l.ngay === ngayHienTai && phutHienTai >= sMin && phutHienTai < eMin) {
-                    liveBadge = `<span class="live-status-badge status-playing">⚡ ĐANG KHAI THÁC</span>`;
+                    liveBadge = `<span class="live-status-badge status-playing">🏸 ĐANG CHƠI</span>`;
                 } else if (l.ngay === ngayHienTai && sMin - phutHienTai <= 15 && sMin - phutHienTai > 0) {
-                    liveBadge = `<span class="live-status-badge status-ready">⏳ CHUẨN BỊ KHỚP</span>`;
+                    liveBadge = `<span class="live-status-badge status-ready">⏳ SẮP ĐẾN GIỜ</span>`;
                 } else {
-                    liveBadge = `<span class="live-status-badge status-upcoming">▲ CHỜ KHỚP LỆNH</span>`;
+                    liveBadge = `<span class="live-status-badge status-upcoming">🔒 ĐÃ GIỮ CHỖ</span>`;
                 }
 
                 return `
-                    <div class="list-item" style="border-left: 3px solid var(--success); background: linear-gradient(90deg, rgba(16, 185, 129, 0.03) 0%, transparent 100%); padding: 12px; margin-bottom: 8px;">
-                        <span style="font-size: 0.88em; line-height: 1.5;">
-                            📊 Chỉ mục: <b style="color:var(--highlight);">${dinhDangNgay}</b> | Khung: <b style="color:var(--primary);">${l.thoiGian}</b> ${liveBadge}<br>
-                            🏢 Doanh nghiệp/Đội: <b style="color:var(--text-main); font-weight:800;">${l.ten}</b> ${info}
+                    <div class="list-item" style="border-left: 3px solid var(--primary); padding: 11px 12px; margin-bottom: 8px;">
+                        <span style="font-size: 0.88em; line-height: 1.4;">
+                            📅 Ngày chơi: <b>${dinhDangNgay}</b> | Giờ: <b style="color:var(--highlight);">${l.thoiGian}</b> ${liveBadge}<br>
+                            👥 Đội khách: <b style="color:var(--text-main); font-weight:800;">${l.ten}</b> ${info}
                         </span>
                         ${buttonHuy}
                     </div>
                 `;
             };
 
-            mangCoDinhS1.forEach(l => { htmlS1 += buildHtmlLichEco(l); });
-            mangCoDinhS2.forEach(l => { htmlS2 += buildHtmlLichEco(l); });
+            mangCoDinhS1.forEach(l => { htmlS1 += buildHtmlLichTrangThai(l); });
+            mangCoDinhS2.forEach(l => { htmlS2 += buildHtmlLichTrangThai(l); });
 
-            document.getElementById('danhSachCoDinhS1').innerHTML = htmlS1 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>📉 Hệ số trống - Chưa ghi nhận lệnh đặt cố định.</p>";
-            document.getElementById('danhSachCoDinhS2').innerHTML = htmlS2 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>📉 Hệ số trống - Chưa ghi nhận lệnh đặt cố định.</p>";
+            document.getElementById('danhSachCoDinhS1').innerHTML = htmlS1 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 1 trống lịch cố định tuần này.</p>";
+            document.getElementById('danhSachCoDinhS2').innerHTML = htmlS2 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 2 trống lịch cố định tuần này.</p>";
         });
     }
 
@@ -1263,7 +1297,7 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Quét định kỳ mỗi 15 giây: Cập nhật ca, xóa ca cố định xong ngầm, và quét xóa toàn bộ lịch quá hạn 15 ngày
+        // Quét cập nhật trạng thái định kỳ và tự động dọn dẹp mỗi 15 giây
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
     };
 </script>
