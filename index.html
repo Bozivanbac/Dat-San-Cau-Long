@@ -190,11 +190,20 @@
         .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
         .status-done { background: rgba(6, 182, 212, 0.15); color: var(--primary); font-weight: 900; }
 
-        /* THIẾT KẾ THANH BÁO CÔNG SUẤT LỊCH CỐ ĐỊNH TRỰC QUAN SIÊU DỄ HIỂU */
+        /* THIẾT KẾ THANH BÁO CÔNG SUẤT LỊCH CỐ ĐỊNH TRỰC QUAN & ĐÈN LIVE SYNC */
         .fixed-capacity-box { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 20px; }
-        .fixed-progress-text { font-size: 0.85em; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.3px; }
+        .fixed-progress-text { font-size: 0.85em; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.3px; align-items: center; }
         .fixed-progress-container { background: #1e293b; border-radius: 10px; height: 16px; width: 100%; overflow: hidden; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.03); }
         .fixed-progress-bar { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); }
+
+        /* ĐÈN NHẤP NHÁY BÁO ĐỒNG BỘ TỰ ĐỘNG THỜI GIAN THỰC */
+        .live-sync-indicator { display: flex; align-items: center; font-size: 0.75em; font-weight: 800; color: var(--success); letter-spacing: 1px; margin-bottom: 15px; text-transform: uppercase; gap: 6px; }
+        .live-dot-sync { width: 8px; height: 8px; background: var(--success); border-radius: 50%; display: inline-block; animation: pulseBall 1.5s infinite; }
+        @keyframes pulseBall {
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
 
         /* TAB BẢNG TIN */
         .promo-card { background: rgba(6, 182, 212, 0.02); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--highlight); }
@@ -443,16 +452,20 @@
         </div>
     </div>
 
-    <!-- TAB 2: THANH BÁO CÔNG SUẤT ĐÃ KHÓA CỐ ĐỊNH (TỰ ĐỘNG CẬP NHẬT & TỰ XÓA CA XONG NGAY) -->
+    <!-- TAB 2: THANH BÁO CÔNG SUẤT ĐÃ KHÓA CỐ ĐỊNH (TỰ ĐỘNG ĐỒNG BỘ REAL-TIME HÀNG LOẠT VÀ TỰ XÓA) -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
-            <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">📊 ĐỘ PHỦ KÍN LỊCH CỐ ĐỊNH</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 20px; line-height:1.4;">Thanh bar tự động đo lường công suất đã khóa của các gói cố định tuần/tháng. Khi ca chơi kết thúc, hệ thống sẽ tự động giải phóng thảm đấu ngay lập tức.</p>
+            <div class="live-sync-indicator">
+                <span class="live-dot-sync"></span> Tự động đồng bộ thời gian thực (Live Sync)
+            </div>
+            
+            <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 5px;">📊 ĐỘ PHỦ KÍN LỊCH CỐ ĐỊNH</h3>
+            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 20px; line-height:1.4;">Thành phần tự động đo lường và gom nhóm công suất đã lên kế hoạch cố định Tuần/Tháng. Khi phiên chơi hoàn tất, thảm đấu tự động được giải phóng.</p>
             
             <!-- Khu vực Thanh tiến trình trực quan -->
             <div class="fixed-capacity-box">
                 <div id="progressTextS1" class="fixed-progress-text">
-                    <span>📊 Sân số 1: Đang quét dữ liệu...</span>
+                    <span>📋 Sân số 1: Đang quét dữ liệu...</span>
                     <span>0%</span>
                 </div>
                 <div class="fixed-progress-container">
@@ -460,7 +473,7 @@
                 </div>
 
                 <div id="progressTextS2" class="fixed-progress-text">
-                    <span>📊 Sân số 2: Đang quét dữ liệu...</span>
+                    <span>📋 Sân số 2: Đang quét dữ liệu...</span>
                     <span>0%</span>
                 </div>
                 <div class="fixed-progress-container" style="margin-bottom: 5px;">
@@ -469,10 +482,10 @@
             </div>
 
             <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ DANH SÁCH LỊCH SÂN 1 (TUẦN & THÁNG)</h4>
-            <div id="danhSachCoDinhS1"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang tải danh sách...</p></div>
+            <div id="danhSachCoDinhS1"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang quét cơ sở dữ liệu...</p></div>
             
             <h4 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ DANH SÁCH LỊCH SÂN 2 (TUẦN & THÁNG)</h4>
-            <div id="danhSachCoDinhS2"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang tải danh sách...</p></div>
+            <div id="danhSachCoDinhS2"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang quét cơ sở dữ liệu...</p></div>
         </div>
     </div>
 
@@ -888,7 +901,7 @@
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
-            // Thiết lập danh sách 7 ngày tới để đo lường công suất tuần
+            // Thiết lập danh sách 7 ngày tới để đo lường công suất tuần cuốn chiếu tự động
             let futureDates = [];
             for(let i = 0; i < 7; i++) {
                 let d = new Date();
@@ -903,7 +916,7 @@
                 let item = c.val();
                 item.key = c.key;
 
-                // LỌC THUẦN: Chỉ xử lý các lịch có cấu hình cố định isFixed === true
+                // THUẦN LỊCH CỐ ĐỊNH: Lọc chuẩn xác nhãn hệ thống isFixed === true
                 if (item.isFixed === true) {
                     let laCaDaXong = false;
                     if (item.ngay < ngayHienTai) {
@@ -912,20 +925,20 @@
                         laCaDaXong = true;
                     }
 
-                    // TỰ ĐỘNG XÓA NGÀY ĐÓ KHI CHƠI XONG: Giải phóng dung lượng ngay
+                    // TỰ ĐỘNG XÓA NGÀY ĐÓ NGAY LẬP TỨC: Khi kim đồng hồ vượt qua giờ ra ca
                     if (laCaDaXong) {
                         db.ref('lichDatCauLong/' + item.key).remove();
                         return; 
                     }
 
-                    // Tính toán số phút để cộng dồn vào thanh báo công suất tuần
+                    // Cộng dồn thời gian để tự động đẩy phần trăm (%) lên thanh tiến trình
                     let duration = toMinutesEnd(item.thoiGian) - toMinutes(item.thoiGian);
                     if (duration > 0 && futureDates.includes(item.ngay)) {
                         if (item.san === "Sân số 1") s1FixedMinutes += duration;
                         if (item.san === "Sân số 2") s2FixedMinutes += duration;
                     }
 
-                    // Đẩy dữ liệu vào mảng hiển thị danh sách phía dưới
+                    // Phân bổ danh mục hiển thị
                     if (item.san === "Sân số 1") {
                         mangCoDinhS1.push(item);
                     } else if (item.san === "Sân số 2") {
@@ -934,7 +947,7 @@
                 }
             });
 
-            // TÍNH TOÁN % ĐỂ VẼ THANH TIẾN TRÌNH (Thời gian hoạt động tối đa 1 sân 1 tuần = 18 tiếng * 60 phút * 7 ngày = 7560 phút)
+            // TÍNH TOÁN % ĐỂ TỰ ĐỘNG CO GIÃN THANH TIẾN TRÌNH (Thời gian tối đa hoạt động 1 sân/tuần = 18 tiếng * 60 phút * 7 ngày = 7560 phút)
             const maxMinutesWeek = 7560;
             let percentS1 = Math.min(100, Math.round((s1FixedMinutes / maxMinutesWeek) * 100));
             let percentS2 = Math.min(100, Math.round((s2FixedMinutes / maxMinutesWeek) * 100));
@@ -947,7 +960,7 @@
             document.getElementById('progressBarS2').style.width = percentS2 + '%';
             document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã khóa ${percentS2}% công suất tuần</span> <span>(${Math.round(s2FixedMinutes/60)} giờ/tuần)</span>`;
 
-            // Sắp xếp lịch theo thứ tự ngày và giờ tăng dần
+            // Sắp xếp lịch theo trình tự ngày tháng
             const sapXepLich = (mang) => {
                 mang.sort((a, b) => {
                     if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
@@ -1297,7 +1310,7 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Quét cập nhật trạng thái định kỳ và tự động dọn dẹp mỗi 15 giây
+        // Vòng lặp quét ngầm 15 giây: Tự xóa ca cố định vừa chơi xong và dọn dẹp data cũ
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
     };
 </script>
