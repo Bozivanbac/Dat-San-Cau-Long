@@ -190,7 +190,7 @@
         .status-playing { background: rgba(244, 63, 94, 0.15); color: var(--accent); }
         .status-done { background: rgba(6, 182, 212, 0.15); color: var(--primary); font-weight: 900; }
 
-        /* THIẾT KẾ THANH BÁO CÔNG SUẤT LỊCH CỐ ĐỊNH TRỰC QUAN & ĐÈN LIVE SYNC */
+        /* THIẾT KẾ THANH BÁO CÔNG SUẤT LỊCH TRỰC QUAN & ĐÈN LIVE SYNC */
         .fixed-capacity-box { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 15px; margin-bottom: 20px; }
         .fixed-progress-text { font-size: 0.85em; font-weight: 700; color: #cbd5e1; margin-bottom: 8px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.3px; align-items: center; }
         .fixed-progress-container { background: #1e293b; border-radius: 10px; height: 16px; width: 100%; overflow: hidden; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.03); }
@@ -285,7 +285,7 @@
         <button class="tab-btn" onclick="switchTab(event, 'noi-quy')">📋 NỘI QUY</button>
     </div>
 
-    <!-- TAB 1: ĐẶT SÂN & DANH SÁCH LỊCH SỬ TRONG NGÀY (KHẤU HAO TỰ ĐỘNG 15 NGÀY) -->
+    <!-- TAB 1: ĐẶT SÂN & DANH SÁCH LỊCH SỬ TRONG NGÀY -->
     <div id="dat-san" class="tab-content active">
         <div class="box">
             <h3 style="color:var(--primary);">THÔNG TIN ĐẶT SÂN</h3>
@@ -452,15 +452,15 @@
         </div>
     </div>
 
-    <!-- TAB 2: THANH BÁO CÔNG SUẤT ĐÃ KHÓA CỐ ĐỊNH (TỰ ĐỘNG ĐỒNG BỘ REAL-TIME HÀNG LOẠT VÀ TỰ XÓA) -->
+    <!-- TAB 2: THANH BÁO CÔNG SUẤT ĐÃ KHÓA (TỰ ĐỘNG ĐỒNG BỘ CẢ KHÁCH LẺ VÀ CỐ ĐỊNH REAL-TIME) -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
             <div class="live-sync-indicator">
-                <span class="live-dot-sync"></span> Tự động đồng bộ thời gian thực (Live Sync)
+                <span class="live-dot-sync"></span> Hệ thống đang tự động đồng bộ (Live Sync)
             </div>
             
-            <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 5px;">📊 ĐỘ PHỦ KÍN LỊCH CỐ ĐỊNH</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 20px; line-height:1.4;">Thành phần tự động đo lường và gom nhóm công suất đã lên kế hoạch cố định Tuần/Tháng. Khi phiên chơi hoàn tất, thảm đấu tự động được giải phóng.</p>
+            <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 5px;">📊 ĐỘ PHỦ KÍN LỊCH ĐÃ ĐẶT</h3>
+            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 20px; line-height:1.4;">Thanh bar tự động tổng hợp toàn bộ các ca khách đặt trong tuần (bao gồm cả lịch lẻ và lịch cố định) để hiển thị công suất thực tế.</p>
             
             <!-- Khu vực Thanh tiến trình trực quan -->
             <div class="fixed-capacity-box">
@@ -481,10 +481,10 @@
                 </div>
             </div>
 
-            <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ DANH SÁCH LỊCH SÂN 1 (TUẦN & THÁNG)</h4>
+            <h4 style="color: var(--primary); margin-top: 15px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ CHI TIẾT LỊCH HẸN SÂN SỐ 1</h4>
             <div id="danhSachCoDinhS1"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang quét cơ sở dữ liệu...</p></div>
             
-            <h4 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ DANH SÁCH LỊCH SÂN 2 (TUẦN & THÁNG)</h4>
+            <h4 style="color: var(--primary); margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; font-size: 0.9em; border-left: 3px solid var(--primary); padding-left: 6px;">🏟️ CHI TIẾT LỊCH HẸN SÂN SỐ 2</h4>
             <div id="danhSachCoDinhS2"><p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang quét cơ sở dữ liệu...</p></div>
         </div>
     </div>
@@ -885,7 +885,7 @@
         });
     }
 
-    // TAB 2: TỰ ĐỘNG CẬP NHẬT LỊCH CỐ ĐỊNH - VẼ THANH TIẾN TRÌNH CÔNG SUẤT VÀ TỰ XÓA CA KHI CHƠI XONG
+    // TAB 2: ĐỒNG BỘ LIÊN TỤC CẢ LỊCH LẺ VÀ LỊCH CỐ ĐỊNH LÊN THANH ĐO CÔNG SUẤT VÀ DANH SÁCH CHI TIẾT
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
@@ -916,51 +916,54 @@
                 let item = c.val();
                 item.key = c.key;
 
-                // THUẦN LỊCH CỐ ĐỊNH: Lọc chuẩn xác nhãn hệ thống isFixed === true
-                if (item.isFixed === true) {
-                    let laCaDaXong = false;
-                    if (item.ngay < ngayHienTai) {
-                        laCaDaXong = true;
-                    } else if (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian)) {
-                        laCaDaXong = true;
-                    }
+                let laCaDaXong = false;
+                if (item.ngay < ngayHienTai) {
+                    laCaDaXong = true;
+                } else if (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian)) {
+                    laCaDaXong = true;
+                }
 
-                    // TỰ ĐỘNG XÓA NGÀY ĐÓ NGAY LẬP TỨC: Khi kim đồng hồ vượt qua giờ ra ca
-                    if (laCaDaXong) {
+                // CHẾ ĐỘ XÓA THÔNG MINH HỆ THỐNG
+                if (laCaDaXong) {
+                    if (item.isFixed === true) {
+                        // Gói cố định dài hạn: Chơi xong xóa luôn ngày hôm đó để trống lịch
                         db.ref('lichDatCauLong/' + item.key).remove();
                         return; 
+                    } else {
+                        // Lịch khách đặt lẻ vãng lai: Ẩn khỏi danh sách chưa chơi, chờ bộ quét 15 ngày dọn sạch sau
+                        return; 
                     }
+                }
 
-                    // Cộng dồn thời gian để tự động đẩy phần trăm (%) lên thanh tiến trình
-                    let duration = toMinutesEnd(item.thoiGian) - toMinutes(item.thoiGian);
-                    if (duration > 0 && futureDates.includes(item.ngay)) {
-                        if (item.san === "Sân số 1") s1FixedMinutes += duration;
-                        if (item.san === "Sân số 2") s2FixedMinutes += duration;
-                    }
+                // Tính toán số phút để tự động co giãn Thanh tiến trình 7 ngày cuốn chiếu (Tính gộp cả khách lẻ + cố định)
+                let duration = toMinutesEnd(item.thoiGian) - toMinutes(item.thoiGian);
+                if (duration > 0 && futureDates.includes(item.ngay)) {
+                    if (item.san === "Sân số 1") s1FixedMinutes += duration;
+                    if (item.san === "Sân số 2") s2FixedMinutes += duration;
+                }
 
-                    // Phân bổ danh mục hiển thị
-                    if (item.san === "Sân số 1") {
-                        mangCoDinhS1.push(item);
-                    } else if (item.san === "Sân số 2") {
-                        mangCoDinhS2.push(item);
-                    }
+                // Gom nhóm để hiển thị lên bảng tiến trình chi tiết bên dưới
+                if (item.san === "Sân số 1") {
+                    mangCoDinhS1.push(item);
+                } else if (item.san === "Sân số 2") {
+                    mangCoDinhS2.push(item);
                 }
             });
 
-            // TÍNH TOÁN % ĐỂ TỰ ĐỘNG CO GIÃN THANH TIẾN TRÌNH (Thời gian tối đa hoạt động 1 sân/tuần = 18 tiếng * 60 phút * 7 ngày = 7560 phút)
+            // TÍNH TOÁN % ĐỂ TỰ ĐỘNG VẼ THANH TIẾN TRÌNH TRỰC QUAN (1 sân hoạt động 18 tiếng * 60p * 7 ngày = 7560 phút)
             const maxMinutesWeek = 7560;
             let percentS1 = Math.min(100, Math.round((s1FixedMinutes / maxMinutesWeek) * 100));
             let percentS2 = Math.min(100, Math.round((s2FixedMinutes / maxMinutesWeek) * 100));
 
-            // Cập nhật giao diện thanh bar Sân 1
+            // Đưa dữ liệu lên thanh bar Sân 1
             document.getElementById('progressBarS1').style.width = percentS1 + '%';
-            document.getElementById('progressTextS1').innerHTML = `<span>📋 Sân số 1: Đã khóa ${percentS1}% công suất tuần</span> <span>(${Math.round(s1FixedMinutes/60)} giờ/tuần)</span>`;
+            document.getElementById('progressTextS1').innerHTML = `<span>📋 Sân số 1: Đã đặt ${percentS1}% công suất tuần</span> <span>(${Math.round(s1FixedMinutes/60)} giờ/tuần)</span>`;
 
-            // Cập nhật giao diện thanh bar Sân 2
+            // Đưa dữ liệu lên thanh bar Sân 2
             document.getElementById('progressBarS2').style.width = percentS2 + '%';
-            document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã khóa ${percentS2}% công suất tuần</span> <span>(${Math.round(s2FixedMinutes/60)} giờ/tuần)</span>`;
+            document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã đặt ${percentS2}% công suất tuần</span> <span>(${Math.round(s2FixedMinutes/60)} giờ/tuần)</span>`;
 
-            // Sắp xếp lịch theo trình tự ngày tháng
+            // Sắp xếp danh sách lịch hiển thị lũy tiến
             const sapXepLich = (mang) => {
                 mang.sort((a, b) => {
                     if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
@@ -972,7 +975,7 @@
 
             const buildHtmlLichTrangThai = (l) => {
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
-                let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa lịch</button>` : "";
+                let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>` : "";
                 let buoi = getBuoi(l.thoiGian);
                 let parts = l.ngay.split('-');
                 let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
@@ -986,14 +989,19 @@
                 } else if (l.ngay === ngayHienTai && sMin - phutHienTai <= 15 && sMin - phutHienTai > 0) {
                     liveBadge = `<span class="live-status-badge status-ready">⏳ SẮP ĐẾN GIỜ</span>`;
                 } else {
-                    liveBadge = `<span class="live-status-badge status-upcoming">🔒 ĐÃ GIỮ CHỖ</span>`;
+                    liveBadge = `<span class="live-status-badge status-upcoming">🟢 ĐÃ GIỮ CHỖ</span>`;
                 }
 
+                // Nhãn phân loại hình thức đặt thảm trực quan
+                let loaiLichBadge = l.isFixed === true ? 
+                    `<span class="live-status-badge" style="background: rgba(6, 182, 212, 0.15); color: var(--primary); font-size:0.75em; padding:2px 6px;">🔒 CỐ ĐỊNH</span>` : 
+                    `<span class="live-status-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--highlight); font-size:0.75em; padding:2px 6px;">👤 KHÁCH LẺ</span>`;
+
                 return `
-                    <div class="list-item" style="border-left: 3px solid var(--primary); padding: 11px 12px; margin-bottom: 8px;">
+                    <div class="list-item" style="border-left: 3px solid ${l.isFixed === true ? 'var(--primary)' : 'var(--highlight)'}; padding: 11px 12px; margin-bottom: 8px;">
                         <span style="font-size: 0.88em; line-height: 1.4;">
-                            📅 Ngày chơi: <b>${dinhDangNgay}</b> | Giờ: <b style="color:var(--highlight);">${l.thoiGian}</b> ${liveBadge}<br>
-                            👥 Đội khách: <b style="color:var(--text-main); font-weight:800;">${l.ten}</b> ${info}
+                            📅 Ngày chơi: <b>${dinhDangNgay}</b> | Giờ: <b style="color:var(--highlight);">${l.thoiGian}</b> ${loaiLichBadge} ${liveBadge}<br>
+                            👥 Tên khách: <b style="color:var(--text-main); font-weight:800;">${l.ten}</b> ${info}
                         </span>
                         ${buttonHuy}
                     </div>
@@ -1003,8 +1011,8 @@
             mangCoDinhS1.forEach(l => { htmlS1 += buildHtmlLichTrangThai(l); });
             mangCoDinhS2.forEach(l => { htmlS2 += buildHtmlLichTrangThai(l); });
 
-            document.getElementById('danhSachCoDinhS1').innerHTML = htmlS1 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 1 trống lịch cố định tuần này.</p>";
-            document.getElementById('danhSachCoDinhS2').innerHTML = htmlS2 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 2 trống lịch cố định tuần này.</p>";
+            document.getElementById('danhSachCoDinhS1').innerHTML = htmlS1 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 1 đang trống lịch trong tuần này.</p>";
+            document.getElementById('danhSachCoDinhS2').innerHTML = htmlS2 || "<p style='text-align:left; color:var(--text-muted); font-size:0.85em; padding-left:5px; margin: 4px 0;'>⚪ Sân số 2 đang trống lịch trong tuần này.</p>";
         });
     }
 
@@ -1142,6 +1150,7 @@
         });
     }
 
+    // ĐỒNG BỘ ĐẾN SLIDER CHỌN GIỜ THEO NHU CẦU
     function syncToTechSlider(startMin, endMin) { if(techSliderInstance) techSliderInstance.set([startMin, endMin]); }
     function xuLyDoiNgaySan() { loadLich(); if(techSliderInstance) { let vals = techSliderInstance.get(); techSliderInstance.set(vals); } }
 
@@ -1310,7 +1319,7 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Vòng lặp quét ngầm 15 giây: Tự xóa ca cố định vừa chơi xong và dọn dẹp data cũ
+        // Vòng lặp quét đồng bộ Real-time mỗi 15 giây
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
     };
 </script>
