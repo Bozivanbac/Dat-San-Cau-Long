@@ -63,7 +63,7 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* MENU TÁP DẠNG LƯỚI GRID KHÔNG CẦN CUỘN TRƯỢT - CO GIÃN THẤY HẾT 100% */
+        /* MENU TÁP DẠNG LƯỚI GRID GỌN GÀNG - HIỂN THỊ HẾT TOÀN DIỆN KHÔNG CẦN TRƯỢT */
         .tab-navigation { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -270,6 +270,7 @@
         <button class="tab-btn" onclick="switchTab(event, 'noi-quy')">📋 NỘI QUY</button>
     </div>
 
+    <!-- TAB 1: ĐẶT SÂN -->
     <div id="dat-san" class="tab-content active">
         <div class="box">
             <h3 style="color:var(--primary);">THÔNG TIN ĐẶT SÂN</h3>
@@ -343,6 +344,7 @@
         <div class="section-title">CHI TIẾT CÁC LỊCH ĐÃ ĐẶT TRONG NGÀY</div>
         <div id="tongHopDanhSach"></div>
 
+        <!-- ================= KHU VỰC ĐẶT CỐ ĐỊNH TỰ ĐỘNG (CHỈ ADMIN THẤY) ================= -->
         <div id="adminPanelFixed" class="admin-edit-panel">
             <h3 style="color: var(--primary); margin-top: 0;">⚡ BỘ RẢI LỊCH CỐ ĐỊNH TỰ ĐỘNG</h3>
             <label>Họ và tên khách cố định</label>
@@ -375,6 +377,7 @@
                 <option value="thang">Rải trọn vẹn theo Tháng Dương Lịch</option>
             </select>
 
+            <!-- Khung 1: Theo Tháng -->
             <div id="khungTheoThang" style="display: none; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Chọn Tháng</label>
@@ -389,6 +392,7 @@
                 </div>
             </div>
 
+            <!-- Khung 2: Theo Số Tuần -->
             <div id="khungTheoTuan" style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Ngày áp dụng (Bắt đầu quét tiến từ ngày này)</label>
@@ -424,6 +428,8 @@
 
             <button onclick="datLichCoDinhHangLoat()" class="action-btn" style="padding: 12px; font-size: 0.9em; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff;">XÁC NHẬN RẢI LỊCH HỆ THỐNG</button>
         </div>
+        <!-- ====================================================================== -->
+
         <div class="zalo-group-box">
             <div class="zalo-title">Tham Gia Nhóm Zalo Phúc An</div>
             <div class="zalo-desc">Quét mã QR để tham gia nhóm "Sân cầu lông Phúc An Badminton" giao lưu, bắt kèo và nhận thông báo mới nhất!</div>
@@ -431,6 +437,7 @@
         </div>
     </div>
 
+    <!-- TAB 2: DANH SÁCH LỊCH CỐ ĐỊNH PHÂN CHIA THEO SÂN & TỰ XÓA SAU 30 NGÀY -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
             <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔒 KHUNG GIỜ CỐ ĐỊNH ĐƯỢC CHIA THEO SÂN</h3>
@@ -444,6 +451,7 @@
         </div>
     </div>
 
+    <!-- TAB 3: BẢNG TIN KHUYẾN MÃI -->
     <div id="bang-tin" class="tab-content">
         <div id="adminPanelNews" class="admin-edit-panel">
             <h3 style="color: var(--highlight); margin-top: 0;">✍️ ĐĂNG THÔNG BÁO / KHUYẾN MÃI</h3>
@@ -460,6 +468,7 @@
         </div>
     </div>
 
+    <!-- TAB 4: BẢNG GIÁ -->
     <div id="bang-gia" class="tab-content">
         <div class="box">
             <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px;">TỪ THỨ 2 ĐẾN THỨ 6</h3>
@@ -477,6 +486,7 @@
         </div>
     </div>
 
+    <!-- TAB 5: NỘI QUY -->
     <div id="noi-quy" class="tab-content">
         <div class="rules-wrapper">
             <div class="rule-card">
@@ -822,14 +832,12 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
-    // THUẬT TOÁN TỰ ĐỘNG XÓA LỊCH QUÁ HẠN 30 NGÀY KHỎI FIREBASE CHO NHẸ DUNG LƯỢNG HỆ THỐNG
+    // THUẬT TOÁN TỰ ĐỘNG XÓA LỊCH QUÁ HẠN 30 NGÀY KHỎI FIREBASE
     function xoaLichQuaHan30Ngay() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
-        // Tính mốc thời gian cách đây đúng 30 ngày
         let limitDate = new Date(Date.now() - tzoffset - (30 * 24 * 60 * 60 * 1000));
-        let limitStr = limitDate.toISOString().slice(0, 10); // Định dạng chuẩn YYYY-MM-DD
+        let limitStr = limitDate.toISOString().slice(0, 10);
         
-        // Quét lọc nhanh trên Firebase để xóa các ca có ngày nhỏ hơn hoặc bằng mốc 30 ngày trước
         db.ref('lichDatCauLong').orderByChild('ngay').endAt(limitStr).once('value', snap => {
             snap.forEach(child => {
                 if (child.val().ngay <= limitStr) {
@@ -839,7 +847,7 @@
         });
     }
 
-    // LOAD DANH SÁCH LỊCH CỐ ĐỊNH - NÂNG CẤP CHIA THEO 2 SÂN & GẮN TÍCH "ĐÃ XONG" CHO NGÀY CŨ (REAL-TIME)
+    // LOAD DANH SÁCH LỊCH CỐ ĐỊNH PHÂN CHIA SÂN & GẮN TRẠNG THÁI "ĐÃ XONG"
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
@@ -853,7 +861,6 @@
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
-            // Bước 1: Quét toàn bộ để lập biểu đồ tần suất đếm số ca
             snap.forEach(c => {
                 let item = c.val();
                 item.key = c.key;
@@ -864,7 +871,6 @@
                 bieuDoDem[dinhDanh]++;
             });
 
-            // Bước 2: Phân chia lịch cố định vào mảng của Sân số 1 và Sân số 2
             let mangCoDinhS1 = [];
             let mangCoDinhS2 = [];
 
@@ -880,7 +886,6 @@
                 }
             });
 
-            // Sắp xếp các ca của từng sân theo trình tự thời gian tịnh tiến
             const thongKeSapXep = (mang) => {
                 mang.sort((a, b) => {
                     if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
@@ -890,7 +895,6 @@
             thongKeSapXep(mangCoDinhS1);
             thongKeSapXep(mangCoDinhS2);
 
-            // Hàm dựng khung HTML cho từng hàng lịch
             const buildHtmlLich = (l) => {
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>` : "";
@@ -898,7 +902,6 @@
                 let parts = l.ngay.split('-');
                 let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
                 
-                // Thuật toán kiểm soát nhãn trạng thái trực tiếp
                 let liveBadge = "";
                 let laNgayCu = false;
 
@@ -1003,6 +1006,7 @@
         return overlap;
     }
 
+    // ĐÃ VÁ LỖI CÚ PHÁP ĐÓNG NGOẶC ) TẠI ĐÂY
     function renderBusyTimeOnSlider() {
         const sliderElement = document.querySelector('#techTimeSlider'); if (!sliderElement) return;
         const startMin = 300; const endMin = 1380; const totalMin = endMin - startMin; 
@@ -1011,7 +1015,7 @@
         let busyIntervals = [];
         mangLichToanBoHienTai.forEach(l => {
             if (l.san === sanDangChon && l.ngay === ngayDangChon) {
-                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian);
+                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian));
                 if (s < e) busyIntervals.push({ start: s, end: e });
             }
         });
@@ -1243,7 +1247,6 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan30Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Quét định kỳ mỗi 15 giây: Cập nhật giao diện và dọn sạch lịch cũ quá 30 ngày tự động
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan30Ngay(); }, 15000);
     };
 </script>
