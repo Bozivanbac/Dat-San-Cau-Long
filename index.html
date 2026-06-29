@@ -63,43 +63,48 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* MENU TÁP LƯỚI GRID */
+        /* ĐÓNG KHUNG MENU TÁP LƯỚI CARD ĐỘC LẬP THEO ẢNH */
         .tab-navigation { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            background: #070a12; 
-            padding: 6px; 
-            border-radius: 16px; 
-            margin-bottom: 20px; 
-            border: 1px solid var(--border); 
-            gap: 6px;
+            gap: 10px;
+            background: transparent; 
+            padding: 0; 
+            margin-bottom: 25px; 
         }
         .tab-btn { 
-            padding: 11px 8px; 
-            background: transparent; 
+            padding: 14px 10px; 
+            background: #070a12; 
             color: var(--text-muted); 
-            border: none; 
-            border-radius: 12px; 
+            border: 1px solid var(--border); 
+            border-radius: 16px; 
             cursor: pointer; 
-            font-size: 0.82em; 
-            font-weight: 700; 
+            font-size: 0.85em; 
+            font-weight: 800; 
             text-align: center; 
-            white-space: nowrap; 
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 6px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
             transition: all 0.2s ease;
         }
+        /* Phân tách nút đặt sân nằm trọn dòng đầu giống ảnh mẫu */
         .tab-btn:first-child {
             grid-column: span 2;
-            font-size: 0.9em;
-            padding: 12px 8px;
+            font-size: 0.95em;
+            padding: 16px 10px;
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+        .tab-btn:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: #0d1525;
         }
         .tab-btn.active { 
             background: #1e293b; 
             color: var(--primary); 
-            border: 1px solid rgba(6, 182, 212, 0.2); 
+            border: 2px solid var(--primary); 
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -111,16 +116,6 @@
         textarea { resize: vertical; min-height: 100px; font-family: inherit; }
         input[type="date"] { padding: 14px; font-size: 1.1em; font-weight: 700; color: var(--highlight); border: 1px solid rgba(245, 158, 11, 0.3); background: #070a12; cursor: pointer; }
         .date-wrapper { position: relative; }
-        
-        /* KHU VỰC CHỌN NHANH LỊCH TRỐNG */
-        .time-wheel-container { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 20px 0; }
-        .wheel-slot { flex: 1 1 calc(50% - 5px); background: #070a12; border: 1px solid var(--border); border-radius: 14px; padding: 10px 6px; text-align: center; cursor: pointer; }
-        .wheel-slot .slot-time { font-size: 0.85em; font-weight: 700; color: #e2e8f0; }
-        .wheel-slot .slot-courts-status { display: flex; justify-content: space-around; font-size: 0.75em; font-weight: 600; border-top: 1px solid var(--border); padding-top: 6px; margin-top: 4px; }
-        .court-status-item { padding: 1px 4px; border-radius: 4px; }
-        .court-status-item.active-live { color: var(--primary); font-weight: 800; }
-        .wheel-slot.selected { border-color: var(--primary); background: rgba(6, 182, 212, 0.03); }
-        .wheel-slot.all-locked { background: #111827; opacity: 0.35; cursor: not-allowed; }
 
         /* GIAO DIỆN CHỌN SÂN */
         .court-tabs-group { display: flex; width: 100%; gap: 10px; margin: 8px 0 16px 0; }
@@ -234,8 +229,6 @@
         .rule-card { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
         .rule-card-header { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 0.95em; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; }
         .rule-card-body { font-size: 0.9em; color: #cbd5e1; line-height: 1.6; }
-        .rule-line { margin-bottom: 8px; display: flex; gap: 8px; align-items: flex-start; }
-        .rule-dot { color: var(--accent); font-size: 1.1em; line-height: 1; }
         .price-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border); gap: 10px; }
         .price-row:last-child { border-bottom: none; }
         .price-tag { background: rgba(6, 182, 212, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.9em; white-space: nowrap; }
@@ -258,6 +251,7 @@
         <marquee id="liveTicker" behavior="scroll" direction="left" scrollamount="5">Đang tải dữ liệu tìm sân trống...</marquee>
     </div>
     
+    <!-- HỆ THỐNG MENU TÁP ĐÓNG KHUNG CARD ĐỘC LẬP CHẮC CHẮN THEO ẢNH MẪU -->
     <div class="tab-navigation">
         <button class="tab-btn active" onclick="switchTab(event, 'dat-san')">📝 ĐẶT SÂN</button>
         <button class="tab-btn" onclick="switchTab(event, 'lich-co-dinh')">🔒 LỊCH CỐ ĐỊNH</button>
@@ -282,10 +276,7 @@
             <input type="date" id="ngay" onclick="this.showPicker()" onchange="xuLyDoiNgaySan()">
         </div>
         
-        <label style="margin-top: 15px; color: var(--primary);">⚡ CHỌN GIỜ NHANH CÓ SẴN (XEM TRẠNG THÁI CẢ 2 SÂN):</label>
-        <div id="timeWheel" class="time-wheel-container"></div>
-        
-        <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed var(--border);">
+        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border);">
             <label style="color: var(--primary); font-weight: 800;">📍 BẮT BUỘC CHỌN SÂN MUỐN CHƠI:</label>
             <div class="court-tabs-group">
                 <div id="btnCourt1" class="court-tab-item active" onclick="selectCourt('Sân số 1')">Sân số 1</div>
@@ -1080,7 +1071,6 @@
             let startTimeText = formatMinutesToText(startMin); let endTimeText = formatMinutesToText(endMin);
             document.getElementById('techStartOutput').innerText = startTimeText; document.getElementById('techEndOutput').innerText = endTimeText;
             document.getElementById('thoiGian').value = startTimeText + "-" + endTimeText;
-            if(handle === 0 || handle === 1) { document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected')); }
             isSliderValid = !kiemTraTrungLich(startMin, endMin);
             if (!isSliderValid) {
                 techBox.classList.add('is-error'); btnXacNhan.classList.add('btn-error'); btnXacNhan.innerText = "❌ KHUNG GIỜ NÀY ĐÃ KÍN";
@@ -1090,7 +1080,6 @@
         });
     }
 
-    function syncToTechSlider(startMin, endMin) { if(techSliderInstance) techSliderInstance.set([startMin, endMin]); }
     function xuLyDoiNgaySan() { loadLich(); if(techSliderInstance) { let vals = techSliderInstance.get(); techSliderInstance.set(vals); } }
 
     function tinhGiaDuKien() {
@@ -1104,43 +1093,6 @@
             totalThanhTien += (giaMoiGio / 60) * 15;
         }
         document.getElementById('estimatedPrice').innerText = Math.round(totalThanhTien * 1000).toLocaleString('vi-VN') + " đ";
-    }
-
-    function renderTimeWheel() {
-        const sanDangChon = document.getElementById('selectedCourtValue').value; const ngayDangChon = document.getElementById('ngay').value;
-        const ngayHienTai = getVNDateString(); const phutHienTaiSystem = (new Date().getHours() * 60) + new Date().getMinutes();
-        let container = document.getElementById('timeWheel'); if (!container) return; container.innerHTML = ""; 
-        DANH_SACH_CA_CHUAN.forEach(ca => {
-            const [s, e] = ca.split('-'); const phutBatDauCa = parseSmartTimePiece(s).hour * 60; const phutKetThucCa = parseSmartTimePiece(e).hour * 60;
-            let s1Locked = false; let s2Locked = false;
-            if (ngayDangChon === ngayHienTai && phutHienTaiSystem >= phutKetThucCa) { s1Locked = true; s2Locked = true; }
-            mangLichToanBoHienTai.forEach(l => {
-                if (l.ngay === ngayDangChon) {
-                    let lsMin = toMinutes(l.thoiGian); let leMin = toMinutesEnd(l.thoiGian);
-                    if (phutBatDauCa < leMin && phutKetThucCa > lsMin) { if(l.san === "Sân số 1") s1Locked = true; if(l.san === "Sân số 2") s2Locked = true; }
-                }
-            });
-            let displayCa = ca.split('-').map(time => time.replace('00','')).join('-');
-            let currentSanIsLocked = (sanDangChon === "Sân số 1" && s1Locked) || (sanDangChon === "Sân số 2" && s2Locked);
-            let isAllLocked = s1Locked && s2Locked;
-            let slot = document.createElement('div'); slot.className = `wheel-slot ${isAllLocked ? 'all-locked' : ''}`;
-            if(document.getElementById('thoiGian').value === ca && !currentSanIsLocked) slot.className += ' selected';
-            slot.innerHTML = `
-                <span class="slot-time">${displayCa} ${getBuoi(ca)}</span>
-                <div class="slot-courts-status">
-                    <span class="court-status-item ${sanDangChon==='Sân số 1'?'active-live':''}">S1: ${s1Locked ? '❌' : '🟢'}</span>
-                    <span class="court-status-item ${sanDangChon==='Sân số 2'?'active-live':''}">S2: ${s2Locked ? '❌' : '🟢'}</span>
-                </div>
-            `;
-            if (!currentSanIsLocked && !isAllLocked) {
-                slot.onclick = function() {
-                    document.querySelectorAll('.wheel-slot').forEach(item => item.classList.remove('selected'));
-                    slot.classList.add('selected'); document.getElementById('thoiGian').value = ca; 
-                    syncToTechSlider(parseSmartTimePiece(s).hour * 60, parseSmartTimePiece(e).hour * 60);
-                };
-            }
-            container.appendChild(slot);
-        });
     }
 
     function datSan() {
@@ -1173,7 +1125,7 @@
         firebaseListener = db.ref('lichDatCauLong').orderByChild('ngay').equalTo(ngay).on('value', snap => {
             let htmlAllSan = ''; mangLichToanBoHienTai = []; updateLiveTicker(snap, ngay);
             snap.forEach(c => { let item = c.val(); item.key = c.key; mangLichToanBoHienTai.push(item); });
-            renderTimeWheel(); renderEnergyBars(); renderBusyTimeOnSlider(); dongBoDuLieuVaoServiceWorker();
+            renderEnergyBars(); renderBusyTimeOnSlider(); dongBoDuLieuVaoServiceWorker();
             if(techSliderInstance) { let vals = techSliderInstance.get(); techSliderInstance.set(vals); }
             mangLichToanBoHienTai.sort((a, b) => { if (a.san !== b.san) return a.san.localeCompare(b.san, 'vi', { numeric: true }); return toMinutes(a.thoiGian) - toMinutes(b.thoiGian); });
             mangLichToanBoHienTai.forEach(l => {
@@ -1232,6 +1184,7 @@
         hienThiPopup("Đã lưu thông tin khách thành công!", "HỆ THỐNG GHI NHẬN"); dongBoDuLieuVaoServiceWorker();
     }
 
+    // Kích hoạt Admin quản trị
     function kichHoatAdmin() {
         let pass = prompt("Nhập mã Admin:");
         if (pass === "PhucAn2026$") { 
@@ -1254,7 +1207,7 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Vòng lặp quét Real-time đồng bộ 15 giây
+        // Vòng lặp quét Real-time liên tục
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
     };
 </script>
