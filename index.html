@@ -63,10 +63,46 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* MENU VÀ FORM */
-        .tab-navigation { display: flex; flex-wrap: wrap; background: #070a12; padding: 4px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); gap: 2px; }
-        .tab-btn { flex: 1; min-width: 65px; padding: 10px 2px; background: transparent; color: var(--text-muted); border: none; border-radius: 12px; cursor: pointer; font-size: 0.72em; font-weight: 700; text-align: center; white-space: nowrap; }
-        .tab-btn.active { background: #1e293b; color: var(--primary); border: 1px solid rgba(6, 182, 212, 0.2); }
+        /* MENU TÁP - NÂNG CẤP CUỘN NGANG CHỐNG TRÙNG LỆCH CHỮ TRÊN MOBILE */
+        .tab-navigation { 
+            display: flex; 
+            flex-wrap: nowrap; 
+            overflow-x: auto; 
+            background: #070a12; 
+            padding: 6px; 
+            border-radius: 16px; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--border); 
+            gap: 6px;
+            scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+            -webkit-overflow-scrolling: touch; /* Giúp lướt mượt trên iOS */
+        }
+        .tab-navigation::-webkit-scrollbar {
+            display: none; /* Ẩn thanh cuộn trên Chrome, Safari, Edge */
+        }
+        .tab-btn { 
+            flex: 0 0 auto; 
+            padding: 10px 16px; 
+            background: transparent; 
+            color: var(--text-muted); 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-size: 0.85em; 
+            font-weight: 700; 
+            text-align: center; 
+            white-space: nowrap; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active { 
+            background: #1e293b; 
+            color: var(--primary); 
+            border: 1px solid rgba(6, 182, 212, 0.2); 
+        }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
@@ -886,6 +922,7 @@
         if(document.getElementById('adminPanelFixed')) document.getElementById('adminPanelFixed').style.display = isAd ? 'block' : 'none';
     }
 
+    // CÁC HÀM TIỆN ÍCH THỜI GIAN
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
@@ -950,7 +987,7 @@
         let busyIntervals = [];
         mangLichToanBoHienTai.forEach(l => {
             if (l.san === sanDangChon && l.ngay === ngayDangChon) {
-                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian));
+                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian);
                 if (s < e) busyIntervals.push({ start: s, end: e });
             }
         });
