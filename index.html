@@ -63,32 +63,25 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* MENU TÁP - NÂNG CẤP CUỘN NGANG CHỐNG TRÙNG LỆCH CHỮ TRÊN MOBILE */
+        /* MENU TÁP NÂNG CẤP DẠNG LƯỚI GRID KHÔNG CẦN CUỘN TRƯỢT - THẤY HẾT TOÀN BỘ 100% */
         .tab-navigation { 
-            display: flex; 
-            flex-wrap: nowrap; 
-            overflow-x: auto; 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
             background: #070a12; 
             padding: 6px; 
             border-radius: 16px; 
             margin-bottom: 20px; 
             border: 1px solid var(--border); 
             gap: 6px;
-            scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
-            -webkit-overflow-scrolling: touch; /* Giúp lướt mượt trên iOS */
-        }
-        .tab-navigation::-webkit-scrollbar {
-            display: none; /* Ẩn thanh cuộn trên Chrome, Safari, Edge */
         }
         .tab-btn { 
-            flex: 0 0 auto; 
-            padding: 10px 16px; 
+            padding: 11px 8px; 
             background: transparent; 
             color: var(--text-muted); 
             border: none; 
             border-radius: 12px; 
             cursor: pointer; 
-            font-size: 0.85em; 
+            font-size: 0.82em; 
             font-weight: 700; 
             text-align: center; 
             white-space: nowrap; 
@@ -97,6 +90,12 @@
             justify-content: center;
             gap: 4px;
             transition: all 0.2s ease;
+        }
+        /* Cho nút Đặt Sân chiếm trọn hàng đầu tiên cho đẹp và thoáng mắt */
+        .tab-btn:first-child {
+            grid-column: span 2;
+            font-size: 0.9em;
+            padding: 12px 8px;
         }
         .tab-btn.active { 
             background: #1e293b; 
@@ -701,7 +700,6 @@
         tinhGiaCoDinhDuKien();
     }
 
-    // TỰ ĐỘNG TÍNH TOÁN GIÁ TIỀN CHO KHUNG CỐ ĐỊNH DỰ KIẾN
     function tinhGiaCoDinhDuKien() {
         let san = document.getElementById('fixedSan').value;
         let gioVao = document.getElementById('fixedGioVao').value;
@@ -762,7 +760,6 @@
         document.getElementById('fixedEstimatedPrice').innerText = Math.round(thanhTienKhauHao).toLocaleString('vi-VN') + " đ (" + tongSoCaChơi + " ca)";
     }
 
-    // THUẬT TOÁN RẢI LỊCH TIẾN THÔNG MINH + GỬI THÔNG BÁO REAL-TIME VỀ ADMIN
     function datLichCoDinhHangLoat() {
         let ten = document.getElementById('fixedHoTen').value.trim();
         let sdt = document.getElementById('fixedSdt').value.trim();
@@ -831,7 +828,6 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
-    // LOAD DANH SÁCH LỊCH CỐ ĐỊNH - NÂNG CẤP GỘP THEO TÊN ĐỘI/KHÁCH TRỰC QUAN (REAL-TIME)
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
@@ -844,7 +840,6 @@
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
-            // Bước 1: Quét toàn bộ để tính tần suất đặt ca
             snap.forEach(c => {
                 let item = c.val();
                 item.key = c.key;
@@ -855,13 +850,11 @@
                 bieuDoDem[dinhDanh]++;
             });
 
-            // Bước 2: Lọc các ca hợp lệ và nhóm lại theo Tên Khách/Đội
             let nhomTheoKhach = {};
             mangToanBo.forEach(item => {
                 let dinhDanh = (item.sdt && item.sdt.trim().length === 10) ? item.sdt.trim() : item.ten.trim();
                 
                 if (item.isFixed === true || bieuDoDem[dinhDanh] >= 3) {
-                    // Kiểm tra điều kiện thời gian chưa kết thúc
                     if (item.ngay > ngayHienTai || (item.ngay === ngayHienTai && phutHienTai < toMinutesEnd(item.thoiGian))) {
                         let tenKey = item.ten.trim();
                         if (!nhomTheoKhach[tenKey]) {
@@ -872,11 +865,9 @@
                 }
             });
 
-            // Bước 3: Duyệt qua từng Nhóm Đội để hiển thị lên giao diện dạng thẻ Box ngăn nắp
             for (let tenKhach in nhomTheoKhach) {
                 let danhSachCa = nhomTheoKhach[tenKhach];
                 
-                // Sắp xếp các ca bên trong mỗi đội theo thứ tự thời gian tăng dần
                 danhSachCa.sort((a, b) => {
                     if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
                     return toMinutes(a.thoiGian) - toMinutes(b.thoiGian);
@@ -894,7 +885,7 @@
                 `;
 
                 danhSachCa.forEach(l => {
-                    let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:6px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>` : "";
+                    let buttonHuy = isAdmin ? `<button style="background:var(--accent); color: white; width:auto; padding:4px 10px; border:none; border-radius:8px; font-weight:700; font-size:0.8em; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>` : "";
                     let buoi = getBuoi(l.thoiGian);
                     let parts = l.ngay.split('-');
                     let dinhDangNgay = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : l.ngay;
@@ -922,7 +913,6 @@
         if(document.getElementById('adminPanelFixed')) document.getElementById('adminPanelFixed').style.display = isAd ? 'block' : 'none';
     }
 
-    // CÁC HÀM TIỆN ÍCH THỜI GIAN
     function getVNDateString() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
@@ -987,7 +977,7 @@
         let busyIntervals = [];
         mangLichToanBoHienTai.forEach(l => {
             if (l.san === sanDangChon && l.ngay === ngayDangChon) {
-                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian);
+                let s = Math.max(startMin, toMinutes(l.thoiGian)); let e = Math.min(endMin, toMinutesEnd(l.thoiGian));
                 if (s < e) busyIntervals.push({ start: s, end: e });
             }
         });
