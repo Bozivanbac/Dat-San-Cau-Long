@@ -65,7 +65,7 @@
         
         /* MENU VÀ FORM */
         .tab-navigation { display: flex; flex-wrap: wrap; background: #070a12; padding: 4px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border); gap: 2px; }
-        .tab-btn { flex: 1; min-width: 75px; padding: 12px 2px; background: transparent; color: var(--text-muted); border: none; border-radius: 12px; cursor: pointer; font-size: 0.75em; font-weight: 700; text-align: center; white-space: nowrap; }
+        .tab-btn { flex: 1; min-width: 65px; padding: 10px 2px; background: transparent; color: var(--text-muted); border: none; border-radius: 12px; cursor: pointer; font-size: 0.72em; font-weight: 700; text-align: center; white-space: nowrap; }
         .tab-btn.active { background: #1e293b; color: var(--primary); border: 1px solid rgba(6, 182, 212, 0.2); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -343,7 +343,7 @@
                 <option value="thang">Rải trọn vẹn theo Tháng Dương Lịch</option>
             </select>
 
-            <!-- Khung 1: Theo Tháng (Mặc định ẩn) -->
+            <!-- Khung 1: Theo Tháng -->
             <div id="khungTheoThang" style="display: none; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Chọn Tháng</label>
@@ -358,7 +358,7 @@
                 </div>
             </div>
 
-            <!-- Khung 2: Theo Số Tuần (Mặc định hiện) -->
+            <!-- Khung 2: Theo Số Tuần -->
             <div id="khungTheoTuan" style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Ngày áp dụng (Bắt đầu quét tiến từ ngày này)</label>
@@ -407,7 +407,7 @@
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
             <h3 style="color: var(--highlight); border-bottom: 1px solid var(--border); padding-bottom: 8px;">🔒 TỔNG HỢP KHUNG GIỜ CỐ ĐỊNH DÀI HẠN</h3>
-            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Danh sách hiển thị toàn bộ các ca chơi cố định tuần/tháng của các CLB để người đặt tự do chủ động tránh trùng giờ.</p>
+            <p style="font-size:0.8em; color: var(--text-muted); margin-bottom: 15px; line-height:1.4;">Danh sách tự động gom và hiển thị toàn bộ lịch đã đặt có tần suất từ 3 buổi trở lên trong hệ thống để tránh trùng ca.</p>
             <div id="danhSachCoDinh"><p style="text-align: center; color: var(--text-muted); font-size: 0.9em;">Đang tải lịch cố định...</p></div>
         </div>
     </div>
@@ -591,7 +591,7 @@
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || !user.hoTen || !navigator.serviceWorker || !navigator.serviceWorker.controller) return;
         navigator.serviceWorker.controller.postMessage({
-            type: 'SYNC_DATA', user: user, mangLich: mangLichToToanBoHienTai, ngayHienTai: getVNDateString()
+            type: 'SYNC_DATA', user: user, mangLich: mangLichToanBoHienTai, ngayHienTai: getVNDateString()
         });
     }
 
@@ -664,9 +664,7 @@
         tinhGiaCoDinhDuKien();
     }
 
-    // ======================================================================
-    // THUẬT TOÁN TỰ ĐỘNG TÍNH TOÁN GIÁ TIỀN CHO KHUNG CỐ ĐỊNH DỰ KIẾN
-    // ======================================================================
+    // TỰ ĐỘNG TÍNH TOÁN GIÁ TIỀN CHO KHUNG CỐ ĐỊNH DỰ KIẾN
     function tinhGiaCoDinhDuKien() {
         let san = document.getElementById('fixedSan').value;
         let gioVao = document.getElementById('fixedGioVao').value;
@@ -718,7 +716,6 @@
             }
         }
 
-        // LUẬT GIÁ: Cố định chọn chơi từ 3 ngày trở lên trong tuần tính 60k/h. Ít hơn tính 70k/h.
         let giaMoiTieng = 70;
         if (cacThu.length >= 3) {
             giaMoiTieng = 60;
@@ -728,9 +725,7 @@
         document.getElementById('fixedEstimatedPrice').innerText = Math.round(thanhTienKhauHao).toLocaleString('vi-VN') + " đ (" + tongSoCaChơi + " ca)";
     }
 
-    // ======================================================================
     // THUẬT TOÁN RẢI LỊCH TIẾN THÔNG MINH + GỬI THÔNG BÁO REAL-TIME VỀ ADMIN
-    // ======================================================================
     function datLichCoDinhHangLoat() {
         let ten = document.getElementById('fixedHoTen').value.trim();
         let sdt = document.getElementById('fixedSdt').value.trim();
@@ -799,20 +794,35 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
-    // ======================================================================
-    // LOAD TOÀN BỘ DANH SÁCH LỊCH CỐ ĐỊNH TỰ ĐỘNG CẬP NHẬT Ở TAB 2 (REAL-TIME)
-    // ======================================================================
+    // LOAD TOÀN BỘ DANH SÁCH LỊCH CỐ ĐỊNH - TỰ ĐỘNG NHẬN DIỆN 3 BUỔI TRỞ LÊN (REAL-TIME)
     function loadLichCoDinhTongHop() {
         db.ref('lichDatCauLong').on('value', snap => {
-            let htmlAllCoDinh = ""; let mangCoDinh = [];
+            let htmlAllCoDinh = ""; 
+            let mangToanBo = [];
+            let bieuDoDem = {}; 
             let isAdmin = localStorage.getItem('isAdmin') === 'true';
 
+            // Bước 1: Quét toàn bộ để đếm tần suất ca chơi của từng khách
             snap.forEach(c => {
                 let item = c.val();
-                if (item.isFixed === true) { item.key = c.key; mangCoDinh.push(item); }
+                item.key = c.key;
+                mangToanBo.push(item);
+
+                let dinhDanh = (item.sdt && item.sdt.trim().length === 10) ? item.sdt.trim() : item.ten.trim();
+                if (!bieuDoDem[dinhDanh]) bieuDoDem[dinhDanh] = 0;
+                bieuDoDem[dinhDanh]++;
             });
 
-            // Sắp xếp lịch cố định tăng dần theo thứ tự ngày tháng và giờ chơi
+            // Bước 2: Lọc ra các ca có isFixed=true HOẶC tổng số buổi đặt của người đó >= 3 ca
+            let mangCoDinh = [];
+            mangToanBo.forEach(item => {
+                let dinhDanh = (item.sdt && item.sdt.trim().length === 10) ? item.sdt.trim() : item.ten.trim();
+                if (item.isFixed === true || bieuDoDem[dinhDanh] >= 3) {
+                    mangCoDinh.push(item);
+                }
+            });
+
+            // Bước 3: Sắp xếp danh sách cố định theo thời gian tăng dần
             mangCoDinh.sort((a, b) => {
                 if (a.ngay !== b.ngay) return a.ngay.localeCompare(b.ngay);
                 return toMinutes(a.thoiGian) - toMinutes(b.thoiGian);
