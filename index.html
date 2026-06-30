@@ -251,7 +251,6 @@
         <marquee id="liveTicker" behavior="scroll" direction="left" scrollamount="5">Đang tải dữ liệu tìm sân trống...</marquee>
     </div>
     
-    <!-- HỆ THỐNG MENU TÁP ĐÓNG KHUNG CARD ĐỘC LẬP CHẮC CHẮN THEO ẢNH MẪU -->
     <div class="tab-navigation">
         <button class="tab-btn active" onclick="switchTab(event, 'dat-san')">📝 ĐẶT SÂN</button>
         <button class="tab-btn" onclick="switchTab(event, 'lich-co-dinh')">🔒 LỊCH CỐ ĐỊNH</button>
@@ -260,7 +259,6 @@
         <button class="tab-btn" onclick="switchTab(event, 'noi-quy')">📋 NỘI QUY</button>
     </div>
 
-    <!-- TAB 1: ĐẶT SÂN & DANH SÁCH LỊCH SỬ TRONG NGÀY -->
     <div id="dat-san" class="tab-content active">
         <div class="box">
             <h3 style="color:var(--primary);">THÔNG TIN ĐẶT SÂN</h3>
@@ -331,7 +329,6 @@
         <div class="section-title">CHI TIẾT CÁC LỊCH ĐÃ ĐẶT TRONG NGÀY</div>
         <div id="tongHopDanhSach"></div>
 
-        <!-- ================= KHU VỰC ĐẶT CỐ ĐỊNH TỰ ĐỘNG (CHỈ ADMIN THẤY) ================= -->
         <div id="adminPanelFixed" class="admin-edit-panel">
             <h3 style="color: var(--primary); margin-top: 0;">⚡ BỘ RẢI LỊCH CỐ ĐỊNH TỰ ĐỘNG</h3>
             <label>Họ và tên khách cố định</label>
@@ -364,7 +361,6 @@
                 <option value="thang">Rải trọn vẹn theo Tháng Dương Lịch</option>
             </select>
 
-            <!-- Khung 1: Theo Tháng -->
             <div id="khungTheoThang" style="display: none; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Chọn Tháng</label>
@@ -379,7 +375,6 @@
                 </div>
             </div>
 
-            <!-- Khung 2: Theo Số Tuần -->
             <div id="khungTheoTuan" style="display: flex; gap: 10px;">
                 <div style="flex: 1;">
                     <label>Ngày áp dụng (Bắt đầu quét tiến từ ngày này)</label>
@@ -415,8 +410,6 @@
 
             <button onclick="datLichCoDinhHangLoat()" class="action-btn" style="padding: 12px; font-size: 0.9em; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff;">XÁC NHẬN RẢI LỊCH HỆ THỐNG</button>
         </div>
-        <!-- ====================================================================== -->
-
         <div class="zalo-group-box">
             <div class="zalo-title">Tham Gia Nhóm Zalo Phúc An</div>
             <div class="zalo-desc">Quét mã QR để tham gia nhóm giao lưu nhen!</div>
@@ -424,7 +417,6 @@
         </div>
     </div>
 
-    <!-- TAB 2: QUẢN LÝ LỊCH TRÌNH 2 SÂN SONG HÀNH THEO KHỐI TUẦN -->
     <div id="lich-co-dinh" class="tab-content">
         <div class="box">
             <div class="live-sync-indicator">
@@ -433,7 +425,6 @@
             
             <h3 style="color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-top: 5px;">📊 ĐỘ PHỦ KÍN LỊCH ĐÃ ĐẶT</h3>
             
-            <!-- Khu vực Thanh tiến trình trực quan -->
             <div class="fixed-capacity-box">
                 <div id="progressTextS1" class="fixed-progress-text"><span>📋 Sân số 1: Đang quét...</span><span>0%</span></div>
                 <div class="fixed-progress-container"><div id="progressBarS1" class="fixed-progress-bar"></div></div>
@@ -441,7 +432,6 @@
                 <div class="fixed-progress-container" style="margin-bottom: 5px;"><div id="progressBarS2" class="fixed-progress-bar" style="background: linear-gradient(90deg, #f59e0b 0%, #06b6d4 100%);"></div></div>
             </div>
 
-            <!-- BỘ BẢNG LỌC ĐỂ XEM LỊCH THEO TUẦN TRỰC QUAN -->
             <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 12px; border-radius: 14px; margin-bottom: 20px; margin-top: 10px;">
                 <h4 style="margin: 0 0 10px 0; font-size: 0.8em; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🔍 Bộ lọc lịch biểu tuần nâng cao</h4>
                 <div style="display: flex; gap: 10px;">
@@ -452,14 +442,12 @@
                 </div>
             </div>
 
-            <!-- Nơi hiển thị các khối tuần động từ Firebase -->
             <div id="weeklyTrackerDashboard">
                 <p style="color: var(--text-muted); font-size: 0.85em; padding-left: 5px;">Đang phân bổ dữ liệu tuần...</p>
             </div>
         </div>
     </div>
 
-    <!-- TAB 3: BẢNG TIN KHUYẾN MÃI -->
     <div id="bang-tin" class="tab-content">
         <div id="adminPanelNews" class="admin-edit-panel">
             <h3 style="color: var(--highlight); margin-top: 0;">✍️ ĐĂNG THÔNG BÁO / KHUYẾN MÃI</h3>
@@ -475,7 +463,6 @@
         </div>
     </div>
 
-    <!-- TAB 4: BẢNG GIÁ -->
     <div id="bang-gia" class="tab-content">
         <div class="box">
             <h3>TỪ THỨ 2 ĐẾN THỨ 6</h3>
@@ -492,7 +479,6 @@
         </div>
     </div>
 
-    <!-- TAB 5: NỘI QUY -->
     <div id="noi-quy" class="tab-content">
         <div class="rules-wrapper">
             <div class="rule-card">
@@ -669,6 +655,7 @@
         tinhGiaCoDinhDuKien();
     }
 
+    // KHỞI TẠO DROPDOWN THÁNG
     function initMonthsDropdown() {
         let select = document.getElementById('fixedThang'); if(!select) return; select.innerHTML = "";
         for(let i = 1; i <= 12; i++) {
@@ -772,7 +759,7 @@
                     let chuoiNgay = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
                     danhSachSanRai.forEach(s => {
                         db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian, isFixed: true }).then(() => {
-                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (THÁNG)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n🎯 <b>Sân:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Giờ:</b> ${thoiGian}`;
+                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (THÁNG)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n📞 <b>SĐT:</b> ${sdt}\n🎯 <b>Sân:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Giờ:</b> ${thoiGian}`;
                             guiThongBaoTelegram(textTelegram);
                         });
                         countBooked++;
@@ -793,7 +780,7 @@
                     let chuoiNgay = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
                     danhSachSanRai.forEach(s => {
                         db.ref('lichDatCauLong').push({ ten: ten, sdt: sdt, san: s, ngay: chuoiNgay, thoiGian: thoiGian, isFixed: true }).then(() => {
-                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (GÓI TUẦN)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n🎯 <b>Sân:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Giờ:</b> ${thoiGian}`;
+                            let textTelegram = `⚡ <b>LỊCH CỐ ĐỊNH MỚI (GÓI TUẦN)</b> ⚡\n\n👤 <b>Khách hàng:</b> ${ten}\n📞 <b>SĐT:</b> ${sdt}\n🎯 <b>Sân:</b> ${s}\n📆 <b>Ngày:</b> ${chuoiNgay}\n⏰ <b>Giờ:</b> ${thoiGian}`;
                             guiThongBaoTelegram(textTelegram);
                         });
                         countBooked++;
@@ -1112,7 +1099,7 @@
             else {
                 db.ref('lichDatCauLong').push({ ten: user.hoTen, sdt: user.sdt, san: san, ngay: ngay, thoiGian: thoiGianDaChuanHoa }).then(() => {
                     hienThiPopup("Đặt sân thành công!", "ĐẶT SÂN THÀNH CÔNG");
-                    let textTelegram = `🏸 <b>ĐẶT SÂN MỚI</b> 🏸\n\n👤 <b>Khách:</b> ${user.hoTen}\n🎯 <b>Sân:</b> ${san}\n📆 <b>Ngày:</b> ${ngay}\n⏰ <b>Giờ:</b> ${thoiGianDaChuanHoa}\n💵 <b>Giá:</b> ${giaHienTaiTxt}`;
+                    let textTelegram = `🏸 <b>ĐẶT SÂN MỚI</b> 🏸\n\n👤 <b>Khách:</b> ${user.hoTen}\n📞 <b>SĐT:</b> ${user.sdt}\n🎯 <b>Sân:</b> ${san}\n📆 <b>Ngày:</b> ${ngay}\n⏰ <b>Giờ:</b> ${thoiGianDaChuanHoa}\n💵 <b>Giá:</b> ${giaHienTaiTxt}`;
                     guiThongBaoTelegram(textTelegram); document.getElementById('thoiGian').value = '';
                 });
             }
