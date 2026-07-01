@@ -200,6 +200,16 @@
         .promo-body { color: #cbd5e1; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; }
         .admin-edit-panel { display: none; background: rgba(245, 158, 11, 0.03); border: 1px dashed var(--highlight); padding: 15px; border-radius: 16px; margin-bottom: 25px; }
 
+        /* BẢNG GIÁ & NỘI QUY */
+        .rules-wrapper { display: flex; flex-direction: column; gap: 15px; }
+        .rule-card { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+        .rule-card-header { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 0.95em; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; }
+        .rule-card-body { font-size: 0.9em; color: #cbd5e1; line-height: 1.6; }
+        .price-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border); gap: 10px; }
+        .price-row:last-child { border-bottom: none; }
+        .price-tag { background: rgba(6, 182, 212, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.9em; white-space: nowrap; }
+        .price-tag.student { background: rgba(245, 158, 11, 0.15); color: var(--highlight); border: 1px dashed rgba(245, 158, 11, 0.4); }
+
         /* POPUP */
         .cyber-popup-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -223,16 +233,6 @@
         .zalo-title { color: white; font-weight: 900; font-size: 1.25em; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .zalo-desc { color: rgba(255, 255, 255, 0.95); font-size: 0.85em; margin-bottom: 16px; line-height: 1.5; padding: 0 15px; }
         .zalo-qr-img { width: 180px; height: 180px; border-radius: 20px; border: 6px solid white; box-shadow: 0 12px 30px rgba(0,0,0,0.4); object-fit: contain; background: white; display: block; margin: 0 auto; }
-
-        /* BẢNG GIÁ & NỘI QUY */
-        .rules-wrapper { display: flex; flex-direction: column; gap: 15px; }
-        .rule-card { background: #070a12; border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-        .rule-card-header { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 0.95em; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; }
-        .rule-card-body { font-size: 0.9em; color: #cbd5e1; line-height: 1.6; }
-        .price-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--border); gap: 10px; }
-        .price-row:last-child { border-bottom: none; }
-        .price-tag { background: rgba(6, 182, 212, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.9em; white-space: nowrap; }
-        .price-tag.student { background: rgba(245, 158, 11, 0.15); color: var(--highlight); border: 1px dashed rgba(245, 158, 11, 0.4); }
 
         .developer-footer { text-align: center; margin-top: 30px; font-size: 0.75em; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .developer-footer span { color: var(--primary); }
@@ -838,7 +838,7 @@
                 allDatabaseItems.push(item);
             });
 
-            // 2. Tính toán thanh phần trăm (%) công suất cuốn chiếu 7 ngày tới
+            // 2. Tính toán thanh phần chậm (%) công suất cuốn chiếu 7 ngày tới
             let futureDates = [];
             for(let i = 0; i < 7; i++) {
                 let d = new Date(); d.setDate(d.getDate() + i);
@@ -896,7 +896,6 @@
                         let detailsS1 = appsS1.map(ap => {
                             let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
                             
-                            // THÊM NÚT ĐỔI SÂN CHO ADMIN TRÊN LỊCH TUẦN/CỐ ĐỊNH (SÂN 1)
                             let changeSanBtn = isAdmin ? `<button style="background:var(--primary); color:#05080f; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px; font-weight:700;" onclick="doiSanAdmin('${ap.key}', '${ap.san}', '${ap.thoiGian}', '${ap.ngay}')">Đổi Sân</button>` : "";
                             let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
                             
@@ -913,7 +912,6 @@
                         let detailsS2 = appsS2.map(ap => {
                             let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
                             
-                            // THÊM NÚT ĐỔI SÂN CHO ADMIN TRÊN LỊCH TUẦN/CỐ ĐỊNH (SÂN 2)
                             let changeSanBtn = isAdmin ? `<button style="background:var(--primary); color:#05080f; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px; font-weight:700;" onclick="doiSanAdmin('${ap.key}', '${ap.san}', '${ap.thoiGian}', '${ap.ngay}')">Đổi Sân</button>` : "";
                             let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
                             
@@ -1127,7 +1125,6 @@
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>`;
                 
-                // TÍNH NĂNG ĐỔI SÂN NHANH CHO ADMIN TRÊN DANH SÁCH LỊCH NGÀY
                 let buttonDoiSan = isAdmin ? `<button style="background:var(--primary); color: #05080f; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer; margin-right:6px;" onclick="doiSanAdmin('${l.key}', '${l.san}', '${l.thoiGian}', '${l.ngay}')">Đổi Sân</button>` : "";
                 
                 let buoi = getBuoi(l.thoiGian); let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
@@ -1141,7 +1138,7 @@
         });
     }
 
-    // HÀM XỬ LÝ ĐỔI SÂN THỜI GIAN THỰC (DÙNG CHUNG CHO CẢ 2 DANH SÁCH LỊCH NGÀY & LỊCH TUẦN/CỐ ĐỊNH)
+    // HÀM XỬ LÝ ĐỔI SÂN THỜI GIAN THỰC (DÙNG CHUNG CHO CẢ LỊCH NGÀY VÀ LỊCH TUẦN/CỐ ĐỊNH)
     function doiSanAdmin(key, currentSan, thoiGianStr, targetNgay) {
         if (localStorage.getItem('isAdmin') !== 'true') return;
         let targetSan = currentSan === "Sân số 1" ? "Sân số 2" : "Sân số 1";
@@ -1149,7 +1146,6 @@
         let sMin = toMinutes(thoiGianStr);
         let eMin = toMinutesEnd(thoiGianStr);
         
-        // Quét trực tiếp Firebase để kiểm tra độ trùng lịch tại ngày cụ thể của ca đấu
         db.ref('lichDatCauLong').orderByChild('ngay').equalTo(targetNgay).once('value', snap => {
             let isOverlapping = false;
             snap.forEach(c => {
