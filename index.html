@@ -655,7 +655,7 @@
         tinhGiaCoDinhDuKien();
     }
 
-    // KHỞI TẠO DROPDOWN THÁNG
+    // KHỔI TẠO DROPDOWN THÁNG
     function initMonthsDropdown() {
         let select = document.getElementById('fixedThang'); if(!select) return; select.innerHTML = "";
         for(let i = 1; i <= 12; i++) {
@@ -1119,7 +1119,13 @@
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>`;
                 let buoi = getBuoi(l.thoiGian); let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
-                htmlAllSan += `<div class="list-item"><span><b style="color:var(--highlight);">${l.san}</b> | <b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>${liveBadge}<br>${l.ten} ${info}</span>${buttonHuy}</div>`;
+                
+                // THÊM NHÃN ĐỂ BIẾT ĐƠN NÀO LÀ CỐ ĐỊNH / LẺ TẠI ĐÂY
+                let loaiLichBadge = l.isFixed === true ? 
+                    `<span class="live-status-badge" style="background: rgba(6, 182, 212, 0.15); color: var(--primary);">🔒 Cố định</span>` : 
+                    `<span class="live-status-badge" style="background: rgba(245, 158, 11, 0.1); color: var(--highlight);">👤 Lẻ</span>`;
+                
+                htmlAllSan += `<div class="list-item"><span><b style="color:var(--highlight);">${l.san}</b> | <b style="color:var(--primary);">${l.thoiGian} ${buoi}</b>${liveBadge}${loaiLichBadge}<br>${l.ten} ${info}</span>${buttonHuy}</div>`;
             });
             document.getElementById('tongHopDanhSach').innerHTML = htmlAllSan || "<p style='text-align:center; color:var(--text-muted); padding: 10px 0;'>Hôm nay chưa có lịch đặt nào</p>";
         });
