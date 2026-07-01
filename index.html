@@ -63,7 +63,7 @@
         .ticker-container marquee { font-size: 0.85em; font-weight: 600; color: #cbd5e1; }
         .ticker-item { margin-right: 35px; display: inline-block; }
         
-        /* ĐÓNG KHUNG MENU TÁP LƯỚI CARD ĐỘC LẬP THEO ẢNH */
+        /* MENU TÁP LƯỚI CARD ĐỘC LẬP */
         .tab-navigation { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -89,7 +89,6 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.4);
             transition: all 0.2s ease;
         }
-        /* Phân tách nút đặt sân nằm trọn dòng đầu giống ảnh mẫu */
         .tab-btn:first-child {
             grid-column: span 2;
             font-size: 0.95em;
@@ -482,12 +481,24 @@
     <div id="noi-quy" class="tab-content">
         <div class="rules-wrapper">
             <div class="rule-card">
-                <div class="rule-card-header">👟 1. Trang phục & Giày đấu</div>
-                <div class="rule-card-body">Nghiêm cấm giày đế cứng, giày Tây làm bẩn/trầy xước mặt thảm sàn chuyên dụng.</div>
+                <div class="rule-card-header">👟 1. Giày và vợt</div>
+                <div class="rule-card-body">Không đi giày đế cứng, đế màu đen vào sân. Khuyến khích sử dụng giày chuyên thi đấu bộ môn cầu lông.</div>
             </div>
             <div class="rule-card">
-                <div class="rule-card-header">⏰ 2. Quy định thời gian & Đặt lịch</div>
-                <div class="rule-card-body">Mọi sự cố muốn hủy ca hoặc đổi giờ chơi phải báo trước ít nhất 60 phút qua Hotline.</div>
+                <div class="rule-card-header">👶 2. Trẻ em</div>
+                <div class="rule-card-body">Khi có trẻ nhỏ đi cùng, phải tự quản lý trẻ, tránh để trẻ chạy vào sân khi có người đang chơi, gây mất an toàn cho trẻ và người chơi.</div>
+            </div>
+            <div class="rule-card">
+                <div class="rule-card-header">💵 3. Thuê sân</div>
+                <div class="rule-card-body">Liên hệ thuê sân tại quầy, thuê sân nào tập sân đó, vào sân tập không mở đèn vẫn tính tiền .v.v... do chi phí vệ sinh và bảo trì sân.</div>
+            </div>
+            <div class="rule-card">
+                <div class="rule-card-header">🎒 4. Tài sản và vệ sinh</div>
+                <div class="rule-card-body">Tự bảo quản tài sản cá nhân, giữ gìn vệ sinh chung thực hiện nếp sống văn minh nơi công cộng.</div>
+            </div>
+            <div class="rule-card">
+                <div class="rule-card-header">🚫 5. Cấm</div>
+                <div class="rule-card-body">Không hút thuốc và dùng chất kích thích.</div>
             </div>
         </div>
     </div>
@@ -655,7 +666,6 @@
         tinhGiaCoDinhDuKien();
     }
 
-    // KHỔI TẠO DROPDOWN THÁNG
     function initMonthsDropdown() {
         let select = document.getElementById('fixedThang'); if(!select) return; select.innerHTML = "";
         for(let i = 1; i <= 12; i++) {
@@ -804,7 +814,6 @@
         });
     }
 
-    // THUẬT TOÁN TỰ ĐỘNG CHIA TUẦN CHO THÁNG DƯƠNG LỊCH
     function getWeeksOfMonth(month, year) {
         let weeks = []; let lastDay = new Date(year, month, 0).getDate(); let currentWeek = [];
         for (let d = 1; d <= lastDay; d++) {
@@ -814,7 +823,7 @@
         return weeks;
     }
 
-    // TAB 2: ĐỒNG BỘ REAL-TIME ĐỒNG THỜI CẢ 2 SÂN PHÂN THEO TUẦN TRỰC QUAN
+    // TAB 2: ĐỒNG BỘ REAL-TIME ĐỒNG THỜI CẢ 2 SÂN
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
@@ -826,7 +835,6 @@
             const bayGio = new Date();
             const phutHienTai = (bayGio.getHours() * 60) + bayGio.getMinutes();
 
-            // 1. Quét dọn các ca cũ đã đánh xong theo chu trình hệ thống thời gian thực
             snap.forEach(c => {
                 let item = c.val(); item.key = c.key;
                 let laCaDaXong = (item.ngay < ngayHienTai) || (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian));
@@ -838,7 +846,6 @@
                 allDatabaseItems.push(item);
             });
 
-            // 2. Tính toán thanh phần chậm (%) công suất cuốn chiếu 7 ngày tới
             let futureDates = [];
             for(let i = 0; i < 7; i++) {
                 let d = new Date(); d.setDate(d.getDate() + i);
@@ -859,7 +866,6 @@
             document.getElementById('progressBarS2').style.width = percentS2 + '%';
             document.getElementById('progressTextS2').innerHTML = `<span>📋 Sân số 2: Đã đặt ${percentS2}% tuần tới</span> <span>(${Math.round(s2FixedMinutes/60)} giờ)</span>`;
 
-            // 3. XỬ LÝ CHIA LỊCH TUẦN - ĐỒNG THỜI HIỂN THỊ CẢ SÂN 1 VÀ SÂN 2 CÙNG LÚC
             const selectFilterVal = document.getElementById('trackerMonth').value;
             if(!selectFilterVal) return;
             const [filterYear, filterMonth] = selectFilterVal.split('-').map(Number);
@@ -882,45 +888,37 @@
                     let displayDayStr = `${dd}/${mm}`;
                     let nameThu = thuTextArray[dayObj.getDay()];
 
-                    // Lọc tìm lịch của từng sân đấu riêng lẻ trong ngày
                     let appsS1 = allDatabaseItems.filter(item => item.ngay === loopDateStr && item.san === "Sân số 1");
                     let appsS2 = allDatabaseItems.filter(item => item.ngay === loopDateStr && item.san === "Sân số 2");
                     appsS1.sort((a, b) => toMinutes(a.thoiGian) - toMinutes(b.thoiGian));
                     appsS2.sort((a, b) => toMinutes(a.thoiGian) - toMinutes(b.thoiGian));
 
-                    // Xử lý khối giao diện Sân số 1
                     let htmlS1 = "";
                     if (appsS1.length === 0) {
                         htmlS1 = `<div><span style="color: var(--success); font-weight:700; font-size:0.88em;">🏟️ Sân 1:</span> <span style="color: var(--text-muted); font-size:0.85em;">🟢 Trống hoàn toàn</span></div>`;
                     } else {
                         let detailsS1 = appsS1.map(ap => {
                             let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
-                            
                             let changeSanBtn = isAdmin ? `<button style="background:var(--primary); color:#05080f; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px; font-weight:700;" onclick="doiSanAdmin('${ap.key}', '${ap.san}', '${ap.thoiGian}', '${ap.ngay}')">Đổi Sân</button>` : "";
                             let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
-                            
                             return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span><div>${changeSanBtn}${delBtn}</div></div>`;
                         }).join("");
                         htmlS1 = `<div><span style="color: var(--accent); font-weight:800; font-size:0.88em;">🏟️ Sân 1:</span> <span style="color: var(--accent); font-weight:700; font-size:0.85em;">🔴 Đã kín ${appsS1.length} ca</span><div class="day-inside-appointments">${detailsS1}</div></div>`;
                     }
 
-                    // Xử lý khối giao diện Sân số 2
                     let htmlS2 = "";
                     if (appsS2.length === 0) {
                         htmlS2 = `<div style="margin-top:8px; border-top:1px dashed rgba(255,255,255,0.03); padding-top:6px;"><span style="color: var(--success); font-weight:700; font-size:0.88em;">🏟️ Sân 2:</span> <span style="color: var(--text-muted); font-size:0.85em;">🟢 Trống hoàn toàn</span></div>`;
                     } else {
                         let detailsS2 = appsS2.map(ap => {
                             let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
-                            
                             let changeSanBtn = isAdmin ? `<button style="background:var(--primary); color:#05080f; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px; font-weight:700;" onclick="doiSanAdmin('${ap.key}', '${ap.san}', '${ap.thoiGian}', '${ap.ngay}')">Đổi Sân</button>` : "";
                             let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
-                            
                             return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span><div>${changeSanBtn}${delBtn}</div></div>`;
                         }).join("");
                         htmlS2 = `<div style="margin-top:8px; border-top:1px dashed rgba(255,255,255,0.03); padding-top:6px;"><span style="color: var(--highlight); font-weight:800; font-size:0.88em;">🏟️ Sân 2:</span> <span style="color: var(--highlight); font-weight:700; font-size:0.85em;">🔴 Đã kín ${appsS2.length} ca</span><div class="day-inside-appointments">${detailsS2}</div></div>`;
                     }
 
-                    // Đóng gói 2 sân vào cùng 1 ngày lịch biểu
                     htmlDaysInsideWeek += `
                         <div class="day-timeline-row" style="background: rgba(255,255,255,0.01); margin-bottom: 8px; padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.02);">
                             <div class="day-headline-title" style="font-size:0.9em; font-weight:800; color:#e2e8f0; margin-bottom: 8px;">📅 ${nameThu} (${displayDayStr})</div>
@@ -1124,7 +1122,6 @@
             mangLichToanBoHienTai.forEach(l => {
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>`;
-                
                 let buttonDoiSan = isAdmin ? `<button style="background:var(--primary); color: #05080f; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer; margin-right:6px;" onclick="doiSanAdmin('${l.key}', '${l.san}', '${l.thoiGian}', '${l.ngay}')">Đổi Sân</button>` : "";
                 
                 let buoi = getBuoi(l.thoiGian); let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
@@ -1138,21 +1135,17 @@
         });
     }
 
-    // HÀM XỬ LÝ ĐỔI SÂN THỜI GIAN THỰC (DÙNG CHUNG CHO CẢ LỊCH NGÀY VÀ LỊCH TUẦN/CỐ ĐỊNH)
     function doiSanAdmin(key, currentSan, thoiGianStr, targetNgay) {
         if (localStorage.getItem('isAdmin') !== 'true') return;
         let targetSan = currentSan === "Sân số 1" ? "Sân số 2" : "Sân số 1";
-        
-        let sMin = toMinutes(thoiGianStr);
-        let eMin = toMinutesEnd(thoiGianStr);
+        let sMin = toMinutes(thoiGianStr); let eMin = toMinutesEnd(thoiGianStr);
         
         db.ref('lichDatCauLong').orderByChild('ngay').equalTo(targetNgay).once('value', snap => {
             let isOverlapping = false;
             snap.forEach(c => {
                 let l = c.val();
                 if (l.san === targetSan) {
-                    let lsMin = toMinutes(l.thoiGian);
-                    let leMin = toMinutesEnd(l.thoiGian);
+                    let lsMin = toMinutes(l.thoiGian); let leMin = toMinutesEnd(l.thoiGian);
                     if (sMin < leMin && eMin > lsMin) isOverlapping = true;
                 }
             });
@@ -1217,7 +1210,6 @@
         hienThiPopup("Đã lưu thông tin khách thành công!", "HỆ THỐNG GHI NHẬN"); dongBoDuLieuVaoServiceWorker();
     }
 
-    // Kích hoạt Admin quản trị
     function kichHoatAdmin() {
         let pass = prompt("Nhập mã Admin:");
         if (pass === "PhucAn2026$") { 
@@ -1240,7 +1232,6 @@
         loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        // Vòng lặp quét Real-time liên tục
         setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
     };
 </script>
