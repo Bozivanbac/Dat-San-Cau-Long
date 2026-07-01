@@ -895,8 +895,12 @@
                     } else {
                         let detailsS1 = appsS1.map(ap => {
                             let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
+                            
+                            // THÊM NÚT ĐỔI SÂN CHO ADMIN TRÊN LỊCH TUẦN/CỐ ĐỊNH (SÂN 1)
+                            let changeSanBtn = isAdmin ? `<button style="background:var(--primary); color:#05080f; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px; font-weight:700;" onclick="doiSanAdmin('${ap.key}', '${ap.san}', '${ap.thoiGian}', '${ap.ngay}')">Đổi Sân</button>` : "";
                             let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
-                            return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span>${delBtn}</div>`;
+                            
+                            return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span><div>${changeSanBtn}${delBtn}</div></div>`;
                         }).join("");
                         htmlS1 = `<div><span style="color: var(--accent); font-weight:800; font-size:0.88em;">🏟️ Sân 1:</span> <span style="color: var(--accent); font-weight:700; font-size:0.85em;">🔴 Đã kín ${appsS1.length} ca</span><div class="day-inside-appointments">${detailsS1}</div></div>`;
                     }
@@ -908,8 +912,12 @@
                     } else {
                         let detailsS2 = appsS2.map(ap => {
                             let tagBadge = ap.isFixed === true ? `<span style="color:var(--primary); font-weight:800; font-size:0.85em;">[🔒CĐ]</span>` : `<span style="color:var(--highlight); font-weight:800; font-size:0.85em;">[👤Lẻ]</span>`;
+                            
+                            // THÊM NÚT ĐỔI SÂN CHO ADMIN TRÊN LỊCH TUẦN/CỐ ĐỊNH (SÂN 2)
+                            let changeSanBtn = isAdmin ? `<button style="background:var(--primary); color:#05080f; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px; font-weight:700;" onclick="doiSanAdmin('${ap.key}', '${ap.san}', '${ap.thoiGian}', '${ap.ngay}')">Đổi Sân</button>` : "";
                             let delBtn = isAdmin ? `<button style="background:var(--accent); color:white; border:none; padding:2px 6px; border-radius:4px; font-size:0.85em; cursor:pointer; margin-left:6px;" onclick="huy('${ap.key}')">Xóa</button>` : "";
-                            return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span>${delBtn}</div>`;
+                            
+                            return `<div class="compact-ticket"><span>⏱ <b>${ap.thoiGian}</b> - ${ap.ten} ${tagBadge}</span><div>${changeSanBtn}${delBtn}</div></div>`;
                         }).join("");
                         htmlS2 = `<div style="margin-top:8px; border-top:1px dashed rgba(255,255,255,0.03); padding-top:6px;"><span style="color: var(--highlight); font-weight:800; font-size:0.88em;">🏟️ Sân 2:</span> <span style="color: var(--highlight); font-weight:700; font-size:0.85em;">🔴 Đã kín ${appsS2.length} ca</span><div class="day-inside-appointments">${detailsS2}</div></div>`;
                     }
@@ -1119,8 +1127,8 @@
                 let info = isAdmin ? `| 📞 ${l.sdt}` : "";
                 let buttonHuy = `<button style="background:var(--accent); color: white; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer;" onclick="huy('${l.key}')">Xóa</button>`;
                 
-                // TÍNH NĂNG ĐỔI SÂN NHANH CHO ADMIN TRÊN DANH SÁCH LỊCH
-                let buttonDoiSan = isAdmin ? `<button style="background:var(--primary); color: #05080f; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer; margin-right:6px;" onclick="doiSanAdmin('${l.key}', '${l.san}', '${l.thoiGian}')">Đổi Sân</button>` : "";
+                // TÍNH NĂNG ĐỔI SÂN NHANH CHO ADMIN TRÊN DANH SÁCH LỊCH NGÀY
+                let buttonDoiSan = isAdmin ? `<button style="background:var(--primary); color: #05080f; width:auto; padding:6px 14px; border:none; border-radius:8px; font-weight:700; cursor:pointer; margin-right:6px;" onclick="doiSanAdmin('${l.key}', '${l.san}', '${l.thoiGian}', '${l.ngay}')">Đổi Sân</button>` : "";
                 
                 let buoi = getBuoi(l.thoiGian); let liveBadge = taoNhanTrangThaiLive(l.ngay, l.thoiGian);
                 let loaiLichBadge = l.isFixed === true ? 
@@ -1133,35 +1141,38 @@
         });
     }
 
-    // HÀM XỬ LÝ ĐỔI SÂN TRỰC TIẾP KHÔNG CẦN XÓA ĐẶT LẠI
-    function doiSanAdmin(key, currentSan, thoiGianStr) {
+    // HÀM XỬ LÝ ĐỔI SÂN THỜI GIAN THỰC (DÙNG CHUNG CHO CẢ 2 DANH SÁCH LỊCH NGÀY & LỊCH TUẦN/CỐ ĐỊNH)
+    function doiSanAdmin(key, currentSan, thoiGianStr, targetNgay) {
         if (localStorage.getItem('isAdmin') !== 'true') return;
         let targetSan = currentSan === "Sân số 1" ? "Sân số 2" : "Sân số 1";
         
         let sMin = toMinutes(thoiGianStr);
         let eMin = toMinutesEnd(thoiGianStr);
-        let isOverlapping = false;
         
-        // Quét kiểm tra xem sân đối diện có bị trùng khung giờ này không
-        mangLichToanBoHienTai.forEach(l => {
-            if (l.san === targetSan) {
-                let lsMin = toMinutes(l.thoiGian);
-                let leMin = toMinutesEnd(l.thoiGian);
-                if (sMin < leMin && eMin > lsMin) isOverlapping = true;
+        // Quét trực tiếp Firebase để kiểm tra độ trùng lịch tại ngày cụ thể của ca đấu
+        db.ref('lichDatCauLong').orderByChild('ngay').equalTo(targetNgay).once('value', snap => {
+            let isOverlapping = false;
+            snap.forEach(c => {
+                let l = c.val();
+                if (l.san === targetSan) {
+                    let lsMin = toMinutes(l.thoiGian);
+                    let leMin = toMinutesEnd(l.thoiGian);
+                    if (sMin < leMin && eMin > lsMin) isOverlapping = true;
+                }
+            });
+            
+            if (isOverlapping) {
+                return hienThiPopup(`Không thể đổi lịch sang ${targetSan} ngày ${targetNgay} vì khung giờ này sân đối diện đã bị kín!`, "TRÙNG LỊCH CHƠI");
+            }
+            
+            if (confirm(`Bạn có chắc chắn muốn chuyển lịch ca chơi ngày ${targetNgay} (${thoiGianStr}) từ [${currentSan}] sang [${targetSan}] không?`)) {
+                db.ref('lichDatCauLong/' + key).update({ san: targetSan }).then(() => {
+                    hienThiPopup(`Đã cập nhật dữ liệu! Chuyển thành công ca chơi sang ${targetSan}.`, "ĐỔI SÂN THÀNH CÔNG");
+                }).catch(err => {
+                    hienThiPopup("Lỗi cập nhật hệ thống: " + err.message, "THẤT BẠI");
+                });
             }
         });
-        
-        if (isOverlapping) {
-            return hienThiPopup(`Không thể đổi lịch sang ${targetSan} vì khung giờ này sân đó đã có người đặt!`, "TRÙNG LỊCH CHƠI");
-        }
-        
-        if (confirm(`Bạn có chắc chắn muốn chuyển lịch khung giờ ${thoiGianStr} từ [${currentSan}] sang [${targetSan}] không?`)) {
-            db.ref('lichDatCauLong/' + key).update({ san: targetSan }).then(() => {
-                hienThiPopup(`Đã cập nhật hệ thống! Chuyển thành công sang ${targetSan}.`, "ĐỔI SÂN THÀNH CÔNG");
-            }).catch(err => {
-                hienThiPopup("Lỗi cập nhật Firebase: " + err.message, "THẤT BẠI");
-            });
-        }
     }
 
     function taoNhanTrangThaiLive(targetNgay, thoiGianStr) {
