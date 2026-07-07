@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PHÚC AN BADMINTON</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
+    <link rel="manifest" href="manifest.json">
+
     <style>
         :root { 
             --bg: #090d16; 
@@ -245,6 +247,12 @@
         <div class="brand-sub">Hệ Thống Đặt Sân Tự Động</div>
     </div>
 
+    <div id="pwaInstallBox" style="display: none; padding: 0 5px; margin-bottom: 15px;">
+        <button id="btnInstallPWA" onclick="caiDatAppPWA()" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); color: #05080f; border: none; border-radius: 16px; font-weight: 800; font-size: 0.95em; cursor: pointer; box-shadow: 0 8px 20px rgba(6, 182, 212, 0.2); display: flex; align-items: center; justify-content: center; gap: 8px;">
+            📲 CÀI ĐẶT APP PHÚC AN VỀ MÁY
+        </button>
+    </div>
+
     <div class="ticker-container">
         <div class="ticker-label">LỊCH TRỐNG TRONG NGÀY</div>
         <marquee id="liveTicker" behavior="scroll" direction="left" scrollamount="5">Đang tải dữ liệu tìm sân trống...</marquee>
@@ -473,7 +481,7 @@
             <div class="price-row"><span>🌙 Ca tối (16h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
         <div class="box">
-            <h3 style="color: var(--highlight);">THỨ 7 & CHỦ NHẬT</h3>
+            <h3 style="color: var(--highlight);">THỦ 7 & CHỦ NHẬT</h3>
             <div class="price-row"><span>☀️ Toàn bộ khung giờ (5h - 22h)</span><span class="price-tag">70k / Giờ</span></div>
         </div>
     </div>
@@ -540,6 +548,34 @@
 
     const TELEGRAM_BOT_TOKEN = "8696303368:AAGRsaclHC8BcpIsdXtZ1xGmXA6mRERJ7oQ";
     const TELEGRAM_CHAT_ID = "8349164896";
+
+    // LOGIC XỬ LÝ NÚT TẢI APP TỰ ĐỘNG (PWA PROMPT)
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBox = document.getElementById('pwaInstallBox');
+        if (installBox) installBox.style.display = 'block';
+    });
+
+    function caiDatAppPWA() {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('Khách đã cài app thành công!');
+            }
+            deferredPrompt = null;
+            const installBox = document.getElementById('pwaInstallBox');
+            if (installBox) installBox.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('appinstalled', (evt) => {
+        const installBox = document.getElementById('pwaInstallBox');
+        if (installBox) installBox.style.display = 'none';
+    });
 
     function hienThiPopup(noiDung, tieuDe = "HỆ THỐNG THÔNG BÁO") {
         document.getElementById('popupTitle').innerText = tieuDe;
@@ -845,7 +881,6 @@
                 let laCaDaXongTrongNgay = (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian));
                 let laNgayDaQua = (item.ngay < ngayHienTai);
 
-                // Chỉ lọc bỏ không hiển thị các ca cũ trên giao diện phân bổ tuần, TUYỆT ĐỐI KHÔNG tự tiện chạy lệnh xóa gốc (.remove) tại đây.
                 if (laCaDaXongTrongNgay || laNgayDaQua) {
                     return;
                 }
