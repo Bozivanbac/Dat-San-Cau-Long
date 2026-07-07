@@ -1,0 +1,17 @@
+{
+  "name": "Phúc An Badminton",
+  "short_name": "Phúc An",
+  "description": "Hệ thống đặt sân cầu lông tự động Phúc An",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2877/2877834.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
