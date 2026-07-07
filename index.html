@@ -805,12 +805,17 @@
         tinhGiaCoDinhDuKien(); loadLich(); 
     }
 
-    function xoaLichQuaHan15Ngay() {
+    // TÍNH NĂNG TỰ ĐỘNG DỌN DẸP DỮ LIỆU CŨ QUÁ 10 NGÀY (KỂ CẢ CỐ ĐỊNH)
+    function xoaLichQuaHan10Ngay() {
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
-        let limitDate = new Date(Date.now() - tzoffset - (15 * 24 * 60 * 60 * 1000));
+        let limitDate = new Date(Date.now() - tzoffset - (10 * 24 * 60 * 60 * 1000));
         let limitStr = limitDate.toISOString().slice(0, 10);
         db.ref('lichDatCauLong').orderByChild('ngay').endAt(limitStr).once('value', snap => {
-            snap.forEach(child => { if (child.val().ngay <= limitStr) db.ref('lichDatCauLong/' + child.key).remove(); });
+            snap.forEach(child => { 
+                if (child.val().ngay <= limitStr) {
+                    db.ref('lichDatCauLong/' + child.key).remove(); 
+                }
+            });
         });
     }
 
@@ -823,7 +828,7 @@
         return weeks;
     }
 
-    // TAB 2: ĐỒNG BỘ REAL-TIME ĐỒNG THỜI CẢ 2 SÂN
+    // TAB 2: ĐỒNG BỘ REAL-TIME ĐỒNG THỜI CẢ 2 SÂN (KHÔNG XÓA DỮ LIỆU NHẦM TẠI ĐÂY)
     function loadLichCoDinhTongHop() {
         if (fixedFirebaseListener) db.ref('lichDatCauLong').off('value', fixedFirebaseListener);
         fixedFirebaseListener = db.ref('lichDatCauLong').on('value', snap => {
@@ -837,11 +842,12 @@
 
             snap.forEach(c => {
                 let item = c.val(); item.key = c.key;
-                let laCaDaXong = (item.ngay < ngayHienTai) || (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian));
+                let laCaDaXongTrongNgay = (item.ngay === ngayHienTai && phutHienTai >= toMinutesEnd(item.thoiGian));
+                let laNgayDaQua = (item.ngay < ngayHienTai);
 
-                if (laCaDaXong) {
-                    if (item.isFixed === true) { db.ref('lichDatCauLong/' + item.key).remove(); return; } 
-                    else { return; }
+                // Chỉ lọc bỏ không hiển thị các ca cũ trên giao diện phân bổ tuần, TUYỆT ĐỐI KHÔNG tự tiện chạy lệnh xóa gốc (.remove) tại đây.
+                if (laCaDaXongTrongNgay || laNgayDaQua) {
+                    return;
                 }
                 allDatabaseItems.push(item);
             });
@@ -1229,10 +1235,10 @@
         if(document.getElementById('fixedNgayBatDau')) document.getElementById('fixedNgayBatDau').value = currentLocalDateStr;
 
         initMonthsDropdown(); initTrackerMonthDropdown(); initFixedTimeDropdowns(); initTechSlider(); selectCourt('Sân số 1'); 
-        loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan15Ngay();
+        loadLich(); loadBangTin(); loadLichCoDinhTongHop(); capNhatGiaoDienAdmin(); xoaLichQuaHan10Ngay();
         if (navigator.serviceWorker) { navigator.serviceWorker.ready.then(() => { setTimeout(dongBoDuLieuVaoServiceWorker, 1000); }); }
         
-        setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan15Ngay(); }, 15000);
+        setInterval(() => { kiemTraVaCapNhatNgayMoi(); loadLich(); loadLichCoDinhTongHop(); xoaLichQuaHan10Ngay(); }, 15000);
     };
 </script>
 </body>
